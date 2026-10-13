@@ -270,6 +270,10 @@ export const footer = {
   about: 'Молодь Неокатехуменальних спільнот Ужгорода.',
   disclaimer: 'Це сайт нашої молодіжної групи, а не офіційний ресурс Всесвітнього дня молоді.',
   navTitle: 'Розділи сторінки',
+  privacy: 'This site collects no data and uses no cookies.',
+  sourceLabel: 'Open source on GitHub',
+  rights: '© 2026 · Code released under the MIT License.',
+  sourceHref: 'https://github.com/quinnyaa/wyd-seoul-zakarpattya',
 };
 
 /* ---------- 404 ---------- */

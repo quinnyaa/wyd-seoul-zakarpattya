@@ -1,4 +1,5 @@
 ---
+import ExternalIcon from './ExternalIcon.astro';
 import Logo from './Logo.astro';
 import Ornament from './Ornament.astro';
 import { footer, nav, site } from '../content/texts';
@@ -29,6 +30,15 @@ import { url } from '../utils/url';
     </nav>
 
     <p class="footer__note">{footer.disclaimer}</p>
+  </div>
+  <div class="container footer__legal">
+    <p lang="en">
+      {footer.privacy}
+      <a href={footer.sourceHref} target="_blank" rel="noopener noreferrer">
+        {footer.sourceLabel}<ExternalIcon />
+      </a>
+    </p>
+    <p lang="en">{footer.rights}</p>
   </div>
 </footer>
 
@@ -86,6 +96,27 @@ import { url } from '../utils/url';
   .footer__note {
     max-width: 24rem;
     color: #b9c0e0;
+  }
+
+  .footer__legal {
+    padding-block: var(--s-4);
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    font-size: 0.875rem;
+    text-align: center;
+    color: #b9c0e0;
+  }
+
+  .footer__legal p {
+    margin-inline: auto;
+  }
+
+  .footer__legal a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 2.75rem;
+    margin-left: 0.5rem;
+    color: #fff;
   }
 
   /* Місце під закріплену кнопку «Допомогти» на мобільному */
