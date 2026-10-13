@@ -1,0 +1,72 @@
+---
+/* Заголовок внутрішньої сторінки. tone="accent" — темний, для сторінки «Як допомогти». */
+import Ornament from './Ornament.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  tone?: 'default' | 'accent';
+}
+
+const { eyebrow, title, lead, tone = 'default' } = Astro.props;
+---
+
+<section class:list={['page-hero', `page-hero--${tone}`]}>
+  <div class="container page-hero__body">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+  <Ornament tone={tone === 'accent' ? 'light' : 'default'} size={3} />
+</section>
+
+<style>
+  .page-hero {
+    background:
+      radial-gradient(50rem 24rem at 100% 0%, var(--c-pink-tint), transparent 70%),
+      radial-gradient(36rem 22rem at 0% 60%, var(--c-jade-tint), transparent 70%), var(--c-bg);
+  }
+
+  .page-hero__body {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-4);
+    padding-block: var(--s-7) var(--s-7);
+  }
+
+  .page-hero h1 {
+    color: var(--c-indigo-deep);
+  }
+
+  .page-hero .lead {
+    max-width: 40rem;
+  }
+
+  .page-hero--accent {
+    background:
+      radial-gradient(40rem 22rem at 100% 0%, rgb(243 182 196 / 0.22), transparent 70%),
+      radial-gradient(36rem 22rem at 0% 100%, rgb(46 140 127 / 0.35), transparent 70%),
+      var(--c-indigo);
+    color: #fff;
+  }
+
+  .page-hero--accent h1 {
+    color: #fff;
+  }
+
+  .page-hero--accent .eyebrow {
+    color: var(--c-pink);
+  }
+
+  .page-hero--accent .lead {
+    color: #dfe3f5;
+  }
+
+  @media (min-width: 56.25em) {
+    .page-hero__body {
+      padding-block: var(--s-8) var(--s-8);
+    }
+  }
+</style>

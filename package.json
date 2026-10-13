@@ -1,0 +1,29 @@
+{
+  "name": "seoul-site",
+  "version": "1.0.0",
+  "description": "Сайт збору коштів на поїздку молоді Ужгорода на Всесвітній день молоді в Сеулі",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "og": "node scripts/og.mjs",
+    "test": "node scripts/test.mjs",
+    "shots": "node scripts/shots.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/unbounded": "^5.3.0",
+    "astro": "^7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "playwright": "^1.64.0",
+    "sharp": "^0.35.5",
+    "typescript": "^6.0.3"
+  },
+  "private": true,
+  "type": "module"
+}

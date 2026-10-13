@@ -1,0 +1,115 @@
+---
+/* Сітка фото. Клік по фото відкриває його збільшеним (Lightbox). */
+import { getImage } from 'astro:assets';
+import Lightbox from './Lightbox.astro';
+import Photo from './Photo.astro';
+import { getPhoto, type PhotoId } from '../data/photos';
+
+interface Props {
+  ids: PhotoId[];
+}
+
+const { ids } = Astro.props;
+
+const items = await Promise.all(
+  ids.map(async (id) => {
+    const photo = getPhoto(id);
+    if (!photo.image) return { id, photo, full: undefined };
+    const width = Math.min(1800, photo.image.width);
+    const full = await getImage({ src: photo.image, width, format: 'webp', quality: 78 });
+    return { id, photo, full };
+  }),
+);
+---
+
+<ul class="grid">
+  {
+    items.map(({ id, photo, full }, i) => (
+      <li class="grid__item reveal" style={`--i:${i % 3}`}>
+        <Photo id={id} sizes="(min-width: 56.25em) 24rem, (min-width: 36em) 33vw, 50vw" widths={[240, 400, 600, 800]} />
+        <button
+          class="grid__open"
+          type="button"
+          data-lightbox-item
+          data-full={full?.src}
+          data-width={full?.attributes.width}
+          data-height={full?.attributes.height}
+          data-alt={photo.alt}
+          aria-label={`Збільшити фото: ${photo.alt}`}
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
+          </svg>
+        </button>
+      </li>
+    ))
+  }
+</ul>
+<Lightbox />
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-3);
+    margin: 0;
+  }
+
+  .grid__item {
+    position: relative;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .grid__item :global(.photo) {
+    transition: transform var(--t-slow) var(--ease);
+  }
+
+  .grid__item:hover :global(.photo) {
+    transform: scale(1.05);
+  }
+
+  .grid__open {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: end;
+    width: 100%;
+    padding: 0.625rem;
+    border: 0;
+    border-radius: inherit;
+    background: none;
+    color: #fff;
+    cursor: zoom-in;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .grid__open:focus-visible {
+    outline-offset: -4px;
+    border-radius: var(--r-lg);
+  }
+
+  .grid__open svg {
+    box-sizing: content-box;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background: rgb(20 27 71 / 0.72);
+    transition: transform var(--t-fast) var(--ease);
+  }
+
+  .grid__open:hover svg {
+    transform: scale(1.12);
+  }
+
+  .grid__open:active svg {
+    transform: scale(0.92);
+  }
+
+  @media (min-width: 36em) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--s-4);
+    }
+  }
+</style>

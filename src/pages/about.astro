@@ -1,0 +1,167 @@
+---
+import Arrow from '../components/Arrow.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
+import { about, home } from '../content/texts';
+import Base from '../layouts/Base.astro';
+import { url } from '../utils/url';
+
+const { hero, community, organizer, gallery, fundraising } = about;
+---
+
+<Base title={about.title} description={about.description}>
+  <PageHero eyebrow={hero.eyebrow} title={hero.title} lead={hero.lead} />
+
+  <!-- 1. Що для нас спільнота -->
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="prose reveal">
+          <h2>{community.title}</h2>
+          {community.text.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <div class="about-photo reveal" style="--i:1">
+          <Photo id="community" sizes="(min-width: 56.25em) 32rem, calc(100vw - 2rem)" />
+        </div>
+      </div>
+
+      <ul class="cards cards--3 values">
+        {
+          community.values.map((value, i) => (
+            <li class="card reveal" style={`--i:${i}`}>
+              <h3>{value.title}</h3>
+              <p>{value.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. Організатор -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="organizer reveal">
+        <p class="eyebrow">{organizer.eyebrow}</p>
+        <h2 class="organizer__name">{organizer.name}</h2>
+        <p>{organizer.text}</p>
+        <p class="organizer__note">{organizer.note}</p>
+        <a class="link-arrow" href={url('/help/#contacts')}>
+          {organizer.link}
+          <Arrow />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Фото -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>{gallery.title}</h2>
+        <p class="lead">{gallery.hint}</p>
+      </div>
+      <PhotoGrid ids={['hero', 'community', 'gallery1', 'gallery2', 'gallery3', 'gallery4']} />
+    </div>
+  </section>
+
+  <!-- 4. Як ми самі збираємо кошти -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{fundraising.eyebrow}</span>
+        <h2>{fundraising.title}</h2>
+        <p class="lead">{fundraising.lead}</p>
+      </div>
+      <ul class="cards cards--2">
+        {
+          fundraising.events.map((event, i) => (
+            <li class="card reveal" style={`--i:${i}`}>
+              <h3>{event.title}</h3>
+              <p>{event.text}</p>
+              <dl class="event-meta">
+                <div>
+                  <dt>{fundraising.dateLabel}</dt>
+                  <dd>{event.date}</dd>
+                </div>
+                <div>
+                  <dt>{fundraising.placeLabel}</dt>
+                  <dd>{event.place}</dd>
+                </div>
+              </dl>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaPanel title={home.cta.title} text={home.cta.text} button={home.cta.button} />
+</Base>
+
+<style>
+  .about-photo {
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .values {
+    margin-top: var(--s-7);
+  }
+
+  .organizer {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-3);
+    max-width: 46rem;
+    padding: var(--s-5);
+    border-radius: var(--r-xl);
+    border-left: 0.375rem solid var(--c-red);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .organizer__name {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--c-indigo-deep);
+  }
+
+  .organizer__note {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .event-meta {
+    display: grid;
+    gap: var(--s-2);
+    margin: var(--s-3) 0 0;
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--c-line);
+    font-size: var(--fs-sm);
+  }
+
+  .event-meta div {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: var(--s-2);
+  }
+
+  .event-meta dt {
+    font-weight: 800;
+    color: var(--c-indigo);
+  }
+
+  .event-meta dd {
+    margin: 0;
+    color: var(--c-ink-soft);
+  }
+
+  @media (min-width: 48em) {
+    .organizer {
+      padding: var(--s-6) var(--s-7);
+    }
+  }
+</style>

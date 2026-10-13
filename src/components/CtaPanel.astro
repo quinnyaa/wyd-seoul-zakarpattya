@@ -1,0 +1,64 @@
+---
+/* Червоний заклик із кнопкою наприкінці сторінки. */
+import Arrow from './Arrow.astro';
+import Ornament from './Ornament.astro';
+import { url } from '../utils/url';
+
+interface Props {
+  title: string;
+  text: string;
+  button: string;
+  href?: string;
+}
+
+const { title, text, button, href = '/help/' } = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="cta reveal">
+      <Ornament tone="light" size={3} />
+      <div class="cta__body">
+        <h2>{title}</h2>
+        <p>{text}</p>
+        <a class="btn btn--light btn--lg" href={url(href)} data-sticky-hide>
+          {button}
+          <Arrow />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    border-radius: var(--r-xl);
+    background: var(--c-red);
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .cta__body {
+    display: grid;
+    justify-items: center;
+    gap: var(--s-4);
+    padding: var(--s-6) var(--s-5) var(--s-7);
+  }
+
+  .cta__body p {
+    max-width: 36rem;
+    font-size: var(--fs-lg);
+  }
+
+  .cta__body .btn {
+    margin-top: var(--s-2);
+  }
+
+  @media (min-width: 48em) {
+    .cta__body {
+      padding: var(--s-7) var(--s-7) var(--s-8);
+    }
+  }
+</style>

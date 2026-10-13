@@ -1,0 +1,92 @@
+/*
+  Дизайн-токени: кольори, шрифти, відступи, радіуси.
+  Щоб змінити стиль сайту (наприклад, під макет візитівки), правте лише цей файл.
+*/
+:root {
+  /* Кольори: теплий фон */
+  --c-bg: #fbf5ec;
+  --c-bg-alt: #f5ebdc;
+  --c-surface: #ffffff;
+  --c-line: #e8dcc8;
+
+  /* Текст */
+  --c-ink: #161d45;
+  --c-ink-soft: #4a5275;
+
+  /* Індиго: основний */
+  --c-indigo: #1e2a6b;
+  --c-indigo-deep: #141b47;
+  --c-indigo-mid: #8d9ad0;
+  --c-indigo-tint: #e4e8f7;
+
+  /* Червоний: акцент із вишивки */
+  --c-red: #c4253b;
+  --c-red-dark: #a31c30;
+  --c-red-tint: #fbe4e6;
+
+  /* Нефритовий і рожевий: корейські акценти (кольори ханбоку) */
+  --c-jade: #2e8c7f;
+  --c-jade-dark: #1e6a60;
+  --c-jade-light: #b9dcd2;
+  --c-jade-tint: #dff0eb;
+  --c-pink: #f3b6c4;
+  --c-pink-tint: #fce8ec;
+
+  /* Шрифти */
+  --font-display: 'Unbounded Variable', 'Unbounded Fallback', system-ui, sans-serif;
+  --font-body: 'Manrope Variable', 'Manrope Fallback', system-ui, sans-serif;
+
+  --fs-xs: 1rem;
+  --fs-sm: 1rem;
+  --fs-base: 1.0625rem;
+  --fs-lg: clamp(1.125rem, 1.04rem + 0.4vw, 1.3125rem);
+  --fs-h3: clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem);
+  --fs-h2: clamp(1.5rem, 1.15rem + 1.7vw, 2.5rem);
+  --fs-h1: clamp(2rem, 1.1rem + 4.4vw, 4.25rem);
+  --fs-num: clamp(2.25rem, 1.5rem + 2.6vw, 3.5rem);
+
+  --lh-tight: 1.12;
+  --lh-body: 1.65;
+
+  /* Відступи */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --section-y: clamp(3.5rem, 2.4rem + 5vw, 7rem);
+  --gutter: clamp(1rem, 0.4rem + 2.6vw, 2rem);
+  --container: 72.5rem;
+
+  /* Радіуси */
+  --r-sm: 0.625rem;
+  --r-md: 1rem;
+  --r-lg: 1.5rem;
+  --r-xl: 2rem;
+  --r-pill: 999px;
+
+  /* Тіні */
+  --shadow-sm: 0 1px 2px rgb(22 29 69 / 0.06), 0 4px 12px rgb(22 29 69 / 0.06);
+  --shadow-md: 0 2px 4px rgb(22 29 69 / 0.06), 0 14px 32px rgb(22 29 69 / 0.1);
+  --shadow-lg: 0 4px 8px rgb(22 29 69 / 0.08), 0 28px 56px rgb(22 29 69 / 0.16);
+
+  /* Рух */
+  --ease: cubic-bezier(0.22, 0.8, 0.26, 1);
+  --t-fast: 160ms;
+  --t-base: 280ms;
+  --t-slow: 700ms;
+
+  /* Службові розміри */
+  --header-h: 4rem;
+  --sticky-h: 4.5rem;
+}
+
+@media (min-width: 56.25em) {
+  :root {
+    --header-h: 4.75rem;
+  }
+}

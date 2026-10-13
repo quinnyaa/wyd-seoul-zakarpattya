@@ -1,0 +1,125 @@
+---
+/*
+  Місце для макета подячної візитівки.
+  Коли макет буде готовий, покладіть файл card.png (або .jpg, .webp) у src/assets/card/ —
+  і він з'явиться тут замість заглушки. Пропорції візитівки: 85 × 55 мм.
+*/
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Ornament from './Ornament.astro';
+import { home, site } from '../content/texts';
+
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/card/card.{png,jpg,jpeg,webp,PNG,JPG,JPEG,WEBP}',
+  { eager: true },
+);
+const image = Object.values(files)[0]?.default;
+const { mockup } = home.card;
+---
+
+<div class="mockup">
+  <div class="mockup__card mockup__card--back" aria-hidden="true"></div>
+  <div class="mockup__card mockup__card--front">
+    {
+      image ? (
+        <Image
+          src={image}
+          alt="Подячна візитівка"
+          widths={[340, 520, 680, 1040]}
+          sizes="(min-width: 56.25em) 26rem, 80vw"
+          format="webp"
+        />
+      ) : (
+        <div class="mockup__placeholder" role="img" aria-label={`${mockup.note}. Напис: ${mockup.thanks}`}>
+          <Ornament size={3} />
+          <div class="mockup__body">
+            <p class="mockup__thanks">{mockup.thanks}</p>
+            <p class="mockup__name">{site.name}</p>
+          </div>
+          <p class="mockup__note">{mockup.note}</p>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .mockup {
+    position: relative;
+    width: min(100%, 26rem);
+    margin-inline: auto;
+    padding: 1.25rem 0.75rem 1.5rem;
+  }
+
+  .mockup__card {
+    aspect-ratio: 85 / 55;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    transition: transform var(--t-base) var(--ease);
+  }
+
+  .mockup__card--back {
+    position: absolute;
+    inset: 1.25rem 0.75rem auto;
+    background: var(--c-indigo);
+    transform: rotate(6deg) translate(4%, 4%);
+  }
+
+  .mockup__card--front {
+    position: relative;
+    background: var(--c-surface);
+    box-shadow: var(--shadow-lg);
+    transform: rotate(-3deg);
+  }
+
+  .mockup:hover .mockup__card--front {
+    transform: rotate(-1deg) translateY(-4px);
+  }
+
+  .mockup:hover .mockup__card--back {
+    transform: rotate(8deg) translate(5%, 5%);
+  }
+
+  .mockup__card :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mockup__placeholder {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    padding: 0.875rem 1rem 0.75rem;
+    text-align: center;
+  }
+
+  .mockup__body {
+    display: grid;
+    align-content: center;
+    gap: 0.25rem;
+  }
+
+  .mockup__thanks {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 6.4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--c-red);
+  }
+
+  .mockup__name {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    color: var(--c-indigo);
+  }
+
+  .mockup__note {
+    justify-self: center;
+    padding: 0.125rem 0.75rem;
+    border: 1.5px dashed var(--c-indigo-mid);
+    border-radius: var(--r-pill);
+    font-size: 1rem;
+    color: var(--c-ink-soft);
+  }
+</style>

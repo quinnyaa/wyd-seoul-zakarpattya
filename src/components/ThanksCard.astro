@@ -1,0 +1,110 @@
+---
+/* Блок «Подячна візитівка»: правило 1 візитівка = 200 грн і місце для макета. */
+import Arrow from './Arrow.astro';
+import CardMockup from './CardMockup.astro';
+import Ornament from './Ornament.astro';
+import { home } from '../content/texts';
+
+interface Props {
+  /** Інший вступний текст (за замовчуванням — із головної сторінки). */
+  text?: string;
+}
+
+const { card } = home;
+const { text = card.text } = Astro.props;
+---
+
+<section class="thanks">
+  <Ornament />
+  <div class="container thanks__grid section">
+    <div class="stack reveal">
+      <span class="eyebrow">{card.eyebrow}</span>
+      <h2>{card.title}</h2>
+      <p>{text}</p>
+      <p class="thanks__rule">{card.rule}</p>
+      <ul class="thanks__list">
+        {
+          card.examples.map((example) => (
+            <li>
+              <span>{example.sum}</span>
+              <Arrow />
+              <strong>{example.cards}</strong>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="thanks__more">{card.more}</p>
+    </div>
+    <div class="reveal" style="--i:1">
+      <CardMockup />
+    </div>
+  </div>
+</section>
+
+<style>
+  .thanks {
+    background: var(--c-pink-tint);
+  }
+
+  .thanks__grid {
+    display: grid;
+    gap: var(--s-7);
+    align-items: center;
+  }
+
+  .thanks__rule {
+    display: inline-block;
+    padding: 0.5rem 1.125rem;
+    border-radius: var(--r-pill);
+    background: var(--c-indigo);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .thanks__list {
+    display: grid;
+    gap: var(--s-2);
+    max-width: 22rem;
+    margin-bottom: 0;
+  }
+
+  .thanks__list li {
+    display: grid;
+    grid-template-columns: 5.5rem 1.125rem 1fr;
+    align-items: center;
+    gap: var(--s-3);
+    padding: 0.75rem 1rem;
+    border-radius: var(--r-md);
+    background: rgb(255 255 255 / 0.75);
+  }
+
+  .thanks__list span {
+    font-weight: 700;
+  }
+
+  .thanks__list :global(svg) {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--c-red);
+  }
+
+  .thanks__list strong {
+    font-weight: 800;
+    color: var(--c-indigo);
+  }
+
+  .thanks__more {
+    margin-top: var(--s-2);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  @media (min-width: 56.25em) {
+    .thanks__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: var(--s-8);
+    }
+  }
+</style>

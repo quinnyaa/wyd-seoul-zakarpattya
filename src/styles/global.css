@@ -1,0 +1,387 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul[class],
+ol[class] {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--c-jade);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--c-pink);
+  color: var(--c-indigo-deep);
+}
+
+/* ---------- Каркас ---------- */
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.lead {
+  font-size: var(--fs-lg);
+  color: var(--c-ink-soft);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-red-dark);
+}
+
+.stack > * + * {
+  margin-top: var(--s-4);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--c-indigo);
+  color: #fff;
+  border-radius: var(--r-sm);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* ---------- Кнопки ---------- */
+
+.btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.625rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform var(--t-fast) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Затемнення при наведенні робимо через opacity, а не через зміну кольору */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  background: var(--btn-hover, rgb(0 0 0 / 0.14));
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:hover::after,
+.btn:focus-visible::after {
+  opacity: 1;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--c-red);
+  color: #fff;
+}
+
+.btn--ghost {
+  border-color: var(--c-indigo);
+  color: var(--c-indigo);
+  --btn-hover: rgb(30 42 107 / 0.08);
+}
+
+.btn--light {
+  background: #fff;
+  color: var(--c-indigo-deep);
+  --btn-hover: rgb(30 42 107 / 0.1);
+}
+
+.btn--lg {
+  min-height: 3.5rem;
+  padding-inline: 2rem;
+  font-size: 1.0625rem;
+}
+
+.btn svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  transition: transform var(--t-fast) var(--ease);
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-weight: 800;
+  color: var(--c-indigo);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+  text-decoration-color: var(--c-red);
+}
+
+.link-arrow svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  transition: transform var(--t-fast) var(--ease);
+}
+
+.link-arrow:hover svg {
+  transform: translateX(4px);
+}
+
+/* ---------- Поява блоків при скролі ---------- */
+/* Клас .js ставить скрипт у <head>: без JS увесь контент видно одразу. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity var(--t-slow) var(--ease),
+      transform var(--t-slow) var(--ease);
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Переходи між сторінками ---------- */
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Спільні блоки внутрішніх сторінок ---------- */
+
+.section--alt {
+  background: var(--c-bg-alt);
+}
+
+.section-head {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 44rem;
+  margin-bottom: var(--s-6);
+}
+
+.prose {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 42rem;
+}
+
+.cards {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+}
+
+.card {
+  display: grid;
+  align-content: start;
+  gap: var(--s-2);
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-base) var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card h3 {
+  color: var(--c-indigo-deep);
+}
+
+.card p {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-soft);
+}
+
+.card__num {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: var(--s-2);
+  border-radius: 50%;
+  background: var(--c-red);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.split {
+  display: grid;
+  gap: var(--s-6);
+  align-items: start;
+}
+
+@media (min-width: 48em) {
+  .cards--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-5);
+  }
+
+  .cards--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-5);
+  }
+}
+
+@media (min-width: 56.25em) {
+  .split {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: var(--s-8);
+  }
+}

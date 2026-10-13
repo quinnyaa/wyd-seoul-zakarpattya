@@ -1,0 +1,58 @@
+---
+/*
+  Орнамент за мотивами закарпатської вишивки хрестиком.
+  Малюється з «хрестиків» на сітці й повторюється по всій ширині.
+*/
+interface Props {
+  /** Розмір одного хрестика в пікселях. */
+  size?: number;
+  /** light — для темного фону. */
+  tone?: 'default' | 'light';
+  class?: string;
+}
+
+const { size = 4, tone = 'default', class: className } = Astro.props;
+
+const colors =
+  tone === 'light' ? { a: '#f3b6c4', b: '#ffffff' } : { a: '#c4253b', b: '#1e2a6b' };
+
+const W = 14;
+const H = 9;
+const cx = 7;
+const cy = 4;
+const paths = { a: '', b: '' };
+const cell = (x: number, y: number) => `M${x} ${y}h1v1h-1z`;
+
+for (let y = 0; y < H; y++) {
+  for (let x = 0; x < W; x++) {
+    const d = Math.abs(x - cx) + Math.abs(y - cy);
+    const edge = Math.min(x, W - x) + Math.abs(y - cy);
+    if (d === 4 || d === 0) paths.a += cell(x, y);
+    else if (d === 2 || edge <= 1) paths.b += cell(x, y);
+    else if (x === 0 && (y === 0 || y === H - 1)) paths.a += cell(x, y);
+  }
+}
+// Обрамлення зверху і знизу
+for (let x = 0; x < W; x += 2) paths.a += cell(x, -2) + cell(x, H + 1);
+
+const svg =
+  `<svg xmlns='http://www.w3.org/2000/svg' width='${W * size}' height='${(H + 4) * size}' ` +
+  `viewBox='0 -2 ${W} ${H + 4}' shape-rendering='crispEdges'>` +
+  `<path fill='${colors.a}' d='${paths.a}'/><path fill='${colors.b}' d='${paths.b}'/></svg>`;
+const image = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+---
+
+<div
+  class:list={['ornament', className]}
+  style={`background-image:${image};height:${(H + 4) * size}px`}
+  aria-hidden="true"
+>
+</div>
+
+<style>
+  .ornament {
+    width: 100%;
+    background-repeat: repeat-x;
+    background-position: center;
+  }
+</style>

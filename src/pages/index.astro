@@ -1,0 +1,402 @@
+---
+import Arrow from '../components/Arrow.astro';
+import Countdown from '../components/Countdown.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+import HeroScene from '../components/HeroScene.astro';
+import Photo from '../components/Photo.astro';
+import ThanksCard from '../components/ThanksCard.astro';
+import { home, site } from '../content/texts';
+import Base from '../layouts/Base.astro';
+import { url } from '../utils/url';
+
+const { hero, facts, about, cta } = home;
+
+// Ділимо назву на частини, щоб виділити кольором слова з site.nameAccents
+const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const accents: readonly string[] = site.nameAccents;
+const nameParts = accents.length
+  ? site.name.split(new RegExp(`(${accents.map(escape).join('|')})`)).filter(Boolean)
+  : [site.name];
+---
+
+<Base title={home.title} stickyStartsHidden>
+  <!-- 1. Перший екран -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <ul class="hero__event">
+          {site.eventLine.map((part) => <li>{part}</li>)}
+        </ul>
+        <h1 class="hero__title">
+          {
+            nameParts.map((part) => {
+              const index = accents.indexOf(part);
+              return index === -1 ? part : <span class={`accent-${index % 2}`}>{part}</span>;
+            })
+          }
+        </h1>
+        <p class="lead hero__subtitle">{hero.subtitle}</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg" href={url('/help/')} data-sticky-hide>
+            {hero.primaryButton}
+            <Arrow />
+          </a>
+          <a class="btn btn--ghost btn--lg" href={url('/about/')}>{hero.secondaryButton}</a>
+        </div>
+      </div>
+
+      <div class="hero__media">
+        <div class="hero__frame">
+          <Photo
+            id="hero"
+            ratio="16 / 10"
+            priority
+            widths={[400, 640, 800, 1100, 1400]}
+            sizes="(min-width: 56.25em) min(46vw, 34rem), calc(100vw - 2rem)"
+          />
+          <p class="hero__sticker" aria-hidden="true">
+            {hero.sticker.map((line) => <span>{line}</span>)}
+          </p>
+        </div>
+      </div>
+    </div>
+    <HeroScene />
+  </section>
+
+  <!-- 2. Таймер -->
+  <section class="timer">
+    <div class="container">
+      <Countdown />
+    </div>
+  </section>
+
+  <!-- 3. Ключові факти -->
+  <section class="section">
+    <div class="container">
+      <h2 class="visually-hidden">{facts.title}</h2>
+      <ul class="facts">
+        {
+          facts.items.map((fact, i) => (
+            <li class="fact reveal" style={`--i:${i}`}>
+              <p class="fact__head">
+                {'prefix' in fact && <span class="fact__prefix">{fact.prefix}</span>}
+                <strong class:list={['fact__value', { 'fact__value--text': fact.value.length > 7 }]}>
+                  {fact.value}
+                </strong>
+                <span class="fact__label">{fact.label}</span>
+              </p>
+              <p class="fact__text">{fact.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Хто ми -->
+  <section class="section about">
+    <div class="container about__grid">
+      <div class="about__photo reveal">
+        <Photo id="community" sizes="(min-width: 56.25em) 34rem, calc(100vw - 2rem)" />
+      </div>
+      <div class="about__text stack reveal" style="--i:1">
+        <span class="eyebrow">{about.eyebrow}</span>
+        <h2>{about.title}</h2>
+        {about.text.map((paragraph) => <p>{paragraph}</p>)}
+        <a class="link-arrow" href={url('/about/')}>
+          {about.link}
+          <Arrow />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Подячна візитівка -->
+  <ThanksCard />
+
+  <!-- 6. Фінальний заклик -->
+  <CtaPanel title={cta.title} text={cta.text} button={cta.button} />
+</Base>
+
+<style>
+  /* ---------- Перший екран ---------- */
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(60rem 30rem at 100% 0%, var(--c-pink-tint), transparent 70%),
+      radial-gradient(40rem 26rem at 0% 30%, var(--c-jade-tint), transparent 70%), var(--c-bg);
+  }
+
+  .hero__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--s-6);
+    padding-top: var(--s-6);
+  }
+
+  .hero__event {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    margin: 0 0 var(--s-4);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-indigo);
+  }
+
+  .hero__event li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero__event li + li::before {
+    content: '';
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: var(--c-red);
+  }
+
+  /* На вузькому екрані назва події стоїть окремим рядком */
+  @media (max-width: 29.99em) {
+    .hero__event li:first-child {
+      flex-basis: 100%;
+    }
+
+    .hero__event li:nth-child(2)::before {
+      display: none;
+    }
+  }
+
+  .hero__title {
+    color: var(--c-indigo-deep);
+  }
+
+  .hero__title .accent-0 {
+    color: var(--c-red);
+  }
+
+  .hero__title .accent-1 {
+    color: var(--c-jade-dark);
+  }
+
+  .hero__subtitle {
+    max-width: 34rem;
+    margin-top: var(--s-4);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-5);
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 auto;
+  }
+
+  .hero__media {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -2.5rem;
+  }
+
+  .hero__frame {
+    position: relative;
+    padding: 0.5rem;
+    border-radius: calc(var(--r-lg) + 0.5rem);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero__sticker {
+    position: absolute;
+    top: -1rem;
+    right: -0.25rem;
+    display: grid;
+    place-content: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: var(--c-red);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    transform: rotate(10deg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero__sticker span {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .hero__media {
+        animation: hero-photo-drift linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+    }
+  }
+
+  @keyframes hero-photo-drift {
+    to {
+      transform: translateY(-2.5rem);
+    }
+  }
+
+  @media (min-width: 56.25em) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      align-items: center;
+      gap: var(--s-8);
+      padding-top: var(--s-8);
+    }
+
+    .hero__actions .btn {
+      flex: 0 0 auto;
+    }
+
+    .hero__media {
+      margin-bottom: -4rem;
+    }
+
+    .hero__frame {
+      transform: rotate(1.5deg);
+    }
+
+    .hero__sticker {
+      top: -1.5rem;
+      right: -1.5rem;
+      width: 6.5rem;
+      height: 6.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  /* ---------- Таймер ---------- */
+
+  .timer {
+    padding-block: var(--s-7) calc(var(--s-7) + var(--s-2));
+    background: var(--c-indigo);
+  }
+
+  /* ---------- Факти ---------- */
+
+  .facts {
+    display: grid;
+    gap: var(--s-4);
+    margin: 0;
+  }
+
+  .fact {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    padding: var(--s-5);
+    border-radius: var(--r-lg);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .fact::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 0.375rem;
+    background: var(--c-red);
+  }
+
+  .fact:nth-child(2)::before {
+    background: var(--c-jade);
+  }
+
+  .fact:nth-child(3)::before {
+    background: var(--c-pink);
+  }
+
+  .fact__head {
+    display: grid;
+    gap: 0.125rem;
+  }
+
+  .fact__prefix,
+  .fact__label {
+    font-weight: 700;
+    color: var(--c-ink-soft);
+  }
+
+  .fact__value {
+    font-family: var(--font-display);
+    font-size: var(--fs-num);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    color: var(--c-indigo);
+  }
+
+  .fact__value--text {
+    font-size: clamp(1.625rem, 1.2rem + 1.6vw, 2.25rem);
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  .fact__text {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  @media (min-width: 48em) {
+    .facts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--s-5);
+    }
+
+    .fact {
+      padding: var(--s-6);
+    }
+
+    .fact__head {
+      align-content: end;
+      min-height: 8.5rem;
+    }
+  }
+
+  /* ---------- Хто ми ---------- */
+
+  .about {
+    padding-top: 0;
+  }
+
+  .about__grid {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+  }
+
+  .about__photo {
+    box-shadow: var(--shadow-md);
+    border-radius: var(--r-lg);
+  }
+
+  @media (min-width: 56.25em) {
+    .about__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--s-8);
+    }
+  }
+</style>

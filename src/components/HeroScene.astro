@@ -1,0 +1,114 @@
+---
+/*
+  Силует першого екрана: зліва Карпати зі смереками, справа Сеул
+  (вежа на горі Намсан, хмарочоси, палацова брама). Малюнок власний.
+*/
+const trees: [x: number, height: number][] = [
+  [36, 74], [66, 56], [102, 84], [140, 60], [178, 78], [216, 54], [254, 68], [304, 50], [346, 58],
+];
+const BASE = 298;
+const tree = (x: number, h: number) => {
+  const w = h * 0.5;
+  const y = BASE - h;
+  const p = (dx: number, dy: number) => `${(x + dx * w).toFixed(1)} ${(y + dy * h).toFixed(1)}`;
+  return `M${p(0, 0)}L${p(0.25, 0.33)}L${p(0.12, 0.33)}L${p(0.38, 0.66)}L${p(0.2, 0.66)}L${p(0.5, 1)}L${p(-0.5, 1)}L${p(-0.2, 0.66)}L${p(-0.38, 0.66)}L${p(-0.12, 0.33)}L${p(-0.25, 0.33)}Z`;
+};
+const treePath = trees.map(([x, h]) => tree(x, h)).join('');
+
+const farBuildings = [
+  [960, 236, 40], [1004, 206, 34], [1076, 222, 38], [1120, 190, 30], [1160, 240, 44],
+  [1210, 214, 36], [1252, 180, 32], [1290, 230, 46], [1342, 204, 36], [1384, 236, 56],
+];
+const nearBuildings = [
+  [1090, 262, 30], [1126, 246, 26], [1186, 270, 34], [1226, 252, 28], [1300, 266, 40],
+  [1350, 250, 26], [1396, 268, 44],
+];
+---
+
+<div class="scene" aria-hidden="true">
+  <svg viewBox="0 0 1440 320" width="1440" height="320" preserveAspectRatio="xMidYMax meet">
+    <g class="scene__far">
+      <circle cx="652" cy="112" r="78" fill="var(--c-pink)"></circle>
+      <path
+        fill="var(--c-jade-light)"
+        d="M0 320V212C60 192 110 152 170 142C215 134 240 167 290 152C350 134 400 72 460 64C510 58 540 112 600 122C650 130 690 94 740 98C800 102 840 162 900 177C960 192 1000 240 1060 320Z"
+      ></path>
+      <g fill="var(--c-indigo-mid)">
+        {farBuildings.map(([x, y, w]) => <rect x={x} y={y} width={w} height={340 - y} rx="2" />)}
+        <path d="M1036 340 1042 96Q1048 70 1054 96L1060 340Z"></path>
+      </g>
+    </g>
+
+    <g class="scene__mid">
+      <path
+        fill="var(--c-jade)"
+        d="M0 340V252C70 242 120 202 190 198C250 194 290 232 350 224C420 214 470 162 540 160C600 158 640 207 700 216C760 224 800 262 880 340Z"
+      ></path>
+      <path fill="var(--c-jade-dark)" d="M640 340C700 300 750 262 800 258C850 262 900 300 960 340Z"></path>
+      <g fill="var(--c-indigo)">
+        <rect x="799" y="120" width="2" height="52"></rect>
+        <rect x="797" y="168" width="6" height="94"></rect>
+        <rect x="790" y="178" width="20" height="8" rx="2"></rect>
+        <rect x="786" y="186" width="28" height="14" rx="5"></rect>
+      </g>
+    </g>
+
+    <g fill="var(--c-indigo)">
+      <path d={treePath}></path>
+      <path d="M0 320V284C120 266 260 276 420 296C520 306 600 308 700 308H1440V320Z"></path>
+      {nearBuildings.map(([x, y, w]) => <rect x={x} y={y} width={w} height={320 - y} rx="2" />)}
+      <!-- Палацова брама -->
+      <rect x="884" y="284" width="124" height="28"></rect>
+      <path d="M880 268C896 266 906 258 914 250H978C986 258 996 266 1012 268V273H880Z"></path>
+      <path d="M898 242C912 240 920 233 927 226H965C972 233 980 240 994 242V247H898Z"></path>
+    </g>
+    <g fill="var(--c-red)">
+      <rect x="900" y="273" width="92" height="11"></rect>
+      <rect x="916" y="247" width="60" height="6"></rect>
+    </g>
+    <path fill="var(--c-bg)" d="M934 312V300a12 12 0 0 1 24 0V312Z"></path>
+  </svg>
+</div>
+
+<style>
+  .scene {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    /* Тонка смужка внизу закриває можливий шов із наступним блоком */
+    box-shadow: 0 1px 0 var(--c-indigo);
+  }
+
+  .scene svg {
+    flex: none;
+    width: max(100%, 47.5rem);
+    max-width: none;
+    height: auto;
+  }
+
+  /* Легкий паралакс: дальні шари «відстають» під час прокручування */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .scene__far,
+      .scene__mid {
+        animation: scene-drift linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+
+      .scene__far {
+        --drift: 56px;
+      }
+
+      .scene__mid {
+        --drift: 26px;
+      }
+    }
+  }
+
+  @keyframes scene-drift {
+    to {
+      transform: translateY(var(--drift));
+    }
+  }
+</style>
