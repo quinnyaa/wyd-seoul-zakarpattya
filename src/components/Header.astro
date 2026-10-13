@@ -2,14 +2,12 @@
 import Arrow from './Arrow.astro';
 import Logo from './Logo.astro';
 import { nav, site } from '../content/texts';
-import { isCurrent, url } from '../utils/url';
-
-const { pathname } = Astro.url;
+import { url } from '../utils/url';
 ---
 
-<header class="header" transition:name="site-header" transition:animate="none">
+<header class="header">
   <div class="header__bar container">
-    <a class="header__brand" href={url('/')} aria-label={`${site.name} — на головну`}>
+    <a class="header__brand" href={url('/')} aria-label={`${site.name} — ${site.homeLabel}`}>
       <Logo />
       <span>{site.name}</span>
     </a>
@@ -19,32 +17,28 @@ const { pathname } = Astro.url;
       type="button"
       aria-expanded="false"
       aria-controls="site-menu"
-      aria-label="Відкрити меню"
+      aria-label={site.menu.open}
       data-menu-toggle
-      data-label-open="Відкрити меню"
-      data-label-close="Закрити меню"
+      data-label-open={site.menu.open}
+      data-label-close={site.menu.close}
     >
       <span class="header__burger" aria-hidden="true"><i></i><i></i><i></i></span>
     </button>
 
-    <nav class="menu" id="site-menu" aria-label="Головне меню">
+    <nav class="menu" id="site-menu" aria-label={site.menu.label}>
       <div class="menu__panel">
         <ul class="menu__list">
           {
             nav.map((item, i) => (
               <li style={`--i:${i}`}>
-                <a
-                  class="menu__link"
-                  href={url(item.href)}
-                  aria-current={isCurrent(item.href, pathname) ? 'page' : undefined}
-                >
+                <a class="menu__link" href={url(`/${item.href}`)}>
                   {item.label}
                 </a>
               </li>
             ))
           }
         </ul>
-        <a class="btn btn--primary menu__help" href={url('/help/')}>
+        <a class="btn btn--primary menu__help" href={url('/#help')}>
           {site.helpButton}
           <Arrow />
         </a>
@@ -73,22 +67,62 @@ const { pathname } = Astro.url;
 
   const isOpen = () => root.classList.contains('menu-open');
 
+  /** Секція цієї сторінки, на яку веде посилання меню (на сторінці 404 таких немає). */
+  function sectionOf(link: HTMLAnchorElement) {
+    if (!link.hash || link.pathname !== location.pathname) return null;
+    return document.getElementById(decodeURIComponent(link.hash.slice(1)));
+  }
+
   document.addEventListener('click', (event) => {
     const target = event.target as Element;
     if (target.closest('[data-menu-toggle]')) {
       setMenu(!isOpen());
-    } else if (isOpen() && (target.closest('#site-menu a') || !target.closest('.menu__panel'))) {
+      return;
+    }
+    const link = target.closest<HTMLAnchorElement>('#site-menu a');
+    if (isOpen() && (link || !target.closest('.menu__panel'))) {
       // Клік по пункту меню або поза меню
       setMenu(false);
     }
+    // Після переходу з меню фокус стає на секцію, щоб клавіатура й екранний читач продовжили з неї
+    const section = link && sectionOf(link);
+    if (section) requestAnimationFrame(() => section.focus({ preventScroll: true }));
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && isOpen()) setMenu(false, true);
   });
 
-  // Після переходу на іншу сторінку меню завжди закрите
-  document.addEventListener('astro:after-swap', () => setMenu(false));
+  // Під час скролу підсвічуємо пункт меню тієї секції, яка зараз на екрані
+  function initScrollSpy() {
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.menu__link')];
+    const sections = new Map<Element, HTMLAnchorElement>();
+    for (const link of links) {
+      const section = sectionOf(link);
+      if (section) sections.set(section, link);
+    }
+    if (!sections.size || !('IntersectionObserver' in window)) return;
+
+    const onScreen = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) onScreen.add(entry.target);
+          else onScreen.delete(entry.target);
+        }
+        // Активна та секція, яка перетинає лінію трохи вище середини екрана
+        const current = [...sections.keys()].find((section) => onScreen.has(section));
+        for (const [section, link] of sections) {
+          if (section === current) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        }
+      },
+      { rootMargin: '-40% 0px -60% 0px' },
+    );
+    sections.forEach((_, section) => observer.observe(section));
+  }
+
+  initScrollSpy();
 
   // Якщо екран розширили до десктопного, закриваємо мобільне меню
   window.matchMedia('(min-width: 56.25em)').addEventListener('change', (event) => {
@@ -236,7 +270,7 @@ const { pathname } = Astro.url;
     text-decoration: none;
   }
 
-  .menu__link[aria-current='page'] {
+  .menu__link[aria-current] {
     color: var(--c-red-dark);
   }
 
@@ -304,7 +338,7 @@ const { pathname } = Astro.url;
     }
 
     .menu__link:hover::after,
-    .menu__link[aria-current='page']::after {
+    .menu__link[aria-current]::after {
       transform: scaleX(1);
     }
 

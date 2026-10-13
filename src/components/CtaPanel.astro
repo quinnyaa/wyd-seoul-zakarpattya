@@ -1,34 +1,36 @@
 ---
-/* Червоний заклик із кнопкою наприкінці сторінки. */
+/* Червона панель з орнаментом: головний заклик секції «Як допомогти». */
 import Arrow from './Arrow.astro';
 import Ornament from './Ornament.astro';
+import Rich from './Rich.astro';
 import { url } from '../utils/url';
 
 interface Props {
+  eyebrow: string;
   title: string;
-  text: string;
+  /** id заголовка — щоб секція могла послатися на нього через aria-labelledby. */
+  titleId?: string;
+  /** Абзаци; у них працюють позначки **жирний** і [посилання](адреса). */
+  text: string[];
   button: string;
-  href?: string;
+  href: string;
 }
 
-const { title, text, button, href = '/help/' } = Astro.props;
+const { eyebrow, title, titleId, text, button, href } = Astro.props;
 ---
 
-<section class="section">
-  <div class="container">
-    <div class="cta reveal">
-      <Ornament tone="light" size={3} />
-      <div class="cta__body">
-        <h2>{title}</h2>
-        <p>{text}</p>
-        <a class="btn btn--light btn--lg" href={url(href)} data-sticky-hide>
-          {button}
-          <Arrow />
-        </a>
-      </div>
-    </div>
+<div class="cta reveal">
+  <Ornament tone="light" size={3} />
+  <div class="cta__body">
+    <p class="cta__eyebrow">{eyebrow}</p>
+    <h2 id={titleId}>{title}</h2>
+    {text.map((paragraph) => <p class="cta__text"><Rich text={paragraph} /></p>)}
+    <a class="btn btn--light btn--lg" href={url(href)} data-sticky-hide>
+      {button}
+      <Arrow />
+    </a>
   </div>
-</section>
+</div>
 
 <style>
   .cta {
@@ -47,9 +49,20 @@ const { title, text, button, href = '/help/' } = Astro.props;
     padding: var(--s-6) var(--s-5) var(--s-7);
   }
 
-  .cta__body p {
-    max-width: 36rem;
+  .cta__eyebrow {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .cta__text {
+    max-width: 40rem;
     font-size: var(--fs-lg);
+  }
+
+  .cta__text :global(strong) {
+    font-weight: 800;
   }
 
   .cta__body .btn {

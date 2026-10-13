@@ -9,7 +9,22 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+/* Якорі меню: секція зупиняється під закріпленою шапкою */
+section[id] {
+  scroll-margin-top: var(--header-h);
+}
+
+/* Секція отримує фокус після переходу з меню; рамка довкола цілої секції не потрібна */
+section[id]:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -26,6 +41,7 @@ body {
 h1,
 h2,
 h3,
+h4,
 p,
 ul,
 ol,
@@ -41,7 +57,8 @@ ol[class] {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: var(--lh-tight);
@@ -57,7 +74,8 @@ h2 {
   font-size: var(--fs-h2);
 }
 
-h3 {
+h3,
+h4 {
   font-size: var(--fs-h3);
   font-weight: 600;
   line-height: 1.25;
@@ -252,6 +270,43 @@ a {
   transform: translateX(4px);
 }
 
+/* ---------- Посилання в тексті ---------- */
+
+/* Вертикальні поля не зсувають рядки, але збільшують зону натискання до 44 px */
+.text-link {
+  padding-block: 0.875rem;
+  font-weight: 700;
+  color: var(--c-indigo);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+  text-decoration-color: var(--c-red);
+}
+
+.text-link:hover {
+  color: var(--c-red-dark);
+}
+
+/* Іконка «зовнішнє посилання» */
+.external {
+  display: inline-block;
+  flex: none;
+  width: 0.875em;
+  height: 0.875em;
+  margin-left: 0.3em;
+  vertical-align: -0.05em;
+}
+
+.btn .external {
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.4em;
+}
+
+.btn:hover .external {
+  transform: translate(2px, -2px);
+}
+
 /* ---------- Поява блоків при скролі ---------- */
 /* Клас .js ставить скрипт у <head>: без JS увесь контент видно одразу. */
 
@@ -271,22 +326,6 @@ a {
   }
 }
 
-/* ---------- Переходи між сторінками ---------- */
-
-@keyframes page-out {
-  to {
-    opacity: 0;
-    transform: translateY(-0.5rem);
-  }
-}
-
-@keyframes page-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.75rem);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -298,7 +337,7 @@ a {
   }
 }
 
-/* ---------- Спільні блоки внутрішніх сторінок ---------- */
+/* ---------- Спільні блоки секцій ---------- */
 
 .section--alt {
   background: var(--c-bg-alt);
@@ -338,7 +377,7 @@ a {
   transform: translateY(-4px);
 }
 
-.card h3 {
+.card :is(h3, h4) {
   color: var(--c-indigo-deep);
 }
 

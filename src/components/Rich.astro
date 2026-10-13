@@ -1,0 +1,28 @@
+---
+/* Текст із позначками **жирний** і [посилання](адреса) — див. src/content/texts.ts. */
+import ExternalIcon from './ExternalIcon.astro';
+import { isExternal, parseRich } from '../utils/rich';
+import { url } from '../utils/url';
+
+interface Props {
+  text: string;
+}
+
+const parts = parseRich(Astro.props.text);
+---
+
+{
+  parts.map((part) =>
+    part.type === 'strong' ? (
+      <strong>{part.text}</strong>
+    ) : part.type === 'link' ? (
+      isExternal(part.href) ? (
+        <a class="text-link" href={part.href} target="_blank" rel="noopener noreferrer">{part.text}<ExternalIcon /></a>
+      ) : (
+        <a class="text-link" href={url(part.href)}>{part.text}</a>
+      )
+    ) : (
+      part.text
+    ),
+  )
+}

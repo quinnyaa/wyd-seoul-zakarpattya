@@ -1,7 +1,9 @@
 ---
 /* Картка контактної особи: телефон і кнопки месенджерів. Дані — у src/data/contacts.ts. */
+import ExternalIcon from './ExternalIcon.astro';
+import { contacts as texts } from '../content/texts';
 import { formatPhone, links, type Contact } from '../data/contacts';
-import { help } from '../content/texts';
+import { isExternal } from '../utils/rich';
 
 interface Props {
   contact: Contact;
@@ -11,30 +13,18 @@ const { contact } = Astro.props;
 
 const channels = [
   {
-    id: 'telegram',
-    label: 'Telegram',
-    href: links.telegram(contact),
-    icon: 'M21 4 3 11.2l5.6 2.1L11 20l3.1-4.4 4.4 3.2ZM8.6 13.3 17 7.5',
-  },
-  {
-    id: 'whatsapp',
-    label: 'WhatsApp',
-    href: links.whatsapp(contact),
-    icon: 'M12 3.5a8.5 8.5 0 0 0-7.3 12.9L3.5 20.5l4.3-1.1A8.5 8.5 0 1 0 12 3.5ZM9 8.5c0 3.2 2.3 5.6 5.6 6.5l1.4-1.6-2-1-1 .9c-.9-.5-1.6-1.2-2-2.1l.9-1-1-2Z',
-  },
-  {
     id: 'viber',
     label: 'Viber',
     href: links.viber(contact),
     icon: 'M6.5 4h2.5l1.5 4-2 1.5a10 10 0 0 0 5 5l1.5-2 4 1.5v2.5a2 2 0 0 1-2 2C10.5 18.5 5 13 4.5 6a2 2 0 0 1 2-2ZM14 4.5a5.5 5.5 0 0 1 5.5 5.5M14 7.5a2.5 2.5 0 0 1 2.5 2.5',
   },
   {
-    id: 'email',
-    label: 'Email',
-    href: links.email(contact),
-    icon: 'M4 6.5h16v11H4ZM4.5 7l7.5 6 7.5-6',
+    id: 'telegram',
+    label: 'Telegram',
+    href: links.telegram(contact),
+    icon: 'M21 4 3 11.2l5.6 2.1L11 20l3.1-4.4 4.4 3.2ZM8.6 13.3 17 7.5',
   },
-].filter((channel) => channel.href);
+].flatMap((channel) => (channel.href ? [{ ...channel, href: channel.href }] : []));
 ---
 
 <article class="contact" data-contact>
@@ -43,22 +33,30 @@ const channels = [
     {contact.role && <p class="contact__role">{contact.role}</p>}
   </header>
 
-  <a class="contact__phone" href={links.tel(contact)} data-link="tel" aria-label={`${help.contacts.callLabel}: ${formatPhone(contact.phone)}`}>
+  <a class="contact__phone" href={links.tel(contact)} data-link="tel">
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M6.5 4h2.5l1.5 4-2 1.5a10 10 0 0 0 5 5l1.5-2 4 1.5v2.5a2 2 0 0 1-2 2C10.5 18.5 5 13 4.5 6a2 2 0 0 1 2-2Z"></path>
     </svg>
-    <span>{formatPhone(contact.phone)}</span>
+    <span class="contact__call">
+      <strong>{texts.callLabel}</strong>
+      <span>{formatPhone(contact.phone)}</span>
+    </span>
   </a>
 
   <ul class="contact__channels">
     {
       channels.map((channel) => (
         <li>
-          <a class={`contact__channel contact__channel--${channel.id}`} href={channel.href} data-link={channel.id}>
+          <a
+            class={`contact__channel contact__channel--${channel.id}`}
+            href={channel.href}
+            data-link={channel.id}
+            {...(isExternal(channel.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d={channel.icon} />
             </svg>
-            {channel.label}
+            <span>{channel.label}{isExternal(channel.href) && <ExternalIcon />}</span>
           </a>
         </li>
       ))
@@ -98,17 +96,29 @@ const channels = [
     align-items: center;
     justify-content: center;
     gap: 0.625rem;
-    min-height: 3.25rem;
-    padding: 0.5rem 1rem;
+    min-height: 4rem;
+    padding: 0.625rem 1rem;
     border-radius: var(--r-md);
     background: var(--c-indigo);
     color: #fff;
+    text-decoration: none;
+    transition: transform var(--t-fast) var(--ease);
+  }
+
+  .contact__call {
+    display: grid;
+    line-height: 1.3;
+  }
+
+  .contact__call strong {
     font-size: 1.125rem;
     font-weight: 800;
+  }
+
+  .contact__call span {
     font-variant-numeric: tabular-nums;
-    text-decoration: none;
     white-space: nowrap;
-    transition: transform var(--t-fast) var(--ease);
+    color: #dfe3f5;
   }
 
   .contact__phone:hover {
@@ -147,15 +157,7 @@ const channels = [
     transform: translateY(-2px);
   }
 
-  .contact__channel--whatsapp {
-    background: var(--c-jade-tint);
-  }
-
   .contact__channel--viber {
     background: var(--c-pink-tint);
-  }
-
-  .contact__channel--email {
-    background: var(--c-bg-alt);
   }
 </style>

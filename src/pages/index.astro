@@ -1,15 +1,26 @@
 ---
 import Arrow from '../components/Arrow.astro';
+import ContactCard from '../components/ContactCard.astro';
 import Countdown from '../components/Countdown.astro';
 import CtaPanel from '../components/CtaPanel.astro';
+import ExternalIcon from '../components/ExternalIcon.astro';
 import HeroScene from '../components/HeroScene.astro';
+import InfoNote from '../components/InfoNote.astro';
+import InstagramCard from '../components/InstagramCard.astro';
 import Photo from '../components/Photo.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
 import ThanksCard from '../components/ThanksCard.astro';
-import { home, site } from '../content/texts';
+import { about, contacts as contactTexts, help, hero, site, wyd } from '../content/texts';
+import { abroadContact, contacts, instagram, links } from '../data/contacts';
 import Base from '../layouts/Base.astro';
-import { url } from '../utils/url';
+import { isExternal } from '../utils/rich';
 
-const { hero, facts, about, cta } = home;
+const { fact, values, organizer, gallery } = about;
+const { why, cost } = wyd;
+const { steps, fundraising, other } = help;
+const { abroad } = contactTexts;
+
+const abroadHref = (abroadContact && links.telegram(abroadContact)) ?? '#contacts';
 
 // Ділимо назву на частини, щоб виділити кольором слова з site.nameAccents
 const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -19,13 +30,13 @@ const nameParts = accents.length
   : [site.name];
 ---
 
-<Base title={home.title} stickyStartsHidden>
-  <!-- 1. Перший екран -->
-  <section class="hero">
+<Base stickyStartsHidden>
+  <!-- 1. Заголовок і вступ -->
+  <section class="hero" id="top">
     <div class="container hero__grid">
       <div class="hero__text">
         <ul class="hero__event">
-          {site.eventLine.map((part) => <li>{part}</li>)}
+          {hero.eventLine.map((part) => <li>{part}</li>)}
         </ul>
         <h1 class="hero__title">
           {
@@ -35,13 +46,17 @@ const nameParts = accents.length
             })
           }
         </h1>
-        <p class="lead hero__subtitle">{hero.subtitle}</p>
+        <p class="lead hero__subtitle">{hero.lead}</p>
+        <div class="hero__note">
+          <InfoNote icon="pin" text={hero.note} />
+        </div>
         <div class="hero__actions">
-          <a class="btn btn--primary btn--lg" href={url('/help/')} data-sticky-hide>
-            {hero.primaryButton}
+          <a class="btn btn--primary btn--lg" href="#help" data-sticky-hide>
+            {hero.buttons.help}
             <Arrow />
           </a>
-          <a class="btn btn--ghost btn--lg" href={url('/about/')}>{hero.secondaryButton}</a>
+          <a class="btn btn--ghost btn--lg" href="#about">{hero.buttons.about}</a>
+          <a class="btn btn--ghost btn--lg" href="#wyd">{hero.buttons.wyd}</a>
         </div>
       </div>
 
@@ -63,59 +78,263 @@ const nameParts = accents.length
     <HeroScene />
   </section>
 
-  <!-- 2. Таймер -->
-  <section class="timer">
+  <div class="timer">
     <div class="container">
       <Countdown />
     </div>
-  </section>
+  </div>
 
-  <!-- 3. Ключові факти -->
-  <section class="section">
-    <div class="container">
-      <h2 class="visually-hidden">{facts.title}</h2>
-      <ul class="facts">
-        {
-          facts.items.map((fact, i) => (
-            <li class="fact reveal" style={`--i:${i}`}>
-              <p class="fact__head">
-                {'prefix' in fact && <span class="fact__prefix">{fact.prefix}</span>}
-                <strong class:list={['fact__value', { 'fact__value--text': fact.value.length > 7 }]}>
-                  {fact.value}
-                </strong>
-                <span class="fact__label">{fact.label}</span>
-              </p>
-              <p class="fact__text">{fact.text}</p>
-            </li>
-          ))
-        }
-      </ul>
+  <!-- 2. Хто ми -->
+  <section id="about" tabindex="-1" aria-labelledby="about-title">
+    <div class="section">
+      <div class="container">
+        <div class="about__grid">
+          <div class="about__photo reveal">
+            <Photo id="community" sizes="(min-width: 56.25em) 34rem, calc(100vw - 2rem)" />
+          </div>
+          <div class="about__text stack reveal" style="--i:1">
+            <span class="eyebrow">{about.eyebrow}</span>
+            <h2 id="about-title">{about.title}</h2>
+            <p>{about.text}</p>
+            <InfoNote icon="link" text={about.note} />
+          </div>
+        </div>
+
+        <div class="fact reveal">
+          <p class="fact__head">
+            <strong class="fact__value">{fact.value}</strong>
+            <span class="fact__label">{fact.label}</span>
+          </p>
+          <p class="fact__text">{fact.text}</p>
+        </div>
+
+        <ul class="cards cards--3 values">
+          {
+            values.map((value, i) => (
+              <li class="card reveal" style={`--i:${i}`}>
+                <h3>{value.title}</h3>
+                <p>{value.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="section section--alt">
+      <div class="container">
+        <div class="organizer reveal">
+          <p class="eyebrow">{organizer.eyebrow}</p>
+          <h3 class="organizer__name">{organizer.name}</h3>
+          <p>{organizer.text}</p>
+          <p class="organizer__note">{organizer.note}</p>
+          <a class="link-arrow" href="#contacts">
+            {organizer.link}
+            <Arrow />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h3 class="subtitle">{gallery.title}</h3>
+          <p class="lead">{gallery.hint}</p>
+        </div>
+        <PhotoGrid ids={['hero', 'community', 'gallery1', 'gallery2', 'gallery3', 'gallery4']} />
+      </div>
     </div>
   </section>
 
-  <!-- 4. Хто ми -->
-  <section class="section about">
-    <div class="container about__grid">
-      <div class="about__photo reveal">
-        <Photo id="community" sizes="(min-width: 56.25em) 34rem, calc(100vw - 2rem)" />
+  <!-- 3. Що таке Всесвітній день молоді -->
+  <section id="wyd" tabindex="-1" aria-labelledby="wyd-title">
+    <div class="section section--alt">
+      <div class="container split">
+        <div class="prose reveal">
+          <span class="eyebrow">{wyd.eyebrow}</span>
+          <h2 id="wyd-title">{wyd.title}</h2>
+          {wyd.text.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <dl class="trip-facts reveal" style="--i:1">
+          {
+            wyd.facts.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
       </div>
-      <div class="about__text stack reveal" style="--i:1">
-        <span class="eyebrow">{about.eyebrow}</span>
-        <h2>{about.title}</h2>
-        {about.text.map((paragraph) => <p>{paragraph}</p>)}
-        <a class="link-arrow" href={url('/about/')}>
-          {about.link}
-          <Arrow />
-        </a>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h3 class="subtitle">{why.title}</h3>
+        </div>
+        <ol class="cards cards--3">
+          {
+            why.items.map((item, i) => (
+              <li class="card reveal" style={`--i:${i}`}>
+                <span class="card__num" aria-hidden="true">{i + 1}</span>
+                <h4>{item.title}</h4>
+                <p>{item.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+
+    <div class="section cost">
+      <div class="container split">
+        <div class="reveal">
+          <h3 class="subtitle">{cost.title}</h3>
+          <p class="cost__sum">
+            <span>{cost.prefix}</span>
+            <strong>{cost.value}</strong>
+            <span>{cost.label}</span>
+          </p>
+        </div>
+        <div class="cost__details reveal" style="--i:1">
+          <h4>{cost.includesTitle}</h4>
+          <ul class="cost__list">
+            {cost.includes.map((item) => <li>{item}</li>)}
+          </ul>
+          {cost.text.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Подячна візитівка -->
+  <!-- 4. Як допомогти -->
+  <section id="help" tabindex="-1" aria-labelledby="help-title" data-sticky-hide>
+    <div class="section">
+      <div class="container">
+        <CtaPanel eyebrow={help.eyebrow} title={help.title} titleId="help-title" text={help.text} button={help.button} href="#contacts" />
+
+        <div class="section-head steps-head reveal">
+          <h3 class="subtitle">{steps.title}</h3>
+        </div>
+        <ol class="steps">
+          {
+            steps.items.map((step, i) => (
+              <li class="step reveal" style={`--i:${i}`}>
+                <span class="step__num" aria-hidden="true">{i + 1}</span>
+                <h4>{step.title}</h4>
+                <p>{step.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="notice reveal">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3 4.5 6v5.5c0 4.5 3 8 7.5 9.5 4.5-1.5 7.5-5 7.5-9.5V6ZM12 8v5M12 16.5v.01"></path>
+          </svg>
+          <span>{steps.notice}</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="section section--alt">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">{fundraising.eyebrow}</span>
+          <h3 class="subtitle">{fundraising.title}</h3>
+          <p class="lead">{fundraising.lead}</p>
+        </div>
+        <ul class="cards cards--2">
+          {
+            fundraising.events.map((event, i) => (
+              <li class="card reveal" style={`--i:${i}`}>
+                <h4>{event.title}</h4>
+                <p>{event.text}</p>
+                <dl class="event-meta">
+                  <div>
+                    <dt>{fundraising.dateLabel}</dt>
+                    <dd>{event.date}</dd>
+                  </div>
+                  <div>
+                    <dt>{fundraising.placeLabel}</dt>
+                    <dd>{event.place}</dd>
+                  </div>
+                </dl>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h3 class="subtitle">{other.title}</h3>
+        </div>
+        <ul class="cards cards--3">
+          {
+            other.items.map((item, i) => (
+              <li class="card reveal" style={`--i:${i}`}>
+                <h4>{item.title}</h4>
+                <p>{item.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Наша подяка -->
   <ThanksCard />
 
-  <!-- 6. Фінальний заклик -->
-  <CtaPanel title={cta.title} text={cta.text} button={cta.button} />
+  <!-- 6. Контакти -->
+  <section class="section section--alt" id="contacts" tabindex="-1" aria-labelledby="contacts-title" data-sticky-hide>
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{contactTexts.eyebrow}</span>
+        <h2 id="contacts-title">{contactTexts.title}</h2>
+        <p class="lead">{contactTexts.lead}</p>
+      </div>
+      <div class="contacts__grid">
+        {
+          contacts.map((contact, i) => (
+            <div class="reveal" style={`--i:${i}`}>
+              <ContactCard contact={contact} />
+            </div>
+          ))
+        }
+        {
+          instagram && (
+            <div class="reveal" style={`--i:${contacts.length}`}>
+              <InstagramCard username={instagram} />
+            </div>
+          )
+        }
+      </div>
+
+      <div class="abroad reveal">
+        <div>
+          <h3>{abroad.title}</h3>
+          <p>{abroad.text}</p>
+        </div>
+        {
+          isExternal(abroadHref) ? (
+            <a class="btn btn--ghost" href={abroadHref} data-link="abroad" target="_blank" rel="noopener noreferrer">
+              <span>{abroad.button}<ExternalIcon /></span>
+            </a>
+          ) : (
+            <a class="btn btn--ghost" href={abroadHref} data-link="abroad">
+              {abroad.button}
+              <Arrow />
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </section>
 </Base>
 
 <style>
@@ -191,15 +410,19 @@ const nameParts = accents.length
     margin-top: var(--s-4);
   }
 
+  .hero__note {
+    margin-top: var(--s-4);
+  }
+
+  /* На мобільному кнопки стоять у стовпчик на всю ширину */
   .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: var(--s-3);
     margin-top: var(--s-5);
   }
 
   .hero__actions .btn {
-    flex: 1 1 auto;
+    text-align: center;
   }
 
   .hero__media {
@@ -264,8 +487,9 @@ const nameParts = accents.length
       padding-top: var(--s-8);
     }
 
-    .hero__actions .btn {
-      flex: 0 0 auto;
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
     }
 
     .hero__media {
@@ -292,16 +516,11 @@ const nameParts = accents.length
     background: var(--c-indigo);
   }
 
-  /* ---------- Факти ---------- */
-
-  .facts {
-    display: grid;
-    gap: var(--s-4);
-    margin: 0;
-  }
+  /* ---------- Хто ми ---------- */
 
   .fact {
     position: relative;
+    margin-top: var(--s-7);
     display: grid;
     align-content: start;
     gap: var(--s-3);
@@ -318,14 +537,6 @@ const nameParts = accents.length
     inset: 0 0 auto;
     height: 0.375rem;
     background: var(--c-red);
-  }
-
-  .fact:nth-child(2)::before {
-    background: var(--c-jade);
-  }
-
-  .fact:nth-child(3)::before {
-    background: var(--c-pink);
   }
 
   .fact__head {
@@ -360,26 +571,12 @@ const nameParts = accents.length
     color: var(--c-ink-soft);
   }
 
+  /* Одна картка факту: на десктопі не розтягується на всю ширину */
   @media (min-width: 48em) {
-    .facts {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--s-5);
-    }
-
     .fact {
+      max-width: 30rem;
       padding: var(--s-6);
     }
-
-    .fact__head {
-      align-content: end;
-      min-height: 8.5rem;
-    }
-  }
-
-  /* ---------- Хто ми ---------- */
-
-  .about {
-    padding-top: 0;
   }
 
   .about__grid {
@@ -397,6 +594,283 @@ const nameParts = accents.length
     .about__grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: var(--s-8);
+    }
+  }
+
+  .values {
+    margin-top: var(--s-5);
+  }
+
+  .organizer {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-3);
+    max-width: 46rem;
+    padding: var(--s-5);
+    border-radius: var(--r-xl);
+    border-left: 0.375rem solid var(--c-red);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .organizer__name {
+    font-weight: 700;
+    color: var(--c-indigo-deep);
+  }
+
+  .organizer__note {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  /* Підзаголовок блоку всередині секції: h3 з виглядом заголовка секції */
+  .subtitle {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+  }
+
+  @media (min-width: 48em) {
+    .organizer {
+      padding: var(--s-6) var(--s-7);
+    }
+  }
+
+  /* ---------- Що таке Всесвітній день молоді ---------- */
+
+  .trip-facts {
+    display: grid;
+    margin: 0;
+    padding: var(--s-2) var(--s-5);
+    border-radius: var(--r-lg);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .trip-facts div {
+    display: grid;
+    gap: 0.125rem;
+    padding-block: var(--s-4);
+  }
+
+  .trip-facts div + div {
+    border-top: 1px solid var(--c-line);
+  }
+
+  .trip-facts dt {
+    font-size: var(--fs-xs);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-red-dark);
+  }
+
+  .trip-facts dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--c-indigo-deep);
+  }
+
+  .cost {
+    background: var(--c-indigo);
+    color: #fff;
+  }
+
+  .cost__sum {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: var(--s-5);
+    font-weight: 700;
+    color: #dfe3f5;
+  }
+
+  .cost__sum strong {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 2rem + 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    color: var(--c-pink);
+  }
+
+  .cost__details {
+    display: grid;
+    gap: var(--s-4);
+    color: #dfe3f5;
+  }
+
+  .cost__details h4 {
+    color: #fff;
+  }
+
+  .cost__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin: 0;
+  }
+
+  .cost__list li {
+    padding: 0.5rem 1rem;
+    border-radius: var(--r-pill);
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.16);
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* ---------- Як допомогти ---------- */
+
+  .steps-head {
+    margin-top: var(--s-8);
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--s-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--s-2);
+    padding: var(--s-5);
+    border-radius: var(--r-lg);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-md);
+  }
+
+  .step__num {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: var(--s-2);
+    border-radius: 50%;
+    background: var(--c-red);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .step:nth-child(2) .step__num {
+    background: var(--c-jade-dark);
+  }
+
+  .step:nth-child(3) .step__num {
+    background: var(--c-indigo);
+  }
+
+  .step h4 {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+    font-weight: 700;
+    color: var(--c-indigo-deep);
+  }
+
+  .step p {
+    color: var(--c-ink-soft);
+  }
+
+  .notice {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    max-width: 46rem;
+    margin-top: var(--s-6);
+    padding: var(--s-4) var(--s-5);
+    border-radius: var(--r-md);
+    background: var(--c-red-tint);
+    color: var(--c-ink);
+    font-weight: 600;
+  }
+
+  .notice svg {
+    flex: none;
+    margin-top: 0.125rem;
+    color: var(--c-red-dark);
+  }
+
+  .event-meta {
+    display: grid;
+    gap: var(--s-2);
+    margin: var(--s-3) 0 0;
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--c-line);
+    font-size: var(--fs-sm);
+  }
+
+  .event-meta div {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: var(--s-2);
+  }
+
+  .event-meta dt {
+    font-weight: 800;
+    color: var(--c-indigo);
+  }
+
+  .event-meta dd {
+    margin: 0;
+    color: var(--c-ink-soft);
+  }
+
+  @media (min-width: 48em) {
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--s-5);
+    }
+
+    .step {
+      padding: var(--s-6);
+    }
+  }
+
+  /* ---------- Контакти ---------- */
+
+  .contacts__grid {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .abroad {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-4);
+    margin-top: var(--s-6);
+    padding: var(--s-5);
+    border-radius: var(--r-lg);
+    background: var(--c-jade-tint);
+  }
+
+  .abroad h3 {
+    color: var(--c-indigo-deep);
+  }
+
+  .abroad p {
+    margin-top: var(--s-2);
+  }
+
+  @media (min-width: 48em) {
+    .contacts__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-5);
+      max-width: 52rem;
+    }
+
+    .abroad {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: var(--s-5) var(--s-6);
     }
   }
 </style>

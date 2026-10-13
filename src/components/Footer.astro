@@ -21,17 +21,14 @@ import { url } from '../utils/url';
         {
           nav.map((item) => (
             <li>
-              <a href={url(item.href)}>{item.label}</a>
+              <a href={url(`/${item.href}`)}>{item.label}</a>
             </li>
           ))
         }
       </ul>
     </nav>
 
-    <div class="footer__notes">
-      <p>{footer.cash}</p>
-      <p class="footer__small">{footer.disclaimer}</p>
-    </div>
+    <p class="footer__note">{footer.disclaimer}</p>
   </div>
 </footer>
 
@@ -86,15 +83,8 @@ import { url } from '../utils/url';
     text-underline-offset: 0.3em;
   }
 
-  .footer__notes {
-    display: grid;
-    gap: var(--s-3);
-    align-content: start;
+  .footer__note {
     max-width: 24rem;
-  }
-
-  .footer__small {
-    font-size: var(--fs-xs);
     color: #b9c0e0;
   }
 
@@ -109,6 +99,11 @@ import { url } from '../utils/url';
     .footer__grid {
       grid-template-columns: 1.4fr 0.8fr 1.2fr;
       gap: var(--s-8);
+    }
+
+    /* Вирівнюємо примітку з першим рядком навігації */
+    .footer__note {
+      padding-top: 0.5rem;
     }
   }
 </style>

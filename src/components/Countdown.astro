@@ -1,8 +1,8 @@
 ---
-import { home, site } from '../content/texts';
+import { hero, site } from '../content/texts';
 import { plural, timeLeft } from '../utils/countdown';
 
-const { countdown } = home;
+const { countdown } = hero;
 const target = new Date(site.eventStart).getTime();
 // Початкові значення на момент збирання сайту; далі їх щосекунди оновлює скрипт
 const initial = timeLeft(target, Date.now());
@@ -35,7 +35,6 @@ const units = ['days', 'hours', 'minutes', 'seconds'] as const;
   let timer: number | undefined;
 
   function initCountdown() {
-    window.clearInterval(timer);
     const root = document.querySelector<HTMLElement>('[data-countdown]');
     if (!root) return;
 
@@ -69,7 +68,7 @@ const units = ['days', 'hours', 'minutes', 'seconds'] as const;
     timer = window.setInterval(tick, 1000);
   }
 
-  document.addEventListener('astro:page-load', initCountdown);
+  initCountdown();
 </script>
 
 <style>

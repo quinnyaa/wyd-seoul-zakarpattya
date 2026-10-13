@@ -1,30 +1,24 @@
 ---
-/* Блок «Подячна візитівка»: правило 1 візитівка = 200 грн і місце для макета. */
+/* Секція «Наша подяка»: Паломницька листівка, правило «кожні 200 грн — одна листівка» і місце для макета. */
 import Arrow from './Arrow.astro';
 import CardMockup from './CardMockup.astro';
 import Ornament from './Ornament.astro';
-import { home } from '../content/texts';
-
-interface Props {
-  /** Інший вступний текст (за замовчуванням — із головної сторінки). */
-  text?: string;
-}
-
-const { card } = home;
-const { text = card.text } = Astro.props;
+import Rich from './Rich.astro';
+import { thanks } from '../content/texts';
 ---
 
-<section class="thanks">
+<section class="thanks" id="thanks" tabindex="-1" aria-labelledby="thanks-title">
   <Ornament />
   <div class="container thanks__grid section">
     <div class="stack reveal">
-      <span class="eyebrow">{card.eyebrow}</span>
-      <h2>{card.title}</h2>
-      <p>{text}</p>
-      <p class="thanks__rule">{card.rule}</p>
+      <span class="eyebrow">{thanks.eyebrow}</span>
+      <h2 id="thanks-title">{thanks.title}</h2>
+      <p class="thanks__intro">{thanks.intro}</p>
+      <p><Rich text={thanks.text} /></p>
+      <p class="thanks__rule">{thanks.rule}</p>
       <ul class="thanks__list">
         {
-          card.examples.map((example) => (
+          thanks.examples.map((example) => (
             <li>
               <span>{example.sum}</span>
               <Arrow />
@@ -33,7 +27,8 @@ const { text = card.text } = Astro.props;
           ))
         }
       </ul>
-      <p class="thanks__more">{card.more}</p>
+      <p class="thanks__more">{thanks.more}</p>
+      <p><Rich text={thanks.evening} /></p>
     </div>
     <div class="reveal" style="--i:1">
       <CardMockup />
@@ -52,10 +47,16 @@ const { text = card.text } = Astro.props;
     align-items: center;
   }
 
+  .thanks__intro {
+    font-size: var(--fs-lg);
+    font-style: italic;
+    color: var(--c-ink-soft);
+  }
+
   .thanks__rule {
     display: inline-block;
     padding: 0.5rem 1.125rem;
-    border-radius: var(--r-pill);
+    border-radius: var(--r-lg);
     background: var(--c-indigo);
     color: #fff;
     font-family: var(--font-display);
@@ -99,6 +100,11 @@ const { text = card.text } = Astro.props;
     margin-top: var(--s-2);
     font-size: var(--fs-sm);
     color: var(--c-ink-soft);
+  }
+
+  .thanks :global(strong) {
+    font-weight: 800;
+    color: var(--c-indigo-deep);
   }
 
   @media (min-width: 56.25em) {

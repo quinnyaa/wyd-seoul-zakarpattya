@@ -1,10 +1,10 @@
-// Lighthouse у мобільному режимі для всіх сторінок. Спершу: npm run build && npm run preview
+// Lighthouse у мобільному режимі для головної сторінки. Спершу: npm run build && npm run preview
 // Запуск: npm run lighthouse  (або node scripts/lighthouse.mjs https://адреса-сайту)
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync } from 'node:fs';
 
 const base = (process.argv[2] ?? 'http://localhost:4321/wyd-seoul-zakarpattya').replace(/\/$/, '');
-const pages = ['/', '/about/', '/trip/', '/help/'];
+const pages = ['/'];
 mkdirSync('.lighthouseci', { recursive: true });
 
 const rows = [];

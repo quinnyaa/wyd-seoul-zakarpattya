@@ -1,0 +1,45 @@
+---
+/* Інфоплашка з іконкою: коротка довідка з посиланням. */
+import Rich from './Rich.astro';
+
+interface Props {
+  text: string;
+  icon?: 'pin' | 'link';
+}
+
+const { text, icon = 'pin' } = Astro.props;
+
+const icons = {
+  pin: 'M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11ZM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z',
+  link: 'M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71',
+};
+---
+
+<p class="info-note">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d={icons[icon]}></path>
+  </svg>
+  <span><Rich text={text} /></span>
+</p>
+
+<style>
+  .info-note {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    max-width: 38rem;
+    padding: var(--s-4);
+    border-radius: var(--r-md);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    color: var(--c-ink-soft);
+  }
+
+  .info-note svg {
+    flex: none;
+    margin-top: 0.0625rem;
+    color: var(--c-red);
+  }
+</style>

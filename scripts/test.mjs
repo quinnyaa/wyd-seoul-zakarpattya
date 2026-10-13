@@ -4,7 +4,8 @@ import { chromium } from 'playwright';
 
 const base = (process.argv[2] ?? 'http://localhost:4321/wyd-seoul-zakarpattya').replace(/\/$/, '');
 const origin = new URL(base).origin;
-const pages = ['/', '/about/', '/trip/', '/help/'];
+const pages = ['/'];
+const redirects = { '/about/': '#about', '/trip/': '#wyd', '/help/': '#help' };
 const widths = [360, 390, 768, 1024, 1440];
 
 let failed = 0;
@@ -41,16 +42,57 @@ for (const path of pages) {
   }
 }
 
-// 2. Унікальні title і description
+// 2. Структура однієї сторінки: якорі меню, заголовки, зовнішні посилання, старі адреси
 {
-  const page = await browser.newPage();
-  const seen = { title: new Set(), description: new Set() };
-  for (const path of pages) {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+
+  const anchors = await page.evaluate(() =>
+    [...document.querySelectorAll('#site-menu a, footer nav a')].map((a) => {
+      const id = new URL(a.href).hash.slice(1);
+      return { id, section: document.getElementById(id)?.tagName === 'SECTION' };
+    }),
+  );
+  const orphans = anchors.filter((a) => !a.id || !a.section).map((a) => `#${a.id}`);
+  check(anchors.length >= 10 && !orphans.length, `кожен якір меню має свою секцію (${anchors.length})`, orphans.join(', '));
+
+  const order = await page.evaluate(() => [...document.querySelectorAll('main section[id]')].map((s) => s.id).join(' '));
+  check(order === 'top about wyd help thanks contacts', 'порядок секцій', order);
+
+  const skipped = await page.evaluate(() => {
+    const levels = [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')].map((h) => Number(h.tagName[1]));
+    return levels.filter((level, i) => i > 0 && level > levels[i - 1] + 1).length;
+  });
+  check(!skipped, 'заголовки йдуть без пропусків рівнів');
+
+  const external = await page.evaluate(() =>
+    [...document.querySelectorAll('a[href]')]
+      .filter((a) => /^https?:$/.test(a.protocol) && a.origin !== location.origin)
+      .map((a) => ({
+        href: a.href,
+        ok: a.target === '_blank' && a.relList.contains('noopener') && a.relList.contains('noreferrer') && !!a.querySelector('svg') && /нов/.test(a.textContent),
+      })),
+  );
+  const badExternal = external.filter((a) => !a.ok).map((a) => a.href);
+  check(external.length >= 4 && !badExternal.length, `зовнішні посилання мають target, rel, іконку й підпис (${external.length})`, badExternal.join(', '));
+
+  await page.click('#site-menu a[href$="#wyd"]');
+  await page.waitForTimeout(1200);
+  const spy = await page.evaluate(() => ({
+    hash: location.hash,
+    top: Math.round(document.querySelector('#wyd').getBoundingClientRect().top),
+    header: document.querySelector('.header').offsetHeight,
+    current: [...document.querySelectorAll('#site-menu [aria-current="location"]')].map((a) => new URL(a.href).hash).join(),
+  }));
+  check(spy.hash === '#wyd' && Math.abs(spy.top - spy.header) <= 2, 'якір меню скролить до секції під шапку', JSON.stringify(spy));
+  check(spy.current === '#wyd', 'активний пункт меню підсвічується під час скролу', spy.current);
+
+  for (const [path, hash] of Object.entries(redirects)) {
     await page.goto(base + path);
-    seen.title.add(await page.title());
-    seen.description.add(await page.getAttribute('meta[name=description]', 'content'));
+    await page.waitForURL((url) => url.hash === hash, { timeout: 5000 }).catch(() => {});
+    const url = new URL(page.url());
+    check(url.pathname === new URL(base + '/').pathname && url.hash === hash, `${path} перенаправляє на ${hash}`, page.url());
   }
-  check(seen.title.size === pages.length && seen.description.size === pages.length, 'title і description унікальні на кожній сторінці');
   await page.close();
 }
 
@@ -102,10 +144,18 @@ for (const path of pages) {
   await page.waitForTimeout(400);
   check((await menuState()) === 'hidden', 'меню закривається кліком поза ним');
   await open();
-  await page.click('#site-menu a[href$="/trip/"]');
-  await page.waitForURL('**/trip/');
-  await page.waitForTimeout(600);
-  check((await menuState()) === 'hidden', 'меню закривається після кліку на пункт, перехід відбувся');
+  await page.click('#site-menu a[href$="#wyd"]');
+  await page.waitForTimeout(1200);
+  const jump = await page.evaluate(() => ({
+    top: Math.round(document.querySelector('#wyd').getBoundingClientRect().top),
+    header: document.querySelector('.header').offsetHeight,
+    focus: document.activeElement?.id,
+  }));
+  check(
+    (await menuState()) === 'hidden' && Math.abs(jump.top - jump.header) <= 2 && jump.focus === 'wyd',
+    'клік у мобільному меню закриває меню, скролить до секції й переводить на неї фокус',
+    JSON.stringify(jump),
+  );
 
   for (const path of pages) {
     await page.goto(base + path, { waitUntil: 'networkidle' });
@@ -138,9 +188,19 @@ for (const path of pages) {
 
   await page.goto(base + '/', { waitUntil: 'networkidle' });
   const sticky = () => page.evaluate(() => getComputedStyle(document.querySelector('.sticky-help')).visibility);
-  await page.evaluate(() => window.scrollTo(0, 1600));
-  await page.waitForTimeout(700);
+  const scrollTo = async (selector) => {
+    await page.evaluate((s) => document.querySelector(s).scrollIntoView({ behavior: 'instant' }), selector);
+    await page.waitForTimeout(700);
+  };
+  await scrollTo('#wyd');
   check((await sticky()) === 'visible', 'закріплена кнопка «Допомогти» видима під час скролу');
+  check((await page.getAttribute('.sticky-help', 'href')).endsWith('#help'), 'закріплена кнопка веде на #help');
+  await scrollTo('#help');
+  check((await sticky()) === 'hidden', 'закріплена кнопка ховається біля #help');
+  await scrollTo('#thanks');
+  check((await sticky()) === 'visible', 'закріплена кнопка знову видима між #help і #contacts');
+  await scrollTo('#contacts');
+  check((await sticky()) === 'hidden', 'закріплена кнопка ховається біля #contacts');
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await page.waitForTimeout(700);
   const overlap = await page.evaluate(() => {
@@ -156,7 +216,8 @@ for (const path of pages) {
 {
   const context = await browser.newContext({ viewport: { width: 390, height: 800 }, isMobile: true, hasTouch: true });
   const page = await context.newPage();
-  await page.goto(base + '/about/', { waitUntil: 'networkidle' });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  await page.locator('[data-lightbox-item]').first().scrollIntoViewIfNeeded();
   const isOpen = () => page.evaluate(() => document.querySelector('[data-lightbox]').open);
   const openFirst = async () => {
     await page.locator('[data-lightbox-item]').first().click();
@@ -202,16 +263,16 @@ for (const path of pages) {
 // 6. Формат посилань у контактах
 {
   const page = await browser.newPage();
-  await page.goto(base + '/help/', { waitUntil: 'networkidle' });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
   const formats = {
     tel: /^tel:\+\d{10,15}$/,
     telegram: /^https:\/\/t\.me\/[A-Za-z0-9_]{4,}$/,
-    whatsapp: /^https:\/\/wa\.me\/\d{10,15}$/,
     viber: /^viber:\/\/chat\?number=%2B\d{10,15}$/,
-    email: /^mailto:[^@\s]+@[^@\s]+\.[^@\s]+$/,
   };
-  const cards = await page.locator('[data-contact]').count();
-  check(cards >= 2 && cards <= 3, `карток контактів: ${cards}`);
+  const cards = await page.locator('#contacts [data-contact]').count();
+  check(cards === 1, `карток контактів: ${cards}`);
+  const instagram = await page.locator('#contacts [data-link="instagram"]').evaluateAll((els) => els.map((el) => el.getAttribute('href')));
+  check(instagram.length === 1 && /^https:\/\/www\.instagram\.com\/[A-Za-z0-9_.]+\/$/.test(instagram[0]), 'посилання instagram', instagram.join(', '));
   for (const [type, pattern] of Object.entries(formats)) {
     const hrefs = await page.locator(`[data-contact] [data-link="${type}"]`).evaluateAll((els) => els.map((el) => el.getAttribute('href')));
     const bad = hrefs.filter((href) => !pattern.test(href));

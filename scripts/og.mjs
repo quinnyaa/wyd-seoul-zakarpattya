@@ -1,7 +1,6 @@
 // Генерує картинку для соцмереж public/og.jpg (1200×630) і public/apple-touch-icon.png.
 // Запуск: npm run og  (після зміни назви проєкту або головного фото)
 import { readFileSync, existsSync } from 'node:fs';
-import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
 
@@ -9,10 +8,10 @@ const texts = readFileSync('src/content/texts.ts', 'utf8');
 const name = texts.match(/name:\s*'([^']+)'/)?.[1] ?? '';
 const eventLine = [...(texts.match(/eventLine:\s*\[([^\]]+)\]/)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => m[1]);
 
-const file = (path) => pathToFileURL(path).href;
-const font = (pkg, subset) => file(`node_modules/@fontsource-variable/${pkg}/files/${pkg}-${subset}-wght-normal.woff2`);
+// Шрифти й фото вбудовуємо в сторінку: зі сторінки без адреси браузер не читає локальні файли
+const font = (pkg, subset) =>
+  `data:font/woff2;base64,${readFileSync(`node_modules/@fontsource-variable/${pkg}/files/${pkg}-${subset}-wght-normal.woff2`).toString('base64')}`;
 const photoPath = ['jpg', 'jpeg', 'png', 'webp'].map((ext) => `src/assets/photos/hero.${ext}`).find(existsSync);
-// Зменшене фото вбудовуємо в сторінку, щоб не залежати від доступу до файлів
 const photo = photoPath
   ? `data:image/jpeg;base64,${(await sharp(photoPath).resize({ width: 1400 }).jpeg({ quality: 82 }).toBuffer()).toString('base64')}`
   : null;

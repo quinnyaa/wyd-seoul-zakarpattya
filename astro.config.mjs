@@ -7,10 +7,18 @@ import sitemap from '@astrojs/sitemap';
 const GITHUB_USER = 'quinnyaa';
 const REPO_NAME = 'wyd-seoul-zakarpattya';
 
+const base = `/${REPO_NAME}/`;
+
 export default defineConfig({
   site: `https://${GITHUB_USER}.github.io`,
-  base: `/${REPO_NAME}/`,
+  base,
   trailingSlash: 'always',
+  // Сайт став односторінковим: старі адреси ведуть на відповідні секції
+  redirects: {
+    '/about/': `${base}#about`,
+    '/trip/': `${base}#wyd`,
+    '/help/': `${base}#help`,
+  },
   integrations: [sitemap()],
   devToolbar: { enabled: false },
 });
