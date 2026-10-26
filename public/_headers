@@ -1,0 +1,3 @@
+# Cloudflare Pages. Файли в /_astro/ мають хеш у назві, тож браузер може зберігати їх місяць
+/_astro/*
+  Cache-Control: public, max-age=2592000, immutable
