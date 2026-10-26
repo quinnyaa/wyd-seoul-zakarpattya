@@ -40,7 +40,7 @@ export const nav = [
 
 export const hero = {
   eventLine: ['Pellegrinaggio 2027', 'Seul', '3–8 agosto'],
-  lead: 'Stiamo organizzando una raccolta fondi per il nostro pellegrinaggio a Seul nell’agosto 2027. Questo viaggio comincia già oggi, e ti invitiamo a far parte della nostra missione: il tuo sostegno rende possibile questo pellegrinaggio, e noi porteremo con gratitudine le tue intenzioni fino in Corea del Sud.',
+  lead: 'Stiamo organizzando una raccolta fondi per il nostro pellegrinaggio a Seul ad agosto 2027. Questo viaggio comincia già oggi, e ti invitiamo a far parte della nostra missione: il tuo sostegno rende possibile questo pellegrinaggio, e noi porteremo con gratitudine le tue intenzioni fino in Corea del Sud.',
   note: 'Puoi saperne di più sull’evento nel [sito ufficiale della Giornata Mondiale della Gioventù 2027](https://wydseoul.org/en). Attenzione: questo è il sito del nostro gruppo giovanile, non una risorsa ufficiale dell’evento.',
   buttons: {
     help: 'Come aiutare',
@@ -88,7 +88,7 @@ export const wyd = {
   eyebrow: 'Il viaggio',
   title: 'Che cos’è la Giornata Mondiale della Gioventù',
   text: [
-    'La Giornata Mondiale della Gioventù (GMG) è un grande pellegrinaggio internazionale, avviato nel 1985 da Papa Giovanni Paolo II. È il tempo in cui la Chiesa raduna i giovani di tutto il mondo insieme al Successore di Pietro (il Papa) per fortificarli nella fede attraverso l’ascolto della Parola, la preghiera comune e l’eucaristia. Dopo Lisbona (2023), la tappa successiva sarà Seul (Corea del Sud), nell’agosto 2027.',
+    'La Giornata Mondiale della Gioventù (GMG) è un grande pellegrinaggio internazionale, avviato nel 1985 da Papa Giovanni Paolo II. È il tempo in cui la Chiesa raduna i giovani di tutto il mondo insieme al Successore di Pietro (il Papa) per fortificarli nella fede attraverso l’ascolto della Parola, la preghiera comune e l’eucaristia. Dopo Lisbona (2023), la tappa successiva sarà Seul (Corea del Sud), ad agosto 2027.',
   ],
   facts: [
     { label: 'Dove', value: 'Seul, Corea del Sud' },
