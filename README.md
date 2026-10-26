@@ -1,135 +1,135 @@
-# Від Карпат до Сеула
+# Від Карпат до Сеула (From the Carpathians to Seoul)
 
-Односторінковий сайт для збору пожертв на паломництво молоді Неокатехуменальних спільнот Ужгорода на Всесвітній день молоді в Сеулі (3–8 серпня 2027).
+A one-page fundraising site for the pilgrimage of young people from the Neocatechumenal communities of Uzhhorod, Ukraine, to World Youth Day in Seoul (3–8 August 2027).
 
-Статичний сайт на [Astro](https://astro.build), публікується на Cloudflare Pages (https://wyd-seoul-uzhhorod.org). Пожертви приймаються лише готівкою під час особистої зустрічі, тому на сайті немає форм, платіжних даних, аналітики й трекерів.
+It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian. Donations are accepted only in cash, in person, so the site has no forms, payment details, analytics or trackers.
 
-## Ліцензія
+## License
 
-Код сайту поширюється за ліцензією [MIT](LICENSE). Вона не стосується фотографій (`src/assets/photos/`), макета листівки (`src/assets/card/`), текстів (`src/content/texts.ts`) і контактів (`src/data/contacts.ts`): це матеріали молоді спільнот Ужгорода, і без дозволу їх не можна використовувати чи поширювати.
+The site's code is released under the [MIT License](LICENSE). The license does not cover the photos (`src/assets/photos/`), the postcard design (`src/assets/card/`), the texts (`src/content/texts.ts`) or the contact details (`src/data/contacts.ts`). These belong to the young people of the Uzhhorod communities and may not be used or shared without permission.
 
-## Як запустити локально
+## Running locally
 
-Потрібен Node.js 22 або новіший.
+You need Node.js 22 or newer.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Сайт відкриється за адресою, яку покаже команда (http://localhost:4321/). Зміни у файлах видно одразу. Зупинити сервер: `npx astro dev stop`.
+The site opens at the address the command prints (http://localhost:4321/). Changes to files show up right away. To stop the server: `npx astro dev stop`.
 
-| Команда | Що робить |
+| Command | What it does |
 |---|---|
-| `npm run dev` | локальний сервер для роботи |
-| `npm run build` | збирає готовий сайт у теку `dist/` |
-| `npm run preview` | показує зібраний сайт локально |
-| `npm run check` | перевіряє код на помилки |
-| `npm run og` | перемальовує картинку для соцмереж |
-| `npm test` | перевірки Playwright (потрібен запущений `npm run preview`) |
-| `npm run lighthouse` | Lighthouse у мобільному режимі (потрібен запущений `npm run preview`) |
-| `npm run shots` | скріншоти сторінки (375 і 1440 px) у теку `screenshots/` |
+| `npm run dev` | local development server |
+| `npm run build` | builds the site into `dist/` |
+| `npm run preview` | serves the built site locally |
+| `npm run check` | checks the code for errors |
+| `npm run og` | regenerates the social media preview image |
+| `npm test` | Playwright tests (needs `npm run preview` running) |
+| `npm run lighthouse` | Lighthouse in mobile mode (needs `npm run preview` running) |
+| `npm run shots` | page screenshots (375 and 1440 px) into `screenshots/` |
 
-## Структура сторінки
+## Page structure
 
-Сайт — це одна сторінка `/`. Блоки йдуть у такому порядку:
+The site is a single page, `/`. The sections come in this order:
 
-| № | Секція | Якір | Тексти в `texts.ts` |
+| # | Section | Anchor | Texts in `texts.ts` |
 |---|---|---|---|
-| 1 | Заголовок і вступ, сцена, таймер | `#top` | `hero` |
-| 2 | Хто ми: спільнота, організатор, галерея | `#about` | `about` |
-| 3 | Що таке Всесвітній день молоді, вартість | `#wyd` | `wyd` |
-| 4 | Як допомогти: кроки, наші заходи, інші способи | `#help` | `help` |
-| 5 | Наша подяка: Паломницька листівка | `#thanks` | `thanks` |
-| 6 | Контакти, «Ви за кордоном?» | `#contacts` | `contacts` |
-| 7 | Підвал | — | `footer` |
+| 1 | Title and intro, scene, countdown | `#top` | `hero` |
+| 2 | About us: community, organizer, gallery | `#about` | `about` |
+| 3 | What World Youth Day is, costs | `#wyd` | `wyd` |
+| 4 | How to help: steps, our events, other ways | `#help` | `help` |
+| 5 | Our thanks: the pilgrim postcard | `#thanks` | `thanks` |
+| 6 | Contacts, "Living abroad?" | `#contacts` | `contacts` |
+| 7 | Footer | — | `footer` |
 
-Меню в шапці й підвалі складається з якірних посилань (`nav` у `texts.ts`). Старі адреси `/about/`, `/trip/` і `/help/` перенаправляють на відповідні секції — це налаштовано в `redirects` у [astro.config.mjs](astro.config.mjs).
+The header and footer menus are anchor links (`nav` in `texts.ts`). The old addresses `/about/`, `/trip/` and `/help/` redirect to the matching sections; see `redirects` in [astro.config.mjs](astro.config.mjs).
 
-## Як змінити тексти
+## Editing texts
 
-Усі тексти лежать в одному файлі: [src/content/texts.ts](src/content/texts.ts), розкладені за секціями. Правте лише те, що в лапках.
+All texts live in one file, [src/content/texts.ts](src/content/texts.ts), grouped by section. Only edit what's inside the quotes.
 
-- **Назва проєкту** — `site.name` на початку файлу. Вона підставляється в шапку, підвал, заголовок і метатеги. Слова, виділені кольором на першому екрані, — у `site.nameAccents`.
-- Після зміни назви або рядка `hero.eventLine` запустіть `npm run og`, щоб оновити картинку для соцмереж.
-- Дата, до якої рахує таймер, — `site.eventStart`.
-- У довших текстах працюють позначки `**жирний**` і `[текст посилання](адреса)`. Зовнішні посилання самі відкриваються в новій вкладці й отримують іконку.
-- `\u00a0` — нерозривний пробіл між числом і одиницею (`200\u00a0грн`). Не видаляйте його.
+- **Project name**: `site.name` at the top of the file. It's used in the header, footer, page title and meta tags. The words highlighted in color on the first screen are in `site.nameAccents`.
+- After changing the name or `hero.eventLine`, run `npm run og` to update the social media image.
+- The countdown target date is `site.eventStart`.
+- Longer texts support `**bold**` and `[link text](url)`. External links open in a new tab and get an icon automatically.
+- ` ` is a non-breaking space between a number and its unit (`200 грн`). Don't remove it.
 
-## Як змінити контакти
+## Editing contacts
 
-Файл [src/data/contacts.ts](src/data/contacts.ts). Для контактної особи вкажіть:
+Edit [src/data/contacts.ts](src/data/contacts.ts). For the contact person, set:
 
-- `name` — ім’я (за бажання ще `role` — роль);
-- `phone` — номер у форматі `+380501234567`, без пробілів;
-- `telegram` — ім’я користувача без `@`;
-- `viber` — `true`, якщо на цьому номері є Viber.
+- `name`: their name (optionally `role` too);
+- `phone`: the number as `+380501234567`, no spaces;
+- `telegram`: the username without `@`;
+- `viber`: `true` if this number has Viber.
 
-Посилання для дзвінка й месенджерів складаються самі. Якщо якогось каналу немає, видаліть його рядок — кнопка зникне.
+Call and messenger links are built automatically. If a channel isn't available, delete its line and the button disappears.
 
-## Як замінити фото
+## Replacing photos
 
-Покладіть файл у теку [src/assets/photos/](src/assets/photos/) з потрібною назвою. Розширення може бути `.jpg`, `.jpeg`, `.png` або `.webp`. Сайт сам зробить зменшені копії у форматі WebP.
+Put the file in [src/assets/photos/](src/assets/photos/) with the right name. The extension can be `.jpg`, `.jpeg`, `.png` or `.webp`. The site generates smaller WebP copies on its own.
 
-| Назва файлу | Де показується | Яке фото |
+| File name | Where it appears | What photo |
 |---|---|---|
-| `hero` | перший екран, галерея | групове фото всієї молоді (уже є) |
-| `community` | секція «Хто ми», галерея | спільне фото нашої молоді, горизонтальне, 4:3 (уже є) |
-| `gallery-1` | галерея | підготовка до ярмарку (уже є) |
-| `gallery-2` | галерея | спільна мандрівка чи похід |
-| `gallery-3` | галерея | ярмарок або власноруч зроблені речі (уже є) |
-| `gallery-4` | галерея | концерт або репетиція |
+| `hero` | first screen, gallery | group photo of all the young people (done) |
+| `community` | "About us" section, gallery | group photo of our youth, landscape, 4:3 (done) |
+| `gallery-1` | gallery | preparing for a fair (done) |
+| `gallery-2` | gallery | a trip or hike together |
+| `gallery-3` | gallery | a fair or handmade items (done) |
+| `gallery-4` | gallery | a concert or rehearsal |
 
-Поки файлу немає, на його місці стоїть заглушка з підказкою. У галереї відсутні фото просто не показуються.
+Until a file is added, a placeholder with a hint is shown in its place. Missing gallery photos are simply not shown.
 
-- Найкраще підходять горизонтальні фото завширшки від 2000 px. Надто великі файли (понад 3–4 МБ) краще зменшити перед додаванням.
-- Підписи для незрячих користувачів (`alt`) — у [src/data/photos.ts](src/data/photos.ts). Оновіть їх, коли додасте фото.
-- Щоб змінити набір фото в галереї, поправте список `ids` у [src/pages/index.astro](src/pages/index.astro).
-- Після заміни `hero` запустіть `npm run og`.
+- Landscape photos 2000 px wide or more work best. Very large files (over 3–4 MB) are better downsized before adding.
+- Alt text for screen reader users is in [src/data/photos.ts](src/data/photos.ts). Update it when you add a photo.
+- To change which photos are in the gallery, edit the `ids` list in [src/pages/index.astro](src/pages/index.astro).
+- After replacing `hero`, run `npm run og`.
 
-## Як додати макет листівки
+## Adding the postcard design
 
-Покладіть файл `src/assets/card/card.png` (або `.jpg`, `.webp`) — він з’явиться замість заглушки в секції «Наша подяка». Формат Паломницької листівки: A6, 148 × 105 мм, тобто приблизно 1748 × 1240 px.
+Add `src/assets/card/card.png` (or `.jpg`, `.webp`) and it will replace the placeholder in the "Our thanks" section. The pilgrim postcard is A6, 148 × 105 mm, roughly 1748 × 1240 px.
 
-## Як змінити стиль
+## Changing the style
 
-Кольори, шрифти, відступи й радіуси зібрано в одному файлі: [src/styles/tokens.css](src/styles/tokens.css). Щоб підлаштувати сайт під макет листівки, достатньо поправити кольори там.
+Colors, fonts, spacing and radii are all in one file: [src/styles/tokens.css](src/styles/tokens.css). To match the site to the postcard design, adjusting the colors there is enough.
 
-## Публікація
+## Deployment
 
-Сайт хоститься на Cloudflare Pages за адресою https://wyd-seoul-uzhhorod.org. Cloudflare сам збирає сайт із GitHub-репозиторію після кожного `git push` у гілку `main` (налаштування: Build command `npm run build`, Build output directory `dist`).
+The site is hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. Cloudflare builds it from this GitHub repository after every `git push` to `main` (settings: build command `npm run build`, build output directory `dist`).
 
-Адреса сайту задається в [astro.config.mjs](astro.config.mjs) рядком `SITE`.
+The site address is set by the `SITE` line in [astro.config.mjs](astro.config.mjs).
 
-## Структура
+## Project structure
 
 ```
 src/
-  content/texts.ts     усі тексти
-  data/contacts.ts     контакти
-  data/photos.ts       список фото й підписи до них
-  assets/photos/       фото
-  assets/card/         макет листівки
-  styles/tokens.css    кольори, шрифти, відступи
-  components/          шапка, підвал, таймер, картки, галерея
-  layouts/Base.astro   спільний каркас сторінки
-  pages/index.astro    єдина сторінка з усіма секціями
-  pages/404.astro      сторінка «не знайдено"
-scripts/               перевірки, скріншоти, картинка для соцмереж
+  content/texts.ts     all texts
+  data/contacts.ts     contact details
+  data/photos.ts       photo list and alt text
+  assets/photos/       photos
+  assets/card/         postcard design
+  styles/tokens.css    colors, fonts, spacing
+  components/          header, footer, countdown, cards, gallery
+  layouts/Base.astro   shared page layout
+  pages/index.astro    the single page with all sections
+  pages/404.astro      "not found" page
+scripts/               tests, screenshots, social media image
 ```
 
-## Список усіх [TODO]
+## TODO
 
-**Контакти** — [src/data/contacts.ts](src/data/contacts.ts). Зараз там вигадані дані:
+**Contacts**: [src/data/contacts.ts](src/data/contacts.ts) still has placeholder data:
 
-- [ ] ім’я контактної особи (`name`)
-- [ ] номер телефону (`phone`, зараз `+380 00 000 00 01`); чи є на ньому Viber
-- [ ] Telegram (`telegram`, зараз `todo_username`)
+- [ ] contact person's name (`name`)
+- [ ] phone number (`phone`, currently `+380 00 000 00 01`); whether it has Viber
+- [ ] Telegram (`telegram`, currently `todo_username`)
 
-**Фото** — [src/assets/photos/](src/assets/photos/):
+**Photos**: [src/assets/photos/](src/assets/photos/):
 
-- [ ] `gallery-2`, `gallery-4` (два фото; `hero`, `community`, `gallery-1`, `gallery-3` уже є)
+- [ ] `gallery-2`, `gallery-4` (two photos; `hero`, `community`, `gallery-1`, `gallery-3` are done)
 
-**Макет листівки** — [src/assets/card/](src/assets/card/):
+**Postcard design**: [src/assets/card/](src/assets/card/):
 
-- [ ] `card.png` (A6, 148 × 105 мм)
+- [ ] `card.png` (A6, 148 × 105 mm)
