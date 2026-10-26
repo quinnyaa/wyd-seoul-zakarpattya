@@ -109,9 +109,15 @@ Every click on a link or button is counted: menu, "Help" buttons, contacts, exte
 - `place`: where on the page (`header`, `footer`, `sticky`, `lightbox` or the section id: `top`, `about`, `help`…);
 - `label`: the button's text;
 - `contact`: the name on the contact card, if the click was on it;
-- `source`: where the visitor came from, either the `?from=` tag of the link they opened or the referring site.
+- `source`: where the visitor came from (see below).
 
-To compare channels, share the site with a tag, e.g. `https://wyd-seoul-uzhhorod.org/?from=telegram`, `?from=viber`, `?from=instagram`, `?from=poster`. Use lowercase Latin letters, digits, `-` and `_`. Each visit through a tagged link is stored as `landing`, and all clicks during that visit carry the same `source`.
+The source is worked out in this order:
+
+1. The `?from=` tag of the link the visitor opened, e.g. `https://wyd-seoul-uzhhorod.org/?from=poster`. Use lowercase Latin letters, digits, `-` and `_`.
+2. The in-app browser of Facebook, Messenger, Instagram, TikTok and some others, recognised from the User-Agent (the User-Agent itself isn't stored).
+3. The referring site or Android app, with familiar ones given short names: `telegram`, `viber`, `whatsapp`, `facebook`, `google`… Other sites are stored by their address.
+
+Messengers on iPhone pass nothing, so those visits stay without a source unless the link has a tag. The first page load of a visit with a known source is stored as `landing`, and all clicks during that visit carry the same `source`.
 
 The function stores the click in a D1 database with the time. No IP addresses, cookies or other visitor data are stored. New links and buttons are counted automatically. Give a button a `data-link` name if its address alone doesn't say what it is. A click only means someone pressed the button, not that they actually called or wrote.
 

@@ -148,6 +148,31 @@ const fontCss = [
 
       // Звідки прийшли: мітка ?from=telegram у посиланні або сайт, з якого перейшли.
       // Пам’ятаємо до кінця візиту: посилання меню (/#help) перезавантажують сторінку вже без мітки
+      // Без мітки: вбудований браузер застосунку видно з User-Agent (сам User-Agent не зберігаємо),
+      // а сайт чи застосунок на Android — з referrer (l.facebook.com, android-app://org.telegram.messenger).
+      // Месенджери на iPhone нічого не передають, такі візити лишаються без джерела
+      const IN_APP: [RegExp, string][] = [
+        [/messenger|orca-android/i, 'messenger'],
+        [/fban|fbav|fb_iab|fbios/i, 'facebook'],
+        [/instagram/i, 'instagram'],
+        [/musical_ly|bytedancewebview|tiktok/i, 'tiktok'],
+        [/telegram/i, 'telegram'],
+        [/viber/i, 'viber'],
+      ];
+      const REFERRERS: [RegExp, string][] = [
+        [/telegram|^t\.me$/, 'telegram'],
+        [/viber/, 'viber'],
+        [/whatsapp/, 'whatsapp'],
+        [/messenger|facebook\.orca|^m\.me$/, 'messenger'],
+        [/facebook|^fb\.(com|me)$/, 'facebook'],
+        [/instagram/, 'instagram'],
+        [/tiktok|musically/, 'tiktok'],
+        [/youtube/, 'youtube'],
+        [/android\.gm$|mail\.google/, 'gmail'],
+        [/google/, 'google'],
+      ];
+      const match = (value: string, rules: [RegExp, string][]) => rules.find(([re]) => re.test(value))?.[1];
+
       function getSource() {
         const from = (new URLSearchParams(location.search).get('from') ?? '')
           .toLowerCase()
@@ -155,16 +180,19 @@ const fontCss = [
           .slice(0, 30);
         let referrer = '';
         try {
-          const host = document.referrer ? new URL(document.referrer).host : '';
-          if (host !== location.host) referrer = host;
+          const host = document.referrer ? new URL(document.referrer).host.toLowerCase() : '';
+          if (host && host !== location.host) referrer = match(host, REFERRERS) ?? host.replace(/^www\./, '');
         } catch {}
-        const fresh = from || referrer;
+        const fresh = from || match(navigator.userAgent, IN_APP) || referrer;
         let source = fresh;
+        let stored = '';
         try {
+          stored = sessionStorage.getItem('source') ?? '';
           if (fresh) sessionStorage.setItem('source', fresh);
-          else source = sessionStorage.getItem('source') ?? '';
+          else source = stored;
         } catch {}
-        return { source, from };
+        // Новий візит з відомим джерелом; перезавантаження в тому самому візиті не рахуємо вдруге
+        return { source, landing: Boolean(fresh) && fresh !== stored };
       }
 
       // Лічильник кліків по всіх посиланнях і кнопках. Надсилає, що натиснули (data-link або адресу),
@@ -172,11 +200,11 @@ const fontCss = [
       // Далі functions/api/click.ts
       function initClicks() {
         if (!('sendBeacon' in navigator)) return;
-        const { source, from } = getSource();
+        const { source, landing } = getSource();
         const send = (data: { link: string; place?: string; label?: string; contact?: string }) =>
           navigator.sendBeacon('/api/click', JSON.stringify({ ...data, source }));
-        // Перехід за посиланням із міткою рахуємо окремо, щоб порівнювати канали: прийшли → натиснули
-        if (from) send({ link: 'landing' });
+        // Прихід із відомого джерела рахуємо окремо, щоб порівнювати канали: прийшли → натиснули
+        if (landing) send({ link: 'landing' });
         const placeOf = (el: Element) => {
           if (el.closest('dialog')) return 'lightbox';
           if (el.closest('.sticky-help')) return 'sticky';

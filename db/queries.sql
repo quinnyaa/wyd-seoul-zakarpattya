@@ -19,7 +19,7 @@ SELECT place, label, count(*) AS clicks FROM clicks
 WHERE link LIKE '%#help'
 GROUP BY place, label ORDER BY clicks DESC;
 
--- Канали (?from=telegram тощо): скільки прийшло і скільки з них натиснули контакти
+-- Канали (telegram, facebook, ?from=… тощо): скільки прийшло і скільки з них натиснули контакти
 SELECT source,
   sum(link = 'landing') AS came,
   sum(link IN ('tel', 'viber', 'telegram', 'abroad')) AS contacts,
