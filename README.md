@@ -63,7 +63,8 @@ Edit [src/data/contacts.ts](src/data/contacts.ts). For the contact person, set:
 - `name`: their name (optionally `role` too);
 - `phone`: the number as `+380501234567`, no spaces;
 - `telegram`: the username without `@`;
-- `viber`: `true` if this number has Viber.
+- `viber`: `true` if this number has Viber;
+- `whatsapp`: `true` if this number has WhatsApp.
 
 Call and messenger links are built automatically. If a channel isn't available, delete its line and the button disappears.
 
@@ -105,7 +106,7 @@ The site address is set by the `SITE` line in [astro.config.mjs](astro.config.mj
 
 Every click on a link or button is counted: menu, "Help" buttons, contacts, external links, gallery photos. For each click the page sends to `/api/click`, a Cloudflare Pages Function ([functions/api/click.ts](functions/api/click.ts)):
 
-- `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `abroad`, `menu`, `photo-hero`, `photo-next`…) or the link's address (`/#help`, `https://wydseoul.org/en`);
+- `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `whatsapp`, `abroad`, `menu`, `photo-hero`, `photo-next`…) or the link's address (`/#help`, `https://wydseoul.org/en`);
 - `place`: where on the page (`header`, `footer`, `sticky`, `lightbox` or the section id: `top`, `about`, `help`…);
 - `label`: the button's text;
 - `contact`: the name on the contact card, if the click was on it;
@@ -154,7 +155,7 @@ scripts/               tests, screenshots, social media image
 
 **Contacts**: [src/data/contacts.ts](src/data/contacts.ts):
 
-- [x] contact person's name, phone and Viber
+- [x] contact person's name, phone, Viber and WhatsApp
 - [ ] Telegram (`telegram`), optional: without it the Telegram button is hidden
 
 **Photos**: [src/assets/photos/](src/assets/photos/):

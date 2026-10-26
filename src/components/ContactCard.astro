@@ -19,6 +19,12 @@ const channels = [
     icon: 'M6.5 4h2.5l1.5 4-2 1.5a10 10 0 0 0 5 5l1.5-2 4 1.5v2.5a2 2 0 0 1-2 2C10.5 18.5 5 13 4.5 6a2 2 0 0 1 2-2ZM14 4.5a5.5 5.5 0 0 1 5.5 5.5M14 7.5a2.5 2.5 0 0 1 2.5 2.5',
   },
   {
+    id: 'whatsapp',
+    label: 'WhatsApp',
+    href: links.whatsapp(contact),
+    icon: 'M7.9 20A9 9 0 1 0 4 16.1L2 22Z',
+  },
+  {
     id: 'telegram',
     label: 'Telegram',
     href: links.telegram(contact),
@@ -159,5 +165,9 @@ const channels = [
 
   .contact__channel--viber {
     background: var(--c-pink-tint);
+  }
+
+  .contact__channel--whatsapp {
+    background: var(--c-jade-tint);
   }
 </style>

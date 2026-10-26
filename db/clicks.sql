@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS clicks (
   id INTEGER PRIMARY KEY,
   at TEXT NOT NULL DEFAULT (datetime('now')), -- час за UTC
-  link TEXT NOT NULL,  -- що натиснули: tel, viber, abroad, menu, photo-… або адреса посилання (#help, https://…);
+  link TEXT NOT NULL,  -- що натиснули: tel, viber, whatsapp, abroad, menu, photo-… або адреса посилання (#help, https://…);
                        -- landing — прихід на сайт із відомого джерела (один раз за візит)
   place TEXT,          -- де на сторінці: header, footer, sticky, lightbox або id секції (top, about, help…)
   label TEXT,          -- підпис кнопки чи посилання

@@ -6,6 +6,7 @@
   phone     — номер у міжнародному форматі, без пробілів: '+380501234567'
   telegram  — ім’я користувача без @ (або видаліть рядок, якщо Telegram немає)
   viber     — true, якщо на цьому номері є Viber
+  whatsapp  — true, якщо на цьому номері є WhatsApp
 */
 
 export interface Contact {
@@ -14,6 +15,7 @@ export interface Contact {
   phone: string;
   telegram?: string;
   viber?: boolean;
+  whatsapp?: boolean;
 }
 
 export const contacts: Contact[] = [
@@ -22,6 +24,7 @@ export const contacts: Contact[] = [
     role: 'організатор благодійної збірки',
     phone: '+380634181041',
     viber: true,
+    whatsapp: true,
   },
 ];
 
@@ -36,6 +39,7 @@ export const links = {
   tel: (c: Contact) => `tel:+${digits(c.phone)}`,
   telegram: (c: Contact) => (c.telegram ? `https://t.me/${c.telegram}` : undefined),
   viber: (c: Contact) => (c.viber ? `viber://chat?number=%2B${digits(c.phone)}` : undefined),
+  whatsapp: (c: Contact) => (c.whatsapp ? `https://wa.me/${digits(c.phone)}` : undefined),
 };
 
 /** '+380501234567' → '+380 50 123 45 67' */

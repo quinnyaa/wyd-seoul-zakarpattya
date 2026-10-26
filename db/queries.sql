@@ -6,7 +6,7 @@ GROUP BY link, place, label ORDER BY clicks DESC;
 
 -- Тільки контакти: телефон, месенджери, «Живете за кордоном?»
 SELECT contact, link, count(*) AS clicks FROM clicks
-WHERE link IN ('tel', 'viber', 'telegram', 'abroad')
+WHERE link IN ('tel', 'viber', 'whatsapp', 'telegram', 'abroad')
 GROUP BY contact, link ORDER BY clicks DESC;
 
 -- Тільки зовнішні посилання
@@ -22,7 +22,7 @@ GROUP BY place, label ORDER BY clicks DESC;
 -- Канали (telegram, facebook, ?from=… тощо): скільки прийшло і скільки з них натиснули контакти
 SELECT source,
   sum(link = 'landing') AS came,
-  sum(link IN ('tel', 'viber', 'telegram', 'abroad')) AS contacts,
+  sum(link IN ('tel', 'viber', 'whatsapp', 'telegram', 'abroad')) AS contacts,
   sum(link <> 'landing') AS all_clicks
 FROM clicks WHERE source IS NOT NULL
 GROUP BY source ORDER BY came DESC;
