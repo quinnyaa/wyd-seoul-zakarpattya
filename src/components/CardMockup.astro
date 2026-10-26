@@ -7,13 +7,14 @@
 import { getImage, Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Ornament from './Ornament.astro';
-import { site, thanks } from '../content/texts';
+import { useI18n } from '../utils/i18n';
 
 const files = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/card/card.{png,jpg,jpeg,webp,PNG,JPG,JPEG,WEBP}',
   { eager: true },
 );
 const image = Object.values(files)[0]?.default;
+const { site, thanks } = useI18n(Astro).t;
 const { mockup } = thanks;
 
 // На листівці дрібний текст, тож для збільшеного перегляду якість вища, ніж у фото
@@ -47,7 +48,7 @@ const wide = image ? image.width / image.height > 2 : false;
             data-width={full.attributes.width}
             data-height={full.attributes.height}
             data-alt={mockup.alt}
-            aria-label={`Збільшити: ${mockup.alt}`}
+            aria-label={`${mockup.open}: ${mockup.alt}`}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />

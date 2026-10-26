@@ -1,8 +1,8 @@
 ---
 /* Картка контактної особи: телефон і кнопки месенджерів. Дані — у src/data/contacts.ts. */
 import ExternalIcon from './ExternalIcon.astro';
-import { contacts as texts } from '../content/texts';
 import { formatPhone, links, type Contact } from '../data/contacts';
+import { defaultLang, translate, useI18n } from '../utils/i18n';
 import { isExternal } from '../utils/rich';
 
 interface Props {
@@ -10,6 +10,12 @@ interface Props {
 }
 
 const { contact } = Astro.props;
+const { lang, t } = useI18n(Astro);
+const texts = t.contacts;
+const name = translate(contact.name, lang);
+const role = contact.role && translate(contact.role, lang);
+// Для лічильника кліків ім’я завжди основною мовою, щоб кліки з усіх мов рахувалися разом
+const trackName = translate(contact.name, defaultLang);
 
 const channels = [
   {
@@ -33,10 +39,10 @@ const channels = [
 ].flatMap((channel) => (channel.href ? [{ ...channel, href: channel.href }] : []));
 ---
 
-<article class="contact" data-contact={contact.name}>
+<article class="contact" data-contact={trackName}>
   <header>
-    <h3 class="contact__name">{contact.name}</h3>
-    {contact.role && <p class="contact__role">{contact.role}</p>}
+    <h3 class="contact__name">{name}</h3>
+    {role && <p class="contact__role">{role}</p>}
   </header>
 
   <a class="contact__phone" href={links.tel(contact)} data-link="tel">

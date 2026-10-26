@@ -1,13 +1,14 @@
 ---
-/* Текст із позначками **жирний** і [посилання](адреса) — див. src/content/texts.ts. */
+/* Текст із позначками **жирний** і [посилання](адреса) — див. src/content/texts/uk.ts. */
 import ExternalIcon from './ExternalIcon.astro';
 import { isExternal, parseRich } from '../utils/rich';
-import { url } from '../utils/url';
+import { useI18n } from '../utils/i18n';
 
 interface Props {
   text: string;
 }
 
+const { link } = useI18n(Astro);
 const parts = parseRich(Astro.props.text);
 ---
 
@@ -19,7 +20,7 @@ const parts = parseRich(Astro.props.text);
       isExternal(part.href) ? (
         <a class="text-link" href={part.href} target="_blank" rel="noopener noreferrer">{part.text}<ExternalIcon /></a>
       ) : (
-        <a class="text-link" href={url(part.href)}>{part.text}</a>
+        <a class="text-link" href={link(part.href)}>{part.text}</a>
       )
     ) : (
       part.text

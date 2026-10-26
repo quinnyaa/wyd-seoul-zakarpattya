@@ -2,15 +2,19 @@
 import ExternalIcon from './ExternalIcon.astro';
 import Logo from './Logo.astro';
 import Ornament from './Ornament.astro';
-import { footer, nav, site } from '../content/texts';
-import { url } from '../utils/url';
+import { useI18n } from '../utils/i18n';
+
+const { lang, t, link } = useI18n(Astro);
+const { footer, nav, site } = t;
+// Рядки внизу можуть бути іншою мовою, ніж сторінка (зараз — англійською)
+const legalLang = footer.legalLang === lang ? undefined : footer.legalLang;
 ---
 
 <footer class="footer">
   <Ornament tone="light" size={3} />
   <div class="container footer__grid">
     <div class="footer__about">
-      <a class="footer__brand" href={url('/')}>
+      <a class="footer__brand" href={link('/')}>
         <Logo />
         <span>{site.name}</span>
       </a>
@@ -22,7 +26,7 @@ import { url } from '../utils/url';
         {
           nav.map((item) => (
             <li>
-              <a href={url(`/${item.href}`)}>{item.label}</a>
+              <a href={link(`/${item.href}`)}>{item.label}</a>
             </li>
           ))
         }
@@ -32,13 +36,13 @@ import { url } from '../utils/url';
     <p class="footer__note">{footer.disclaimer}</p>
   </div>
   <div class="container footer__legal">
-    <p lang="en">
+    <p lang={legalLang}>
       {footer.privacy}
       <a href={footer.sourceHref} target="_blank" rel="noopener noreferrer">
         {footer.sourceLabel}<ExternalIcon />
       </a>
     </p>
-    <p lang="en">{footer.rights}</p>
+    <p lang={legalLang}>{footer.rights}</p>
   </div>
 </footer>
 
@@ -119,8 +123,8 @@ import { url } from '../utils/url';
     color: #fff;
   }
 
-  /* Місце під закріплену кнопку «Допомогти» на мобільному */
-  @media (max-width: 56.24em) {
+  /* Місце під закріплену кнопку «Допомогти» (вона є, поки в шапці меню-бургер) */
+  @media (max-width: 63.99em) {
     .footer {
       padding-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom, 0px));
     }

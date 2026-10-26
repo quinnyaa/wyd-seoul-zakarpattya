@@ -1,13 +1,22 @@
 ---
 import Arrow from './Arrow.astro';
+import LangSwitch from './LangSwitch.astro';
 import Logo from './Logo.astro';
-import { nav, site } from '../content/texts';
-import { url } from '../utils/url';
+import { useI18n, type alternates } from '../utils/i18n';
+
+interface Props {
+  /** Ця сама сторінка всіма мовами; вибір мови показується, якщо мов більше однієї. */
+  languages: ReturnType<typeof alternates>;
+}
+
+const { languages } = Astro.props;
+const { t, link } = useI18n(Astro);
+const { nav, site } = t;
 ---
 
 <header class="header">
   <div class="header__bar container">
-    <a class="header__brand" href={url('/')} aria-label={`${site.name} — ${site.homeLabel}`}>
+    <a class="header__brand" href={link('/')} aria-label={`${site.name} — ${site.homeLabel}`}>
       <Logo />
       <span>{site.name}</span>
     </a>
@@ -32,17 +41,18 @@ import { url } from '../utils/url';
           {
             nav.map((item, i) => (
               <li style={`--i:${i}`}>
-                <a class="menu__link" href={url(`/${item.href}`)}>
+                <a class="menu__link" href={link(`/${item.href}`)}>
                   {item.label}
                 </a>
               </li>
             ))
           }
         </ul>
-        <a class="btn btn--primary menu__help" href={url('/#help')}>
+        <a class="btn btn--primary menu__help" href={link('/#help')}>
           {site.helpButton}
           <Arrow />
         </a>
+        {languages.length > 1 && <LangSwitch links={languages} />}
       </div>
     </nav>
   </div>
@@ -126,7 +136,7 @@ import { url } from '../utils/url';
   initScrollSpy();
 
   // Якщо екран розширили до десктопного, закриваємо мобільне меню
-  window.matchMedia('(min-width: 56.25em)').addEventListener('change', (event) => {
+  window.matchMedia('(min-width: 64em)').addEventListener('change', (event) => {
     if (event.matches) setMenu(false);
   });
 </script>
@@ -280,9 +290,16 @@ import { url } from '../utils/url';
     font-size: 1.0625rem;
   }
 
-  /* ----- Десктоп ----- */
+  /* На телефоні мови — угорі меню, щоб їх одразу бачив той, хто не читає українською */
+  .menu__panel > :global(.langs) {
+    order: -1;
+  }
 
-  @media (min-width: 56.25em) {
+  /* ----- Десктоп -----
+     З 64em, а не з 56.25em, як решта сайту: назва, п’ять пунктів, кнопка й перемикач мов
+     у вужчу шапку не вміщаються. До 64em — меню-бургер і закріплена кнопка внизу (Base.astro) */
+
+  @media (min-width: 64em) {
     .header__brand {
       font-size: 1rem;
     }
@@ -306,7 +323,7 @@ import { url } from '../utils/url';
     .menu__panel {
       display: flex;
       align-items: center;
-      gap: var(--s-5);
+      gap: clamp(var(--s-4), 4vw - 1.5rem, var(--s-5));
     }
 
     .menu__list {
@@ -314,11 +331,14 @@ import { url } from '../utils/url';
       gap: var(--s-1);
     }
 
+    /* Відступи пунктів стискаються на вужчих екранах, а пункти не переносяться на два рядки */
     .menu__link {
+      --pad: clamp(0.5rem, 3vw - 1.75rem, 0.875rem);
       position: relative;
       min-height: 2.75rem;
-      padding-inline: 0.875rem;
+      padding-inline: var(--pad);
       border: 0;
+      white-space: nowrap;
       font-family: var(--font-body);
       font-size: 1rem;
       font-weight: 700;
@@ -327,8 +347,8 @@ import { url } from '../utils/url';
     .menu__link::after {
       content: '';
       position: absolute;
-      left: 0.875rem;
-      right: 0.875rem;
+      left: var(--pad);
+      right: var(--pad);
       bottom: 0.5rem;
       height: 2px;
       border-radius: 2px;
@@ -346,6 +366,10 @@ import { url } from '../utils/url';
     .menu__help {
       min-height: 2.75rem;
       font-size: 1rem;
+    }
+
+    .menu__panel > :global(.langs) {
+      order: 0;
     }
   }
 </style>

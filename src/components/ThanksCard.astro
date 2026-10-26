@@ -3,7 +3,9 @@
 import CardMockup from './CardMockup.astro';
 import Ornament from './Ornament.astro';
 import Rich from './Rich.astro';
-import { thanks } from '../content/texts';
+import { useI18n } from '../utils/i18n';
+
+const { thanks } = useI18n(Astro).t;
 ---
 
 <section class="thanks" id="thanks" tabindex="-1" aria-labelledby="thanks-title">

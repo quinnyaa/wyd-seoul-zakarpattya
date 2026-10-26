@@ -7,12 +7,14 @@ import { getImage } from 'astro:assets';
 import Lightbox from './Lightbox.astro';
 import Photo from './Photo.astro';
 import { getPhoto, type PhotoId } from '../data/photos';
+import { useI18n } from '../utils/i18n';
 
 interface Props {
   ids: PhotoId[];
 }
 
 const { ids } = Astro.props;
+const { photos } = useI18n(Astro).t;
 
 const items = await Promise.all(
   ids
@@ -21,7 +23,7 @@ const items = await Promise.all(
     .map(async ({ id, photo }) => {
       const width = Math.min(1800, photo.image!.width);
       const full = await getImage({ src: photo.image!, width, format: 'webp', quality: 78 });
-      return { id, photo, full };
+      return { id, full, alt: photos.alt[id] };
     }),
 );
 
@@ -31,7 +33,7 @@ const twoCols = items.length === 4;
 
 <ul class:list={['grid', { 'grid--2': twoCols }]}>
   {
-    items.map(({ id, photo, full }, i) => (
+    items.map(({ id, full, alt }, i) => (
       <li class="grid__item reveal" style={`--i:${i % 3}`}>
         <Photo
           id={id}
@@ -46,8 +48,8 @@ const twoCols = items.length === 4;
           data-full={full.src}
           data-width={full.attributes.width}
           data-height={full.attributes.height}
-          data-alt={photo.alt}
-          aria-label={`Збільшити фото: ${photo.alt}`}
+          data-alt={alt}
+          aria-label={`${photos.open}: ${alt}`}
         >
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />

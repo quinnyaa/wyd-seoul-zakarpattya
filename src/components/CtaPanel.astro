@@ -3,7 +3,7 @@
 import Arrow from './Arrow.astro';
 import Ornament from './Ornament.astro';
 import Rich from './Rich.astro';
-import { url } from '../utils/url';
+import { useI18n } from '../utils/i18n';
 
 interface Props {
   eyebrow: string;
@@ -17,6 +17,7 @@ interface Props {
 }
 
 const { eyebrow, title, titleId, text, button, href } = Astro.props;
+const { link } = useI18n(Astro);
 ---
 
 <div class="cta reveal">
@@ -25,7 +26,7 @@ const { eyebrow, title, titleId, text, button, href } = Astro.props;
     <p class="cta__eyebrow">{eyebrow}</p>
     <h2 id={titleId}>{title}</h2>
     {text.map((paragraph) => <p class="cta__text"><Rich text={paragraph} /></p>)}
-    <a class="btn btn--light btn--lg" href={url(href)} data-sticky-hide>
+    <a class="btn btn--light btn--lg" href={link(href)} data-sticky-hide>
       {button}
       <Arrow />
     </a>

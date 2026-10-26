@@ -1,9 +1,17 @@
 ---
-import Arrow from '../components/Arrow.astro';
-import HeroScene from '../components/HeroScene.astro';
-import { notFound } from '../content/texts';
-import Base from '../layouts/Base.astro';
-import { url } from '../utils/url';
+import Arrow from '../../components/Arrow.astro';
+import HeroScene from '../../components/HeroScene.astro';
+import { languages } from '../../content/languages';
+import Base from '../../layouts/Base.astro';
+import { defaultLang, useI18n } from '../../utils/i18n';
+
+// «Не знайдено» кожною мовою: Cloudflare Pages показує найближчий 404.html вгору по теці (/en/404.html для /en/…)
+export function getStaticPaths() {
+  return languages.map(({ code }) => ({ params: { lang: code === defaultLang ? undefined : code } }));
+}
+
+const { t, link } = useI18n(Astro);
+const { notFound } = t;
 ---
 
 <Base title={notFound.title} noindex>
@@ -12,7 +20,7 @@ import { url } from '../utils/url';
       <p class="lost__code" aria-hidden="true">404</p>
       <h1>{notFound.heading}</h1>
       <p class="lead">{notFound.text}</p>
-      <a class="btn btn--primary btn--lg" href={url('/')}>
+      <a class="btn btn--primary btn--lg" href={link('/')}>
         {notFound.button}
         <Arrow />
       </a>

@@ -5,6 +5,7 @@
 */
 import { Picture } from 'astro:assets';
 import { getPhoto, type PhotoId } from '../data/photos';
+import { useI18n } from '../utils/i18n';
 
 interface Props {
   id: PhotoId;
@@ -28,6 +29,8 @@ const {
 } = Astro.props;
 
 const photo = getPhoto(id);
+const { photos } = useI18n(Astro).t;
+const alt = photos.alt[id];
 ---
 
 <div class:list={['photo', className]} style={`aspect-ratio:${ratio}`}>
@@ -35,7 +38,7 @@ const photo = getPhoto(id);
     photo.image ? (
       <Picture
         src={photo.image}
-        alt={photo.alt}
+        alt={alt}
         formats={['webp']}
         widths={widths}
         sizes={sizes}
@@ -45,13 +48,13 @@ const photo = getPhoto(id);
         fetchpriority={priority ? 'high' : 'auto'}
       />
     ) : (
-      <div class="photo__placeholder" role="img" aria-label={`Місце для фото: ${photo.alt}`}>
+      <div class="photo__placeholder" role="img" aria-label={`${photos.placeholder}: ${alt}`}>
         <svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="5" y="9" width="38" height="30" rx="5" />
           <circle cx="17" cy="20" r="3.5" />
           <path d="m7 34 10-9 7 6 6-5 11 9" />
         </svg>
-        <strong>Місце для фото</strong>
+        <strong>{photos.placeholder}</strong>
         <span>{photo.hint}</span>
         <code>src/assets/photos/{photo.file}.jpg</code>
       </div>

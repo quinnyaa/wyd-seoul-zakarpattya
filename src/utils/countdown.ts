@@ -1,13 +1,9 @@
-/** Форми слова: для 1, для 2–4, для 5 і більше. */
-export type Forms = readonly string[];
+/** Форми слова за правилами множини мови: { one: 'день', few: 'дні', many: 'днів' } або { one: 'day', other: 'days' }. */
+export type PluralForms = Partial<Record<Intl.LDMLPluralRule, string>>;
 
-/** Українська множина: 1 день, 2 дні, 5 днів. */
-export function plural(n: number, forms: Forms): string {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return forms[0] ?? '';
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1] ?? '';
-  return forms[2] ?? '';
+/** Слово у формі, яка пасує до числа: 1 день, 2 дні, 5 днів; 1 day, 2 days. */
+export function plural(n: number, forms: PluralForms, lang: string): string {
+  return forms[new Intl.PluralRules(lang).select(n)] ?? forms.other ?? forms.many ?? '';
 }
 
 export function timeLeft(target: number, now: number) {

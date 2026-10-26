@@ -2,11 +2,11 @@
 
 A one-page fundraising site for the pilgrimage of young people from the Neocatechumenal communities of Uzhhorod, Ukraine, to World Youth Day in Seoul (3–8 August 2027).
 
-It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian. Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
+It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian, and it's ready for translations (see [Languages](#languages)). Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
 
 ## License
 
-The site's code is released under the [MIT License](LICENSE). The license does not cover the content: the photos (`src/assets/photos/` and the social media image `public/og.jpg` made from them), the postcard design (`src/assets/card/`), the texts (`src/content/texts.ts`) and the contact details (`src/data/contacts.ts`). The content belongs to the young people of the Uzhhorod communities and may not be used or shared without permission. The World Youth Day Seoul 2027 logo on the postcard belongs to its owners.
+The site's code is released under the [MIT License](LICENSE). The license does not cover the content: the photos (`src/assets/photos/` and the social media image `public/og.jpg` made from them), the postcard design (`src/assets/card/`), the texts (`src/content/texts/`) and the contact details (`src/data/contacts.ts`). The content belongs to the young people of the Uzhhorod communities and may not be used or shared without permission. The World Youth Day Seoul 2027 logo on the postcard belongs to its owners.
 
 ## Running locally
 
@@ -32,9 +32,9 @@ The site opens at the address the command prints (http://localhost:4321/). Chang
 
 ## Page structure
 
-The site is a single page, `/`. The sections come in this order:
+The site is a single page: `/` in Ukrainian and `/en/`, `/pl/`… for other languages. The sections come in this order:
 
-| # | Section | Anchor | Texts in `texts.ts` |
+| # | Section | Anchor | Texts in `texts/uk.ts` |
 |---|---|---|---|
 | 1 | Title and intro, scene, countdown | `#top` | `hero` |
 | 2 | About us: community, organizer, gallery | `#about` | `about` |
@@ -44,17 +44,35 @@ The site is a single page, `/`. The sections come in this order:
 | 6 | Contacts, "Living abroad?" | `#contacts` | `contacts` |
 | 7 | Footer | — | `footer` |
 
-The header and footer menus are anchor links (`nav` in `texts.ts`). The old addresses `/about/`, `/trip/` and `/help/` redirect to the matching sections; see `redirects` in [astro.config.mjs](astro.config.mjs).
+The header and footer menus are anchor links (`nav` in `texts/uk.ts`). The old addresses `/about/`, `/trip/` and `/help/` redirect to the matching sections; see `redirects` in [astro.config.mjs](astro.config.mjs).
 
 ## Editing texts
 
-All texts live in one file, [src/content/texts.ts](src/content/texts.ts), grouped by section. Only edit what's inside the quotes.
+All Ukrainian texts live in one file, [src/content/texts/uk.ts](src/content/texts/uk.ts), grouped by section. Translations are files next to it (`en.ts`, `pl.ts`…) with the same structure. Only edit what's inside the quotes.
 
 - **Project name**: `site.name` at the top of the file. It's used in the header, footer, page title and meta tags. The words highlighted in color on the first screen are in `site.nameAccents`.
 - After changing the name or `hero.eventLine`, run `npm run og` to update the social media image.
-- The countdown target date is `site.eventStart`.
+- The countdown target date is `eventStart` in [src/data/event.ts](src/data/event.ts).
 - Longer texts support `**bold**` and `[link text](url)`. External links open in a new tab and get an icon automatically.
 - ` ` is a non-breaking space between a number and its unit (`200 грн`). Don't remove it.
+
+## Languages
+
+Ukrainian is the main language and lives at `/`. Every other language gets its own copy of the page under its code: `/en/`, `/pl/`… The list of languages is [src/content/languages.ts](src/content/languages.ts).
+
+Visitors who open `/` are sent to their browser's language if the site has it: an Italian browser goes to `/it/`, an English one to `/en/`. Any other browser language stays on Ukrainian. This is a Cloudflare Pages Function, [functions/index.ts](functions/index.ts), so it only works on Cloudflare, not in `npm run dev`. A language picked in the language picker is remembered in a `lang` cookie and wins over the browser language. Links from other pages of the site, search engines and messenger link previews are never redirected, so previews stay in Ukrainian.
+
+To add a language:
+
+1. Copy `src/content/texts/uk.ts` to a file named with the language code, e.g. `src/content/texts/en.ts`, and translate everything inside the quotes. Keep `href` values in `nav` as they are.
+2. Add a line to `languages` in [src/content/languages.ts](src/content/languages.ts) (there's a commented-out English example): the code, the language's name in that language, a short label for the button, the flag's country code and the locale for social media previews.
+3. Run `npm run check`. It reports any text missing from the translation.
+
+Once there are two or more languages, a language picker appears in the header: a button with the current flag that opens a list of flags and language names. On phones it sits at the top of the menu. Switching keeps the visitor on the same section. Flags come from the [flag-icons](https://github.com/lipis/flag-icons) package; the available country codes are the file names in `node_modules/flag-icons/flags/4x3/`.
+
+Also handled for each language: `<html lang>`, `hreflang` links between translations (in the page head and in the sitemap), `og:locale`, a "not found" page (`/en/404.html`), plural forms in the countdown (via `Intl.PluralRules`, see `hero.countdown.units`) and photo alt text (`photos.alt`). A language's social media image is `public/og-<code>.jpg` (e.g. `og-en.jpg`); until it exists, the Ukrainian `og.jpg` is used. The contact's `name` and `role` in `src/data/contacts.ts` can be translated as `{ uk: '…', en: '…' }`.
+
+The fonts include Cyrillic and Latin only. A language in another script (Greek, Georgian…) needs its font files added in [src/layouts/Base.astro](src/layouts/Base.astro).
 
 ## Editing contacts
 
@@ -84,8 +102,8 @@ Put the file in [src/assets/photos/](src/assets/photos/) with the right name. Th
 Until a file is added, a placeholder with a hint is shown in its place. Missing gallery photos are simply not shown.
 
 - Landscape photos 2000 px wide or more work best. Very large files (over 3–4 MB) are better downsized before adding.
-- Alt text for screen reader users is in [src/data/photos.ts](src/data/photos.ts). Update it when you add a photo.
-- To change which photos are in the gallery, edit the `ids` list in [src/pages/index.astro](src/pages/index.astro).
+- Alt text for screen reader users is `photos.alt` in [src/content/texts/uk.ts](src/content/texts/uk.ts) (and in each translation). Update it when you add a photo.
+- To change which photos are in the gallery, edit the `ids` list in [src/pages/[...lang]/index.astro](src/pages/[...lang]/index.astro).
 - After replacing `hero`, run `npm run og`.
 
 ## Adding the postcard design
@@ -100,17 +118,20 @@ Colors, fonts, spacing and radii are all in one file: [src/styles/tokens.css](sr
 
 The site is hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. Cloudflare builds it from this GitHub repository after every `git push` to `main` (settings: build command `npm run build`, build output directory `dist`).
 
-The site address is set by the `SITE` line in [astro.config.mjs](astro.config.mjs).
+The site address is set by the `SITE` line in [astro.config.mjs](astro.config.mjs). After the build, `astro.config.mjs` also renames each language's `404/index.html` to `404.html`, because Cloudflare Pages shows the nearest `404.html` for missing pages.
 
 ## Click counter
 
 Every click on a link or button is counted: menu, "Help" buttons, contacts, external links, gallery photos. For each click the page sends to `/api/click`, a Cloudflare Pages Function ([functions/api/click.ts](functions/api/click.ts)):
 
-- `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `whatsapp`, `abroad`, `menu`, `photo-hero`, `photo-next`…) or the link's address (`/#help`, `https://wydseoul.org/en`);
+- `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `whatsapp`, `abroad`, `menu`, `lang`, `lang-en`, `photo-hero`, `photo-next`…) or the link's address (`/#help`, `/en/#help`, `https://wydseoul.org/en`);
 - `place`: where on the page (`header`, `footer`, `sticky`, `lightbox` or the section id: `top`, `about`, `help`…);
 - `label`: the button's text;
-- `contact`: the name on the contact card, if the click was on it;
-- `source`: where the visitor came from (see below).
+- `contact`: the name on the contact card, if the click was on it (always in Ukrainian, so clicks from all languages add up);
+- `source`: where the visitor came from (see below);
+- `lang`: the language of the page the click happened on (`uk`, `en`…).
+
+Language switches are counted too: opening the language picker is `lang`, picking a language is `lang-en`, `lang-it`… with the language switched *from* in `lang`. When the site itself opens the browser's language instead of Ukrainian (see [Languages](#languages)), [functions/index.ts](functions/index.ts) stores `lang-auto` with the opened language in `lang` and, in `label`, why: `browser` (browser language) or `cookie` (language picked earlier in the picker).
 
 The source is worked out in this order:
 
@@ -129,23 +150,29 @@ One-time setup in the Cloudflare dashboard:
 3. **Workers & Pages → the site's project → Settings → Bindings → Add → D1 database**: variable name `DB`, database `wyd-clicks`. Add it for Production (and Preview, if you want clicks from preview deploys too).
 4. Redeploy the site (push to `main` or **Deployments → Retry deployment**) so the binding takes effect.
 
+If the table was created before the `lang` column existed, add it once in the database **Console** before deploying: `ALTER TABLE clicks ADD COLUMN lang TEXT;`. Without it new clicks fail to save.
+
 To see the numbers, open the database → **Console** and run one of the queries from [db/queries.sql](db/queries.sql). Until the binding is set up, the site works as usual and clicks are simply not saved.
 
 ## Project structure
 
 ```
 src/
-  content/texts.ts     all texts
+  content/texts/uk.ts  all texts in Ukrainian (translations: en.ts, pl.ts…)
+  content/languages.ts list of site languages
   data/contacts.ts     contact details
-  data/photos.ts       photo list and alt text
+  data/event.ts        countdown target date
+  data/photos.ts       photo file list
   assets/photos/       photos
   assets/card/         postcard design
   styles/tokens.css    colors, fonts, spacing
-  components/          header, footer, countdown, cards, gallery
+  components/          header, language picker, footer, countdown, cards, gallery
   layouts/Base.astro   shared page layout
-  pages/index.astro    the single page with all sections
-  pages/404.astro      "not found" page
+  utils/i18n.ts        page language, texts and links for it
+  pages/[...lang]/index.astro  the single page with all sections, one per language
+  pages/[...lang]/404.astro    "not found" page, one per language
 public/                favicon, social media image, Cloudflare _headers and _redirects
+functions/index.ts     redirect from / to the browser's language (Cloudflare Pages Function)
 functions/api/click.ts click counter (Cloudflare Pages Function)
 db/                    click table and ready-made queries
 scripts/               tests, screenshots, social media image

@@ -7,11 +7,15 @@
   telegram  — ім’я користувача без @ (або видаліть рядок, якщо Telegram немає)
   viber     — true, якщо на цьому номері є Viber
   whatsapp  — true, якщо на цьому номері є WhatsApp
+
+  name і role можна перекласти іншими мовами сайту: role: { uk: 'організатор', en: 'organizer' }.
+  Якщо перекладу немає, показується українською.
 */
+import type { Localized } from '../utils/i18n';
 
 export interface Contact {
-  name: string;
-  role?: string;
+  name: Localized;
+  role?: Localized;
   phone: string;
   telegram?: string;
   viber?: boolean;
@@ -20,8 +24,22 @@ export interface Contact {
 
 export const contacts: Contact[] = [
   {
-    name: 'Кампомар Ернандо Франціско Хавієр',
-    role: 'організатор благодійної збірки',
+    name: {
+      uk: 'Кампомар Ернандо Франціско Хавієр',
+      en: 'Campomar Hernando Francisco Javier',
+      de: 'Campomar Hernando Francisco Javier',
+      fr: 'Campomar Hernando Francisco Javier',
+      es: 'Campomar Hernando Francisco Javier',
+      it: 'Campomar Hernando Francisco Javier',
+    },
+    role: {
+      uk: 'організатор благодійної збірки',
+      en: 'charity fundraiser organiser',
+      de: 'Organisator der Spendenaktion',
+      fr: 'organisateur de la collecte de dons',
+      es: 'organizador de la colecta benéfica',
+      it: 'organizzatore della raccolta fondi',
+    },
     phone: '+380634181041',
     viber: true,
     whatsapp: true,

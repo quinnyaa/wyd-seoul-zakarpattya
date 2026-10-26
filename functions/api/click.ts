@@ -1,9 +1,11 @@
 // Cloudflare Pages Function: POST /api/click записує клік по посиланню чи кнопці в базу D1.
 // Зберігаємо лише що натиснули, де на сторінці, підпис кнопки, ім’я з картки контакту,
-// звідки прийшли (мітка ?from= або сайт) і час — без IP, cookies та інших даних про людину.
+// звідки прийшли (мітка ?from= або сайт), мову сторінки і час — без IP, cookies та інших даних про людину.
 // Таблиця — db/clicks.sql, база підключається в Cloudflare як binding DB.
 
-interface Env {
+import { languages } from '../../src/content/languages';
+
+export interface Env {
   DB?: {
     prepare(sql: string): { bind(...values: unknown[]): { run(): Promise<unknown> } };
   };
@@ -12,6 +14,10 @@ interface Env {
 // Непорожній рядок, обрізаний до max символів, або null
 const text = (value: unknown, max: number) =>
   typeof value === 'string' && value.trim() ? value.trim().slice(0, max) : null;
+
+// Код однієї з мов сайту або null
+const langCode = (value: unknown) =>
+  languages.find(({ code }) => code === value)?.code ?? null;
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
   // Приймаємо кліки тільки з нашого сайту
@@ -32,8 +38,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!link) return new Response(null, { status: 400 });
 
   // Без підключеної бази (наприклад, на тестовому деплої) клік просто не записується
-  await env.DB?.prepare('INSERT INTO clicks (link, place, label, contact, source) VALUES (?, ?, ?, ?, ?)')
-    .bind(link, text(data.place, 40), text(data.label, 120), text(data.contact, 80), text(data.source, 60))
+  await env.DB?.prepare('INSERT INTO clicks (link, place, label, contact, source, lang) VALUES (?, ?, ?, ?, ?, ?)')
+    .bind(link, text(data.place, 40), text(data.label, 120), text(data.contact, 80), text(data.source, 60), langCode(data.lang))
     .run();
   return new Response(null, { status: 204 });
 };

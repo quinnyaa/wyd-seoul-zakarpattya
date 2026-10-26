@@ -1,18 +1,27 @@
 ---
-import Arrow from '../components/Arrow.astro';
-import ContactCard from '../components/ContactCard.astro';
-import Countdown from '../components/Countdown.astro';
-import CtaPanel from '../components/CtaPanel.astro';
-import ExternalIcon from '../components/ExternalIcon.astro';
-import HeroScene from '../components/HeroScene.astro';
-import InfoNote from '../components/InfoNote.astro';
-import Photo from '../components/Photo.astro';
-import PhotoGrid from '../components/PhotoGrid.astro';
-import ThanksCard from '../components/ThanksCard.astro';
-import { about, contacts as contactTexts, help, hero, site, wyd } from '../content/texts';
-import { abroadContact, contacts, links } from '../data/contacts';
-import Base from '../layouts/Base.astro';
-import { isExternal } from '../utils/rich';
+import Arrow from '../../components/Arrow.astro';
+import ContactCard from '../../components/ContactCard.astro';
+import Countdown from '../../components/Countdown.astro';
+import CtaPanel from '../../components/CtaPanel.astro';
+import ExternalIcon from '../../components/ExternalIcon.astro';
+import HeroScene from '../../components/HeroScene.astro';
+import InfoNote from '../../components/InfoNote.astro';
+import Photo from '../../components/Photo.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+import ThanksCard from '../../components/ThanksCard.astro';
+import { languages } from '../../content/languages';
+import { abroadContact, contacts, links } from '../../data/contacts';
+import Base from '../../layouts/Base.astro';
+import { defaultLang, useI18n } from '../../utils/i18n';
+import { isExternal } from '../../utils/rich';
+
+// Головна кожною мовою: основна — у корені (/), інші — /en/, /pl/…
+export function getStaticPaths() {
+  return languages.map(({ code }) => ({ params: { lang: code === defaultLang ? undefined : code } }));
+}
+
+const { t } = useI18n(Astro);
+const { about, contacts: contactTexts, help, hero, site, wyd } = t;
 
 const { organizer, gallery } = about;
 const { why, cost } = wyd;

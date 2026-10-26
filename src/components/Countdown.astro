@@ -1,15 +1,17 @@
 ---
-import { hero, site } from '../content/texts';
+import { eventStart } from '../data/event';
 import { plural, timeLeft } from '../utils/countdown';
+import { useI18n } from '../utils/i18n';
 
-const { countdown } = hero;
-const target = new Date(site.eventStart).getTime();
+const { lang, t } = useI18n(Astro);
+const { countdown } = t.hero;
+const target = new Date(eventStart).getTime();
 // Початкові значення на момент збирання сайту; далі їх щосекунди оновлює скрипт
 const initial = timeLeft(target, Date.now());
 const units = ['days', 'hours', 'minutes', 'seconds'] as const;
 ---
 
-<div class="countdown" data-countdown data-target={target} data-forms={JSON.stringify(countdown.units)}>
+<div class="countdown" data-countdown data-target={target} data-forms={JSON.stringify(countdown.units)} data-lang={lang}>
   <h2 class="countdown__title">{countdown.title}</h2>
   <div class="countdown__grid" role="timer" data-countdown-grid hidden={initial.done}>
     {
@@ -19,7 +21,7 @@ const units = ['days', 'hours', 'minutes', 'seconds'] as const;
             {unit === 'days' ? initial[unit] : String(initial[unit]).padStart(2, '0')}
           </span>
           <span class="countdown__label" data-label={unit}>
-            {plural(initial[unit], countdown.units[unit])}
+            {plural(initial[unit], countdown.units[unit], lang)}
           </span>
         </div>
       ))
@@ -29,7 +31,7 @@ const units = ['days', 'hours', 'minutes', 'seconds'] as const;
 </div>
 
 <script>
-  import { plural, timeLeft, type Forms } from '../utils/countdown';
+  import { plural, timeLeft, type PluralForms } from '../utils/countdown';
 
   const units = ['days', 'hours', 'minutes', 'seconds'] as const;
   let timer: number | undefined;
@@ -39,7 +41,8 @@ const units = ['days', 'hours', 'minutes', 'seconds'] as const;
     if (!root) return;
 
     const target = Number(root.dataset.target);
-    const forms = JSON.parse(root.dataset.forms ?? '{}') as Record<string, Forms>;
+    const forms = JSON.parse(root.dataset.forms ?? '{}') as Record<string, PluralForms>;
+    const lang = root.dataset.lang ?? document.documentElement.lang;
     const grid = root.querySelector<HTMLElement>('[data-countdown-grid]');
     const done = root.querySelector<HTMLElement>('[data-countdown-done]');
     const set = (el: Element | null, text: string) => {
@@ -60,7 +63,7 @@ const units = ['days', 'hours', 'minutes', 'seconds'] as const;
           root.querySelector(`[data-num="${unit}"]`),
           unit === 'days' ? String(value) : String(value).padStart(2, '0'),
         );
-        set(root.querySelector(`[data-label="${unit}"]`), plural(value, forms[unit]));
+        set(root.querySelector(`[data-label="${unit}"]`), plural(value, forms[unit] ?? {}, lang));
       }
     };
 
