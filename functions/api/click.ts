@@ -1,6 +1,7 @@
 // Cloudflare Pages Function: POST /api/click записує клік по посиланню чи кнопці в базу D1.
 // Зберігаємо лише що натиснули, де на сторінці, підпис кнопки, ім’я з картки контакту,
-// звідки прийшли (мітка ?from= або сайт), мову сторінки і час — без IP, cookies та інших даних про людину.
+// звідки прийшли (мітка ?from= або сайт), мову сторінки, випадковий номер візиту (живе, поки відкрита вкладка),
+// секунди на сторінці (для time) і час — без IP, cookies та інших даних про людину.
 // Таблиця — db/clicks.sql, база підключається в Cloudflare як binding DB.
 
 import { languages } from '../../src/content/languages';
@@ -18,6 +19,10 @@ const text = (value: unknown, max: number) =>
 // Код однієї з мов сайту або null
 const langCode = (value: unknown) =>
   languages.find(({ code }) => code === value)?.code ?? null;
+
+// Ціле число секунд від 1 до доби або null
+const secondsOf = (value: unknown) =>
+  Number.isInteger(value) && (value as number) > 0 && (value as number) <= 86400 ? (value as number) : null;
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
   // Приймаємо кліки тільки з нашого сайту
@@ -38,8 +43,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!link) return new Response(null, { status: 400 });
 
   // Без підключеної бази (наприклад, на тестовому деплої) клік просто не записується
-  await env.DB?.prepare('INSERT INTO clicks (link, place, label, contact, source, lang) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(link, text(data.place, 40), text(data.label, 120), text(data.contact, 80), text(data.source, 60), langCode(data.lang))
+  await env.DB?.prepare('INSERT INTO clicks (link, place, label, contact, source, lang, visit, seconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(link, text(data.place, 40), text(data.label, 120), text(data.contact, 80), text(data.source, 60), langCode(data.lang), text(data.visit, 36), secondsOf(data.seconds))
     .run();
   return new Response(null, { status: 204 });
 };

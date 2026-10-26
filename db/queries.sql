@@ -2,6 +2,7 @@
 
 -- Найпопулярніші кліки за весь час: що, де і з яким підписом
 SELECT link, place, label, count(*) AS clicks FROM clicks
+WHERE link <> 'time'
 GROUP BY link, place, label ORDER BY clicks DESC;
 
 -- Тільки контакти: телефон, месенджери, «Живете за кордоном?»
@@ -23,7 +24,7 @@ GROUP BY place, label ORDER BY clicks DESC;
 SELECT source,
   sum(link = 'landing') AS came,
   sum(link IN ('tel', 'viber', 'whatsapp', 'telegram', 'abroad')) AS contacts,
-  sum(link <> 'landing') AS all_clicks
+  sum(link NOT IN ('landing', 'time')) AS all_clicks
 FROM clicks WHERE source IS NOT NULL
 GROUP BY source ORDER BY came DESC;
 
@@ -31,7 +32,7 @@ GROUP BY source ORDER BY came DESC;
 SELECT lang,
   sum(link = 'landing') AS came,
   sum(link IN ('tel', 'viber', 'whatsapp', 'telegram', 'abroad')) AS contacts,
-  sum(link NOT IN ('landing', 'lang-auto')) AS all_clicks
+  sum(link NOT IN ('landing', 'lang-auto', 'time')) AS all_clicks
 FROM clicks WHERE lang IS NOT NULL
 GROUP BY lang ORDER BY all_clicks DESC;
 
@@ -45,8 +46,33 @@ GROUP BY from_lang, to_lang, label ORDER BY times DESC;
 
 -- По днях за останні 30 днів
 SELECT date(at) AS day, count(*) AS clicks FROM clicks
-WHERE at >= datetime('now', '-30 days')
+WHERE at >= datetime('now', '-30 days') AND link <> 'time'
 GROUP BY day ORDER BY day DESC;
 
 -- Останні 50 кліків
-SELECT at, link, place, label, contact, source, lang FROM clicks ORDER BY id DESC LIMIT 50;
+SELECT at, link, place, label, contact, source, lang, visit, seconds FROM clicks ORDER BY id DESC LIMIT 50;
+
+-- Останні 50 візитів одним рядком: коли почався, звідки, якою мовою, скільки секунд провели і що натискали по черзі
+SELECT visit, min(at) AS start, max(source) AS source, max(lang) AS lang, sum(seconds) AS seconds,
+  sum(link NOT IN ('landing', 'time')) AS clicks,
+  group_concat(CASE WHEN link <> 'time' THEN link END, ' → ') AS path
+FROM (SELECT * FROM clicks WHERE visit IS NOT NULL ORDER BY id)
+GROUP BY visit ORDER BY start DESC LIMIT 50;
+
+-- Один візит докладно: підставте номер візиту з попереднього запиту
+SELECT at, link, place, label, contact, source, lang, seconds FROM clicks
+WHERE visit = 'номер-візиту' ORDER BY id;
+
+-- Візити, в яких натиснули контакти: їхній повний шлях
+SELECT visit, min(at) AS start, max(source) AS source, sum(seconds) AS seconds,
+  group_concat(CASE WHEN link <> 'time' THEN link END, ' → ') AS path
+FROM (SELECT * FROM clicks WHERE visit IS NOT NULL ORDER BY id)
+GROUP BY visit
+HAVING sum(link IN ('tel', 'viber', 'whatsapp', 'telegram', 'abroad')) > 0
+ORDER BY start DESC;
+
+-- Скільки часу проводять на сайті: середній візит за каналами (секунди, лише поки сторінку видно)
+SELECT source, count(*) AS visits, round(avg(total)) AS avg_seconds, max(total) AS max_seconds
+FROM (SELECT visit, max(source) AS source, sum(seconds) AS total FROM clicks
+      WHERE visit IS NOT NULL GROUP BY visit HAVING total IS NOT NULL)
+GROUP BY source ORDER BY visits DESC;

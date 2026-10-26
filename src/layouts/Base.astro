@@ -220,26 +220,50 @@ const preload = cyrillic ? [manropeCyr, unboundedCyr] : [manropeLat, unboundedLa
         const fresh = from || match(navigator.userAgent, IN_APP) || referrer;
         let source = fresh;
         let stored = '';
+        let visit = '';
         try {
           stored = sessionStorage.getItem('source') ?? '';
+          visit = sessionStorage.getItem('visit') ?? '';
           if (fresh) sessionStorage.setItem('source', fresh);
           else source = stored;
         } catch {}
-        // Новий візит з відомим джерелом; перезавантаження в тому самому візиті не рахуємо вдруге
-        return { source, landing: Boolean(fresh) && fresh !== stored };
+        // Новий візит: перше відкриття сайту в цій вкладці або прихід із нового джерела.
+        // Перезавантаження й переходи в тому самому візиті не рахуємо вдруге
+        const landing = !visit || (Boolean(fresh) && fresh !== stored);
+        if (landing) {
+          // Випадковий номер візиту, щоб зібрати кліки одного візиту разом. Живе, поки відкрита вкладка
+          visit = crypto.randomUUID?.() ?? String(Math.random()).slice(2);
+          try {
+            sessionStorage.setItem('visit', visit);
+          } catch {}
+        }
+        return { source, visit, landing };
       }
 
       // Лічильник кліків по всіх посиланнях і кнопках. Надсилає, що натиснули (data-link або адресу),
-      // де на сторінці, підпис, ім’я з картки контакту, звідки прийшли й мову сторінки — і нічого про людину.
+      // де на сторінці, підпис, ім’я з картки контакту, звідки прийшли, мову сторінки й номер візиту — і нічого про людину.
       // Перемикання мови — клік lang-en з мовою сторінки, з якої перемкнули. Далі functions/api/click.ts
       function initClicks() {
         if (!('sendBeacon' in navigator)) return;
-        const { source, landing } = getSource();
+        const { source, visit, landing } = getSource();
         const lang = document.documentElement.lang;
-        const send = (data: { link: string; place?: string; label?: string; contact?: string }) =>
-          navigator.sendBeacon('/api/click', JSON.stringify({ ...data, source, lang }));
-        // Прихід із відомого джерела рахуємо окремо, щоб порівнювати канали: прийшли → натиснули
+        const send = (data: { link: string; place?: string; label?: string; contact?: string; seconds?: number }) =>
+          navigator.sendBeacon('/api/click', JSON.stringify({ ...data, source, lang, visit }));
+        // Прихід на сайт рахуємо окремо: з нього починається шлях візиту, а канали порівнюються як прийшли → натиснули
         if (landing) send({ link: 'landing' });
+        // Час на сторінці: рахуємо, лише поки вкладку видно. Щоразу, як її ховають (закрили, перейшли
+        // в іншу вкладку чи застосунок), надсилаємо time із секундами від минулого разу — сума по візиту дає весь час
+        let shownAt = document.visibilityState === 'visible' ? Date.now() : 0;
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            shownAt = Date.now();
+            return;
+          }
+          if (!shownAt) return;
+          const seconds = Math.round((Date.now() - shownAt) / 1000);
+          shownAt = 0;
+          if (seconds > 0) send({ link: 'time', seconds });
+        });
         const placeOf = (el: Element) => {
           if (el.closest('dialog')) return 'lightbox';
           if (el.closest('.sticky-help')) return 'sticky';

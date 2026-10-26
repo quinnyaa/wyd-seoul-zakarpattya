@@ -130,6 +130,8 @@ Every click on a link or button is counted: menu, "Help" buttons, contacts, exte
 - `contact`: the name on the contact card, if the click was on it (always in Ukrainian, so clicks from all languages add up);
 - `source`: where the visitor came from (see below);
 - `lang`: the language of the page the click happened on (`uk`, `en`…).
+- `visit`: a random visit id, the same for all clicks while the browser tab stays open, so a visit's clicks can be read in order (`landing` → `/#help` → `tel`…).
+- `seconds`: time on the page, for `time` rows. Every time the page is hidden (closed, or the visitor switched to another tab or app) it sends `time` with the seconds the page was visible since the last `time`, so the sum over a visit is the whole time spent.
 
 Language switches are counted too: opening the language picker is `lang`, picking a language is `lang-en`, `lang-it`… with the language switched *from* in `lang`. When the site itself opens the browser's language instead of Ukrainian (see [Languages](#languages)), [functions/index.ts](functions/index.ts) stores `lang-auto` with the opened language in `lang` and, in `label`, why: `browser` (browser language) or `cookie` (language picked earlier in the picker).
 
@@ -139,9 +141,9 @@ The source is worked out in this order:
 2. The in-app browser of Facebook, Messenger, Instagram, TikTok and some others, recognised from the User-Agent (the User-Agent itself isn't stored).
 3. The referring site or Android app, with familiar ones given short names: `telegram`, `viber`, `whatsapp`, `facebook`, `google`… Other sites are stored by their address.
 
-Messengers on iPhone pass nothing, so those visits stay without a source unless the link has a tag. The first page load of a visit with a known source is stored as `landing`, and all clicks during that visit carry the same `source`.
+Messengers on iPhone pass nothing, so those visits stay without a source unless the link has a tag. The first page load of every visit is stored as `landing`, and all clicks during that visit carry the same `source` and `visit`. A visit starts when the site is first opened in a tab, or when it's opened again in the same tab from a different source. `lang-auto` happens on the server before the page loads, so it has no `visit`; the visit starts with the `landing` on the opened language's page. Clicks stored before `visit` was added have none.
 
-The function stores the click in a D1 database with the time. No IP addresses, cookies or other visitor data are stored. New links and buttons are counted automatically. Give a button a `data-link` name if its address alone doesn't say what it is. A click only means someone pressed the button, not that they actually called or wrote.
+The function stores the click in a D1 database with the time. No IP addresses, cookies or other visitor data are stored: the visit id is a random number kept in the tab's `sessionStorage` and forgotten when the tab is closed. New links and buttons are counted automatically. Give a button a `data-link` name if its address alone doesn't say what it is. A click only means someone pressed the button, not that they actually called or wrote.
 
 One-time setup in the Cloudflare dashboard:
 
@@ -150,7 +152,7 @@ One-time setup in the Cloudflare dashboard:
 3. **Workers & Pages → the site's project → Settings → Bindings → Add → D1 database**: variable name `DB`, database `wyd-clicks`. Add it for Production (and Preview, if you want clicks from preview deploys too).
 4. Redeploy the site (push to `main` or **Deployments → Retry deployment**) so the binding takes effect.
 
-If the table was created before the `lang` column existed, add it once in the database **Console** before deploying: `ALTER TABLE clicks ADD COLUMN lang TEXT;`. Without it new clicks fail to save.
+If the table was created before the `lang`, `visit` or `seconds` columns existed, add them once in the database **Console** before deploying, using the `ALTER TABLE` lines at the top of [db/clicks.sql](db/clicks.sql). Without them new clicks fail to save.
 
 To see the numbers, open the database → **Console** and run one of the queries from [db/queries.sql](db/queries.sql). Until the binding is set up, the site works as usual and clicks are simply not saved.
 
