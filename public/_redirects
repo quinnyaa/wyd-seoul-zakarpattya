@@ -1,0 +1,2 @@
+# Cloudflare Pages. Браузери й пошуковики шукають /favicon.ico, а в нас іконка в SVG
+/favicon.ico /favicon.svg 301

@@ -3,6 +3,7 @@
   Збільшене фото. Відкривається кліком по елементу з data-lightbox-item.
   Закривається: Esc, клік поза фото, кнопка, свайп угору чи вниз.
   Свайп убік і стрілки на клавіатурі гортають фото.
+  data-lightbox-group відокремлює набори: гортаються лише елементи з тієї ж групи, що й відкритий.
 */
 ---
 
@@ -29,8 +30,12 @@
 <script>
   let index = 0;
   let opener: HTMLElement | null = null;
+  let group = '';
 
-  const items = () => [...document.querySelectorAll<HTMLElement>('[data-lightbox-item]')];
+  const items = () =>
+    [...document.querySelectorAll<HTMLElement>('[data-lightbox-item]')].filter(
+      (item) => (item.dataset.lightboxGroup ?? '') === group,
+    );
   const dialog = () => document.querySelector<HTMLDialogElement>('[data-lightbox]');
 
   function show(next: number) {
@@ -55,7 +60,7 @@
       const placeholder = item.parentElement?.querySelector('.photo')?.cloneNode(true);
       slot.replaceChildren(...(placeholder ? [placeholder] : []));
     }
-    box.querySelector('[data-lightbox-caption]')!.textContent = `${index + 1} / ${list.length}`;
+    box.querySelector('[data-lightbox-caption]')!.textContent = list.length > 1 ? `${index + 1} / ${list.length}` : '';
     box.classList.toggle('lightbox--single', list.length < 2);
     if (!box.open) box.showModal();
   }
@@ -72,6 +77,7 @@
     const item = target.closest<HTMLElement>('[data-lightbox-item]');
     if (item) {
       opener = item;
+      group = item.dataset.lightboxGroup ?? '';
       show(items().indexOf(item));
       return;
     }

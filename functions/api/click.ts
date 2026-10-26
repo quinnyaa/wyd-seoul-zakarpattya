@@ -1,6 +1,6 @@
 // Cloudflare Pages Function: POST /api/click записує клік по посиланню чи кнопці в базу D1.
-// Зберігаємо лише що натиснули, де на сторінці, підпис кнопки, ім’я з картки контакту і час —
-// без IP, cookies та інших даних про людину.
+// Зберігаємо лише що натиснули, де на сторінці, підпис кнопки, ім’я з картки контакту,
+// звідки прийшли (мітка ?from= або сайт) і час — без IP, cookies та інших даних про людину.
 // Таблиця — db/clicks.sql, база підключається в Cloudflare як binding DB.
 
 interface Env {
@@ -32,8 +32,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   if (!link) return new Response(null, { status: 400 });
 
   // Без підключеної бази (наприклад, на тестовому деплої) клік просто не записується
-  await env.DB?.prepare('INSERT INTO clicks (link, place, label, contact) VALUES (?, ?, ?, ?)')
-    .bind(link, text(data.place, 40), text(data.label, 120), text(data.contact, 80))
+  await env.DB?.prepare('INSERT INTO clicks (link, place, label, contact, source) VALUES (?, ?, ?, ?, ?)')
+    .bind(link, text(data.place, 40), text(data.label, 120), text(data.contact, 80), text(data.source, 60))
     .run();
   return new Response(null, { status: 204 });
 };

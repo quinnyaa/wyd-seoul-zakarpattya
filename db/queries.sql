@@ -19,6 +19,14 @@ SELECT place, label, count(*) AS clicks FROM clicks
 WHERE link LIKE '%#help'
 GROUP BY place, label ORDER BY clicks DESC;
 
+-- Канали (?from=telegram тощо): скільки прийшло і скільки з них натиснули контакти
+SELECT source,
+  sum(link = 'landing') AS came,
+  sum(link IN ('tel', 'viber', 'telegram', 'abroad')) AS contacts,
+  sum(link <> 'landing') AS all_clicks
+FROM clicks WHERE source IS NOT NULL
+GROUP BY source ORDER BY came DESC;
+
 -- По днях за останні 30 днів
 SELECT date(at) AS day, count(*) AS clicks FROM clicks
 WHERE at >= datetime('now', '-30 days')

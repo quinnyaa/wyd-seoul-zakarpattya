@@ -146,10 +146,37 @@ const fontCss = [
         targets.forEach((el) => observer.observe(el));
       }
 
+      // Звідки прийшли: мітка ?from=telegram у посиланні або сайт, з якого перейшли.
+      // Пам’ятаємо до кінця візиту: посилання меню (/#help) перезавантажують сторінку вже без мітки
+      function getSource() {
+        const from = (new URLSearchParams(location.search).get('from') ?? '')
+          .toLowerCase()
+          .replace(/[^a-z0-9_-]/g, '')
+          .slice(0, 30);
+        let referrer = '';
+        try {
+          const host = document.referrer ? new URL(document.referrer).host : '';
+          if (host !== location.host) referrer = host;
+        } catch {}
+        const fresh = from || referrer;
+        let source = fresh;
+        try {
+          if (fresh) sessionStorage.setItem('source', fresh);
+          else source = sessionStorage.getItem('source') ?? '';
+        } catch {}
+        return { source, from };
+      }
+
       // Лічильник кліків по всіх посиланнях і кнопках. Надсилає, що натиснули (data-link або адресу),
-      // де на сторінці, підпис і ім’я з картки контакту — і нічого про людину. Далі functions/api/click.ts
+      // де на сторінці, підпис, ім’я з картки контакту і звідки прийшли — і нічого про людину.
+      // Далі functions/api/click.ts
       function initClicks() {
         if (!('sendBeacon' in navigator)) return;
+        const { source, from } = getSource();
+        const send = (data: { link: string; place?: string; label?: string; contact?: string }) =>
+          navigator.sendBeacon('/api/click', JSON.stringify({ ...data, source }));
+        // Перехід за посиланням із міткою рахуємо окремо, щоб порівнювати канали: прийшли → натиснули
+        if (from) send({ link: 'landing' });
         const placeOf = (el: Element) => {
           if (el.closest('dialog')) return 'lightbox';
           if (el.closest('.sticky-help')) return 'sticky';
@@ -166,7 +193,7 @@ const fontCss = [
             const label = (el.getAttribute('aria-label') ?? el.textContent ?? '').replace(/\s+/g, ' ').trim();
             const contact = el.closest<HTMLElement>('[data-contact]')?.dataset.contact ?? '';
             const link = el.dataset.link ?? el.getAttribute('href') ?? 'button';
-            navigator.sendBeacon('/api/click', JSON.stringify({ link, place: placeOf(el), label, contact }));
+            send({ link, place: placeOf(el), label, contact });
           },
           true,
         );

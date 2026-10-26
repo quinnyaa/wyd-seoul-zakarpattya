@@ -6,11 +6,11 @@ It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at ht
 
 ## License
 
-The site's code is released under the [MIT License](LICENSE). The license does not cover the photos (`src/assets/photos/`), the postcard design (`src/assets/card/`), the texts (`src/content/texts.ts`) or the contact details (`src/data/contacts.ts`). These belong to the young people of the Uzhhorod communities and may not be used or shared without permission.
+The site's code is released under the [MIT License](LICENSE). The license does not cover the content: the photos (`src/assets/photos/` and the social media image `public/og.jpg` made from them), the postcard design (`src/assets/card/`), the texts (`src/content/texts.ts`) and the contact details (`src/data/contacts.ts`). The content belongs to the young people of the Uzhhorod communities and may not be used or shared without permission. The World Youth Day Seoul 2027 logo on the postcard belongs to its owners.
 
 ## Running locally
 
-You need Node.js 22 or newer.
+You need Node.js 22.12 or newer.
 
 ```bash
 npm install
@@ -89,7 +89,7 @@ Until a file is added, a placeholder with a hint is shown in its place. Missing 
 
 ## Adding the postcard design
 
-Add `src/assets/card/card.png` (or `.jpg`, `.webp`) and it will replace the placeholder in the "Our thanks" section. The pilgrim postcard is A6, 148 × 105 mm, roughly 1748 × 1240 px.
+The design is `src/assets/card/card.jpg` (`.png` and `.webp` also work). It is shown in the "Our thanks" section, and a click opens it full size. The frame takes its proportions from the file, so a new design can be dropped in as is. Without the file, an A6 placeholder is shown.
 
 ## Changing the style
 
@@ -108,7 +108,10 @@ Every click on a link or button is counted: menu, "Help" buttons, contacts, exte
 - `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `abroad`, `menu`, `photo-hero`, `photo-next`…) or the link's address (`/#help`, `https://wydseoul.org/en`);
 - `place`: where on the page (`header`, `footer`, `sticky`, `lightbox` or the section id: `top`, `about`, `help`…);
 - `label`: the button's text;
-- `contact`: the name on the contact card, if the click was on it.
+- `contact`: the name on the contact card, if the click was on it;
+- `source`: where the visitor came from, either the `?from=` tag of the link they opened or the referring site.
+
+To compare channels, share the site with a tag, e.g. `https://wyd-seoul-uzhhorod.org/?from=telegram`, `?from=viber`, `?from=instagram`, `?from=poster`. Use lowercase Latin letters, digits, `-` and `_`. Each visit through a tagged link is stored as `landing`, and all clicks during that visit carry the same `source`.
 
 The function stores the click in a D1 database with the time. No IP addresses, cookies or other visitor data are stored. New links and buttons are counted automatically. Give a button a `data-link` name if its address alone doesn't say what it is. A click only means someone pressed the button, not that they actually called or wrote.
 
@@ -135,6 +138,7 @@ src/
   layouts/Base.astro   shared page layout
   pages/index.astro    the single page with all sections
   pages/404.astro      "not found" page
+public/                favicon, social media image, Cloudflare _headers and _redirects
 functions/api/click.ts click counter (Cloudflare Pages Function)
 db/                    click table and ready-made queries
 scripts/               tests, screenshots, social media image
@@ -142,11 +146,10 @@ scripts/               tests, screenshots, social media image
 
 ## TODO
 
-**Contacts**: [src/data/contacts.ts](src/data/contacts.ts) still has placeholder data:
+**Contacts**: [src/data/contacts.ts](src/data/contacts.ts):
 
-- [ ] contact person's name (`name`)
-- [ ] phone number (`phone`, currently `+380 00 000 00 01`); whether it has Viber
-- [ ] Telegram (`telegram`, currently `todo_username`)
+- [x] contact person's name, phone and Viber
+- [ ] Telegram (`telegram`), optional: without it the Telegram button is hidden
 
 **Photos**: [src/assets/photos/](src/assets/photos/):
 
@@ -154,4 +157,4 @@ scripts/               tests, screenshots, social media image
 
 **Postcard design**: [src/assets/card/](src/assets/card/):
 
-- [ ] `card.png` (A6, 148 × 105 mm)
+- [x] `card.jpg`
