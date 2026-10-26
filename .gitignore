@@ -9,3 +9,5 @@ Claude outputs/
 
 # Оригінали фото у PDF (конвертовані в src/assets/photos/)
 photos/
+/CLAUDE.md
+/.claude/
