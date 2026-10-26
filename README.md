@@ -2,7 +2,7 @@
 
 A one-page fundraising site for the pilgrimage of young people from the Neocatechumenal communities of Uzhhorod, Ukraine, to World Youth Day in Seoul (3–8 August 2027).
 
-It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian. Donations are accepted only in cash, in person, so the site has no forms, payment details, analytics or trackers.
+It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian. Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
 
 ## License
 
@@ -101,6 +101,26 @@ The site is hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. Cloudf
 
 The site address is set by the `SITE` line in [astro.config.mjs](astro.config.mjs).
 
+## Click counter
+
+Every click on a link or button is counted: menu, "Help" buttons, contacts, external links, gallery photos. For each click the page sends to `/api/click`, a Cloudflare Pages Function ([functions/api/click.ts](functions/api/click.ts)):
+
+- `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `abroad`, `menu`, `photo-hero`, `photo-next`…) or the link's address (`/#help`, `https://wydseoul.org/en`);
+- `place`: where on the page (`header`, `footer`, `sticky`, `lightbox` or the section id: `top`, `about`, `help`…);
+- `label`: the button's text;
+- `contact`: the name on the contact card, if the click was on it.
+
+The function stores the click in a D1 database with the time. No IP addresses, cookies or other visitor data are stored. New links and buttons are counted automatically. Give a button a `data-link` name if its address alone doesn't say what it is. A click only means someone pressed the button, not that they actually called or wrote.
+
+One-time setup in the Cloudflare dashboard:
+
+1. **Storage & Databases → D1 → Create database**, name it `wyd-clicks`.
+2. Open the database → **Console**, paste the contents of [db/clicks.sql](db/clicks.sql) and run it.
+3. **Workers & Pages → the site's project → Settings → Bindings → Add → D1 database**: variable name `DB`, database `wyd-clicks`. Add it for Production (and Preview, if you want clicks from preview deploys too).
+4. Redeploy the site (push to `main` or **Deployments → Retry deployment**) so the binding takes effect.
+
+To see the numbers, open the database → **Console** and run one of the queries from [db/queries.sql](db/queries.sql). Until the binding is set up, the site works as usual and clicks are simply not saved.
+
 ## Project structure
 
 ```
@@ -115,6 +135,8 @@ src/
   layouts/Base.astro   shared page layout
   pages/index.astro    the single page with all sections
   pages/404.astro      "not found" page
+functions/api/click.ts click counter (Cloudflare Pages Function)
+db/                    click table and ready-made queries
 scripts/               tests, screenshots, social media image
 ```
 

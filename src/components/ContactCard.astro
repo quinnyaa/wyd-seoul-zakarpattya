@@ -27,7 +27,7 @@ const channels = [
 ].flatMap((channel) => (channel.href ? [{ ...channel, href: channel.href }] : []));
 ---
 
-<article class="contact" data-contact>
+<article class="contact" data-contact={contact.name}>
   <header>
     <h3 class="contact__name">{contact.name}</h3>
     {contact.role && <p class="contact__role">{contact.role}</p>}

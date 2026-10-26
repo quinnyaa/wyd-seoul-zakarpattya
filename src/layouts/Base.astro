@@ -26,6 +26,10 @@ const {
   noindex = false,
 } = Astro.props;
 
+// Для прев’ю в месенджерах — окремі короткі тексти, якщо сторінка не задала свої
+const shareTitle = Astro.props.title ?? site.shareTitle;
+const shareDescription = Astro.props.description ?? site.shareDescription;
+
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(url('/og.jpg'), Astro.site);
 
@@ -63,8 +67,8 @@ const fontCss = [
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="uk_UA" />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={shareTitle} />
+    <meta property="og:description" content={shareDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
@@ -142,8 +146,35 @@ const fontCss = [
         targets.forEach((el) => observer.observe(el));
       }
 
+      // Лічильник кліків по всіх посиланнях і кнопках. Надсилає, що натиснули (data-link або адресу),
+      // де на сторінці, підпис і ім’я з картки контакту — і нічого про людину. Далі functions/api/click.ts
+      function initClicks() {
+        if (!('sendBeacon' in navigator)) return;
+        const placeOf = (el: Element) => {
+          if (el.closest('dialog')) return 'lightbox';
+          if (el.closest('.sticky-help')) return 'sticky';
+          if (el.closest('.header')) return 'header';
+          if (el.closest('.footer')) return 'footer';
+          return el.closest('section[id]')?.id ?? '';
+        };
+        // capture: клік зарахується, навіть якщо інший обробник зупинить його поширення
+        document.addEventListener(
+          'click',
+          (e) => {
+            const el = (e.target as Element | null)?.closest<HTMLElement>('a[href], button');
+            if (!el) return;
+            const label = (el.getAttribute('aria-label') ?? el.textContent ?? '').replace(/\s+/g, ' ').trim();
+            const contact = el.closest<HTMLElement>('[data-contact]')?.dataset.contact ?? '';
+            const link = el.dataset.link ?? el.getAttribute('href') ?? 'button';
+            navigator.sendBeacon('/api/click', JSON.stringify({ link, place: placeOf(el), label, contact }));
+          },
+          true,
+        );
+      }
+
       initSticky();
       initReveal();
+      initClicks();
     </script>
   </body>
 </html>
