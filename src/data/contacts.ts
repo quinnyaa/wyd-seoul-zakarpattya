@@ -25,8 +25,6 @@ export const contacts: Contact[] = [
   },
 ];
 
-export const instagram = 'todo_instagram'; // [TODO: Instagram без @]
-
 /** Контакт для блоку «Ви за кордоном?» — за замовчуванням перша особа зі списку. */
 export const abroadContact = contacts[0];
 
@@ -38,7 +36,6 @@ export const links = {
   tel: (c: Contact) => `tel:+${digits(c.phone)}`,
   telegram: (c: Contact) => (c.telegram ? `https://t.me/${c.telegram}` : undefined),
   viber: (c: Contact) => (c.viber ? `viber://chat?number=%2B${digits(c.phone)}` : undefined),
-  instagram: (username: string) => `https://www.instagram.com/${username}/`,
 };
 
 /** '+380501234567' → '+380 50 123 45 67' */

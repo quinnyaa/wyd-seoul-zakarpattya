@@ -1,8 +1,8 @@
 // Перевірка зібраного сайту. Спершу: npm run build && npm run preview
-// Запуск: npm test  (або node scripts/test.mjs http://localhost:4321/wyd-seoul-zakarpattya)
+// Запуск: npm test  (або node scripts/test.mjs http://localhost:4321)
 import { chromium } from 'playwright';
 
-const base = (process.argv[2] ?? 'http://localhost:4321/wyd-seoul-zakarpattya').replace(/\/$/, '');
+const base = (process.argv[2] ?? 'http://localhost:4321').replace(/\/$/, '');
 const origin = new URL(base).origin;
 const pages = ['/'];
 const redirects = { '/about/': '#about', '/trip/': '#wyd', '/help/': '#help' };
@@ -74,7 +74,7 @@ for (const path of pages) {
       })),
   );
   const badExternal = external.filter((a) => !a.ok).map((a) => a.href);
-  check(external.length >= 4 && !badExternal.length, `зовнішні посилання мають target, rel, іконку й підпис (${external.length})`, badExternal.join(', '));
+  check(external.length >= 3 && !badExternal.length, `зовнішні посилання мають target, rel, іконку й підпис (${external.length})`, badExternal.join(', '));
 
   await page.click('#site-menu a[href$="#wyd"]');
   await page.waitForTimeout(1200);
@@ -271,13 +271,15 @@ for (const path of pages) {
   };
   const cards = await page.locator('#contacts [data-contact]').count();
   check(cards === 1, `карток контактів: ${cards}`);
-  const instagram = await page.locator('#contacts [data-link="instagram"]').evaluateAll((els) => els.map((el) => el.getAttribute('href')));
-  check(instagram.length === 1 && /^https:\/\/www\.instagram\.com\/[A-Za-z0-9_.]+\/$/.test(instagram[0]), 'посилання instagram', instagram.join(', '));
   for (const [type, pattern] of Object.entries(formats)) {
     const hrefs = await page.locator(`[data-contact] [data-link="${type}"]`).evaluateAll((els) => els.map((el) => el.getAttribute('href')));
     const bad = hrefs.filter((href) => !pattern.test(href));
     check(hrefs.length === cards && !bad.length, `посилання ${type} (${hrefs.length})`, bad.join(', '));
   }
+  const todos = await page.evaluate(() =>
+    ['about', 'help', 'thanks', 'contacts'].filter((id) => document.getElementById(id).innerText.includes('[TODO')),
+  );
+  check(!todos.length, 'у секціях немає [TODO', todos.map((id) => `#${id}`).join(', '));
   const forbidden = await page.evaluate(() => /IBAN|UA\d{27}|\b\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b/.test(document.body.innerText) || document.forms.length > 0);
   check(!forbidden, 'немає форм, номерів карток та IBAN');
   await page.close();

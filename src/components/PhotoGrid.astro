@@ -1,5 +1,8 @@
 ---
-/* Сітка фото. Клік по фото відкриває його збільшеним (Lightbox). */
+/*
+  Сітка фото. Клік по фото відкриває його збільшеним (Lightbox).
+  Фото, яких ще немає в src/assets/photos/, у галереї не показуються.
+*/
 import { getImage } from 'astro:assets';
 import Lightbox from './Lightbox.astro';
 import Photo from './Photo.astro';
@@ -12,28 +15,36 @@ interface Props {
 const { ids } = Astro.props;
 
 const items = await Promise.all(
-  ids.map(async (id) => {
-    const photo = getPhoto(id);
-    if (!photo.image) return { id, photo, full: undefined };
-    const width = Math.min(1800, photo.image.width);
-    const full = await getImage({ src: photo.image, width, format: 'webp', quality: 78 });
-    return { id, photo, full };
-  }),
+  ids
+    .map((id) => ({ id, photo: getPhoto(id) }))
+    .filter(({ photo }) => photo.image)
+    .map(async ({ id, photo }) => {
+      const width = Math.min(1800, photo.image!.width);
+      const full = await getImage({ src: photo.image!, width, format: 'webp', quality: 78 });
+      return { id, photo, full };
+    }),
 );
+
+// 4 фото краще лягають квадратом 2 × 2, ніж рядом із трьох і одним зайвим
+const twoCols = items.length === 4;
 ---
 
-<ul class="grid">
+<ul class:list={['grid', { 'grid--2': twoCols }]}>
   {
     items.map(({ id, photo, full }, i) => (
       <li class="grid__item reveal" style={`--i:${i % 3}`}>
-        <Photo id={id} sizes="(min-width: 56.25em) 24rem, (min-width: 36em) 33vw, 50vw" widths={[240, 400, 600, 800]} />
+        <Photo
+          id={id}
+          sizes={twoCols ? '(min-width: 56.25em) 36rem, 50vw' : '(min-width: 56.25em) 24rem, (min-width: 36em) 33vw, 50vw'}
+          widths={[240, 400, 600, 800, 1200]}
+        />
         <button
           class="grid__open"
           type="button"
           data-lightbox-item
-          data-full={full?.src}
-          data-width={full?.attributes.width}
-          data-height={full?.attributes.height}
+          data-full={full.src}
+          data-width={full.attributes.width}
+          data-height={full.attributes.height}
           data-alt={photo.alt}
           aria-label={`Збільшити фото: ${photo.alt}`}
         >
@@ -110,6 +121,10 @@ const items = await Promise.all(
     .grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--s-4);
+    }
+
+    .grid--2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

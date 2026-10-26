@@ -6,16 +6,15 @@ import CtaPanel from '../components/CtaPanel.astro';
 import ExternalIcon from '../components/ExternalIcon.astro';
 import HeroScene from '../components/HeroScene.astro';
 import InfoNote from '../components/InfoNote.astro';
-import InstagramCard from '../components/InstagramCard.astro';
 import Photo from '../components/Photo.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
 import ThanksCard from '../components/ThanksCard.astro';
 import { about, contacts as contactTexts, help, hero, site, wyd } from '../content/texts';
-import { abroadContact, contacts, instagram, links } from '../data/contacts';
+import { abroadContact, contacts, links } from '../data/contacts';
 import Base from '../layouts/Base.astro';
 import { isExternal } from '../utils/rich';
 
-const { fact, values, organizer, gallery } = about;
+const { organizer, gallery } = about;
 const { why, cost } = wyd;
 const { steps, fundraising, other } = help;
 const { abroad } = contactTexts;
@@ -99,25 +98,6 @@ const nameParts = accents.length
             <InfoNote icon="link" text={about.note} />
           </div>
         </div>
-
-        <div class="fact reveal">
-          <p class="fact__head">
-            <strong class="fact__value">{fact.value}</strong>
-            <span class="fact__label">{fact.label}</span>
-          </p>
-          <p class="fact__text">{fact.text}</p>
-        </div>
-
-        <ul class="cards cards--3 values">
-          {
-            values.map((value, i) => (
-              <li class="card reveal" style={`--i:${i}`}>
-                <h3>{value.title}</h3>
-                <p>{value.text}</p>
-              </li>
-            ))
-          }
-        </ul>
       </div>
     </div>
 
@@ -127,7 +107,6 @@ const nameParts = accents.length
           <p class="eyebrow">{organizer.eyebrow}</p>
           <h3 class="organizer__name">{organizer.name}</h3>
           <p>{organizer.text}</p>
-          <p class="organizer__note">{organizer.note}</p>
           <a class="link-arrow" href="#contacts">
             {organizer.link}
             <Arrow />
@@ -251,16 +230,7 @@ const nameParts = accents.length
               <li class="card reveal" style={`--i:${i}`}>
                 <h4>{event.title}</h4>
                 <p>{event.text}</p>
-                <dl class="event-meta">
-                  <div>
-                    <dt>{fundraising.dateLabel}</dt>
-                    <dd>{event.date}</dd>
-                  </div>
-                  <div>
-                    <dt>{fundraising.placeLabel}</dt>
-                    <dd>{event.place}</dd>
-                  </div>
-                </dl>
+                <p class="event-note">{event.note}</p>
               </li>
             ))
           }
@@ -305,13 +275,6 @@ const nameParts = accents.length
               <ContactCard contact={contact} />
             </div>
           ))
-        }
-        {
-          instagram && (
-            <div class="reveal" style={`--i:${contacts.length}`}>
-              <InstagramCard username={instagram} />
-            </div>
-          )
         }
       </div>
 
@@ -518,67 +481,6 @@ const nameParts = accents.length
 
   /* ---------- Хто ми ---------- */
 
-  .fact {
-    position: relative;
-    margin-top: var(--s-7);
-    display: grid;
-    align-content: start;
-    gap: var(--s-3);
-    padding: var(--s-5);
-    border-radius: var(--r-lg);
-    background: var(--c-surface);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-  }
-
-  .fact::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    height: 0.375rem;
-    background: var(--c-red);
-  }
-
-  .fact__head {
-    display: grid;
-    gap: 0.125rem;
-  }
-
-  .fact__prefix,
-  .fact__label {
-    font-weight: 700;
-    color: var(--c-ink-soft);
-  }
-
-  .fact__value {
-    font-family: var(--font-display);
-    font-size: var(--fs-num);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    color: var(--c-indigo);
-  }
-
-  .fact__value--text {
-    font-size: clamp(1.625rem, 1.2rem + 1.6vw, 2.25rem);
-    line-height: 1.15;
-    white-space: normal;
-  }
-
-  .fact__text {
-    font-size: var(--fs-sm);
-    color: var(--c-ink-soft);
-  }
-
-  /* Одна картка факту: на десктопі не розтягується на всю ширину */
-  @media (min-width: 48em) {
-    .fact {
-      max-width: 30rem;
-      padding: var(--s-6);
-    }
-  }
-
   .about__grid {
     display: grid;
     gap: var(--s-6);
@@ -597,10 +499,6 @@ const nameParts = accents.length
     }
   }
 
-  .values {
-    margin-top: var(--s-5);
-  }
-
   .organizer {
     display: grid;
     justify-items: start;
@@ -616,11 +514,6 @@ const nameParts = accents.length
   .organizer__name {
     font-weight: 700;
     color: var(--c-indigo-deep);
-  }
-
-  .organizer__note {
-    font-size: var(--fs-sm);
-    color: var(--c-ink-soft);
   }
 
   /* Підзаголовок блоку всередині секції: h3 з виглядом заголовка секції */
@@ -799,28 +692,8 @@ const nameParts = accents.length
     color: var(--c-red-dark);
   }
 
-  .event-meta {
-    display: grid;
-    gap: var(--s-2);
-    margin: var(--s-3) 0 0;
-    padding-top: var(--s-3);
-    border-top: 1px solid var(--c-line);
+  .event-note {
     font-size: var(--fs-sm);
-  }
-
-  .event-meta div {
-    display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    gap: var(--s-2);
-  }
-
-  .event-meta dt {
-    font-weight: 800;
-    color: var(--c-indigo);
-  }
-
-  .event-meta dd {
-    margin: 0;
     color: var(--c-ink-soft);
   }
 
@@ -864,7 +737,6 @@ const nameParts = accents.length
     .contacts__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--s-5);
-      max-width: 52rem;
     }
 
     .abroad {

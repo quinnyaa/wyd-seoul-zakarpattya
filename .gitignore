@@ -6,3 +6,6 @@ test-results/
 .lighthouseci/
 screenshots/
 Claude outputs/
+
+# Оригінали фото у PDF (конвертовані в src/assets/photos/)
+/photos/

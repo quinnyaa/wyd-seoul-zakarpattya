@@ -1,6 +1,5 @@
 ---
-/* Секція «Наша подяка»: Паломницька листівка, правило «кожні 200 грн — одна листівка» і місце для макета. */
-import Arrow from './Arrow.astro';
+/* Секція «Наша подяка»: Паломницька листівка, правило «кожні 200 грн — одна листівка», Вечір подяки і місце для макета. */
 import CardMockup from './CardMockup.astro';
 import Ornament from './Ornament.astro';
 import Rich from './Rich.astro';
@@ -16,18 +15,6 @@ import { thanks } from '../content/texts';
       <p class="thanks__intro">{thanks.intro}</p>
       <p><Rich text={thanks.text} /></p>
       <p class="thanks__rule">{thanks.rule}</p>
-      <ul class="thanks__list">
-        {
-          thanks.examples.map((example) => (
-            <li>
-              <span>{example.sum}</span>
-              <Arrow />
-              <strong>{example.cards}</strong>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="thanks__more">{thanks.more}</p>
       <p><Rich text={thanks.evening} /></p>
     </div>
     <div class="reveal" style="--i:1">
@@ -62,44 +49,6 @@ import { thanks } from '../content/texts';
     font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 600;
-  }
-
-  .thanks__list {
-    display: grid;
-    gap: var(--s-2);
-    max-width: 22rem;
-    margin-bottom: 0;
-  }
-
-  .thanks__list li {
-    display: grid;
-    grid-template-columns: 5.5rem 1.125rem 1fr;
-    align-items: center;
-    gap: var(--s-3);
-    padding: 0.75rem 1rem;
-    border-radius: var(--r-md);
-    background: rgb(255 255 255 / 0.75);
-  }
-
-  .thanks__list span {
-    font-weight: 700;
-  }
-
-  .thanks__list :global(svg) {
-    width: 1.125rem;
-    height: 1.125rem;
-    color: var(--c-red);
-  }
-
-  .thanks__list strong {
-    font-weight: 800;
-    color: var(--c-indigo);
-  }
-
-  .thanks__more {
-    margin-top: var(--s-2);
-    font-size: var(--fs-sm);
-    color: var(--c-ink-soft);
   }
 
   .thanks :global(strong) {

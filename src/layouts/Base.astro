@@ -127,8 +127,8 @@ const fontCss = [
           return;
         }
         const visible = new Set<Element>();
-        // Те, що сховане під шапкою, видимим не вважаємо
-        const header = document.querySelector<HTMLElement>('.header')?.offsetHeight ?? 0;
+        // Те, що сховане під шапкою, видимим не вважаємо (+1 px: край, що лише торкається шапки, теж не рахуємо)
+        const header = (document.querySelector<HTMLElement>('.header')?.offsetHeight ?? 0) + 1;
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {

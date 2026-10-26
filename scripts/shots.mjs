@@ -1,7 +1,7 @@
 // Скріншоти головної сторінки (375 і 1440 px): node scripts/shots.mjs <baseUrl> <outDir>
 import { chromium } from 'playwright';
 
-const [base = 'http://localhost:4321/wyd-seoul-zakarpattya', out = 'screenshots'] = process.argv.slice(2);
+const [base = 'http://localhost:4321', out = 'screenshots'] = process.argv.slice(2);
 const pages = ['/'];
 const sizes = [
   { name: '1440', width: 1440, height: 900, mobile: false },

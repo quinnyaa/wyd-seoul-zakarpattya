@@ -3,7 +3,7 @@
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync } from 'node:fs';
 
-const base = (process.argv[2] ?? 'http://localhost:4321/wyd-seoul-zakarpattya').replace(/\/$/, '');
+const base = (process.argv[2] ?? 'http://localhost:4321').replace(/\/$/, '');
 const pages = ['/'];
 mkdirSync('.lighthouseci', { recursive: true });
 
