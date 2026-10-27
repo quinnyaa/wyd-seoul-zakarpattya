@@ -11,3 +11,9 @@ Claude outputs/
 photos/
 /CLAUDE.md
 /.claude/
+
+# Секрети й локальні налаштування Cloudflare
+.env
+.env.*
+.dev.vars
+.wrangler/
