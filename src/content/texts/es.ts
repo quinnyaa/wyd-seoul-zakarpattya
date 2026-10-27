@@ -140,6 +140,7 @@ export const help = {
   title: 'Cómo ayudarnos a llegar a Seúl',
   text: [
     'No hay una cantidad objetivo, y no existe un donativo «demasiado pequeño». Cada grivna es un ladrillo de nuestro camino a Seúl.',
+    'La colecta está abierta hasta el 20 de diciembre de 2027. El plazo podrá prorrogarse si fuera necesario, actualizando la información correspondiente. Después del viaje publicaremos en esta web un informe: cuánto hemos recaudado, en qué lo hemos gastado y cómo hemos utilizado el posible remanente.',
     '**Solo aceptamos donativos en efectivo y en persona, en cualquier lugar de Transcarpacia.** Nos alegrará encontrarnos contigo para darte las gracias personalmente.',
   ],
   button: 'Contacta con nosotros',
@@ -157,9 +158,10 @@ export const help = {
       },
       {
         title: 'Entrega tu donativo',
-        text: 'Entregas el donativo en efectivo y recibes Postales del Peregrino.',
+        text: 'Nos entregas tu donativo en efectivo, lo anotamos en la matriz de la postal y recibes una Postal del Peregrino.',
       },
     ],
+    stub: 'En la matriz de la postal anotamos tu nombre, tu teléfono, el importe y la fecha. La matriz se queda con nosotros: así llevamos el registro de los donativos. Tu teléfono solo lo necesitamos para invitarte a la Velada de agradecimiento; después lo borraremos.',
     notice:
       'En esta web no hay ni habrá números de tarjeta ni de cuenta. Si alguien pide que se transfiera dinero en nuestro nombre, no somos nosotros.',
   },
@@ -210,7 +212,7 @@ export const thanks = {
   text: 'A todo el que apoye nuestro camino con un donativo a partir de 200 UAH (unos 4 €) le regalamos una **Postal del Peregrino**. Es la señal de que peregrinas espiritualmente con nosotros.',
   rule: 'Cada 200 UAH de donativo, una postal',
   evening:
-    'En cuanto cerremos la colecta, invitaremos a quienes tengan la postal a una **Velada de agradecimiento en línea**. Nos reuniremos toda la comunidad en directo para hacer balance de la colecta. Y entre quienes tengan postal repartiremos **regalos especiales de parte de nuestros jóvenes** como señal de nuestra enorme gratitud.',
+    'En cuanto terminemos nuestra colecta, invitaremos a todos los que nos han apoyado a una **Velada de agradecimiento en línea**. Nos reuniremos toda la comunidad en directo para hacer balance de la colecta. **Quien tenga una Postal del Peregrino puede recibir un regalo de los participantes**. Los regalos no se sortean y no dependen del número de postales.',
   mockup: {
     thanks: '¡Gracias!',
     note: '¡Aquí irá el diseño de la postal!',

@@ -227,6 +227,7 @@ const nameParts = accents.length
             ))
           }
         </ol>
+        <p class="steps-note reveal">{steps.stub}</p>
         <p class="notice reveal">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 3 4.5 6v5.5c0 4.5 3 8 7.5 9.5 4.5-1.5 7.5-5 7.5-9.5V6ZM12 8v5M12 16.5v.01"></path>
@@ -695,6 +696,16 @@ const nameParts = accents.length
 
   .step p {
     color: var(--c-ink-soft);
+  }
+
+  .steps-note {
+    max-width: 46rem;
+    margin-top: var(--s-6);
+    color: var(--c-ink-soft);
+  }
+
+  .steps-note + .notice {
+    margin-top: var(--s-4);
   }
 
   .notice {

@@ -140,6 +140,7 @@ export const help = {
   title: 'Come aiutarci ad arrivare a Seul',
   text: [
     'Non c’è una cifra da raggiungere e non esiste un’offerta «troppo piccola». Ogni grivnia è un mattone della nostra strada verso Seul.',
+    'La raccolta è aperta fino al 20 dicembre 2027. Il termine potrà essere prorogato, se necessario, aggiornando di conseguenza le informazioni. Dopo il viaggio pubblicheremo su questo sito un resoconto: quanto abbiamo raccolto, come lo abbiamo speso e come abbiamo utilizzato l’eventuale avanzo.',
     '**Accettiamo offerte solo in contanti e di persona, ovunque in Transcarpazia.** Saremo felici di incontrarti per ringraziarti di persona.',
   ],
   button: 'Contattaci',
@@ -157,9 +158,10 @@ export const help = {
       },
       {
         title: 'Consegna l’offerta',
-        text: 'Consegni l’offerta in contanti e ricevi le Cartoline del Pellegrino.',
+        text: 'Ci consegni la tua offerta in contanti, la annotiamo sulla matrice della cartolina e ricevi una Cartolina del Pellegrino.',
       },
     ],
+    stub: 'Sulla matrice della cartolina annotiamo il tuo nome, il numero di telefono, l’importo e la data. La matrice resta a noi: così teniamo il registro delle offerte. Il numero di telefono ci serve solo per invitarti alla Serata di ringraziamento; dopo lo cancelleremo.',
     notice:
       'Su questo sito non ci sono e non ci saranno numeri di carta o di conto. Se qualcuno chiede di trasferire denaro a nome nostro, non siamo noi.',
   },
@@ -210,7 +212,7 @@ export const thanks = {
   text: 'A chi sostiene il nostro cammino con un’offerta a partire da 200 UAH (circa 4 €) regaliamo una **Cartolina del Pellegrino**. È il segno che stai camminando spiritualmente insieme a noi.',
   rule: 'Ogni 200 UAH di offerta, una cartolina',
   evening:
-    'Appena chiusa la raccolta, inviteremo chi ha la cartolina a una **Serata di ringraziamento online**. Ci ritroveremo come comunità in diretta per tirare le somme della raccolta. E tra chi ha la cartolina distribuiremo **doni speciali da parte dei nostri giovani**, segno della nostra immensa gratitudine.',
+    'Appena conclusa la nostra raccolta, inviteremo tutti coloro che ci hanno sostenuto a una **Serata di ringraziamento online**. Ci ritroveremo in diretta, tutta la comunità insieme, per fare il bilancio della raccolta. **Chi possiede una Cartolina del Pellegrino può ricevere un regalo dai partecipanti**. I regali non vengono estratti a sorte e non dipendono dal numero di cartoline.',
   mockup: {
     thanks: 'Grazie!',
     note: 'Qui ci sarà il bozzetto della cartolina!',

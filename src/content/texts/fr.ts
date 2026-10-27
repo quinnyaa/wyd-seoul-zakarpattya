@@ -142,6 +142,7 @@ export const help = {
   title: 'Comment nous aider à arriver à Séoul',
   text: [
     'Il n’y a pas de somme à atteindre, et aucun don n’est « trop petit ». Chaque hryvnia est une brique de notre route vers Séoul.',
+    'La collecte se poursuit jusqu’au 20 décembre 2027. Cette période pourra être prolongée si nécessaire, avec une mise à jour des informations correspondantes. Après le voyage, nous publierons sur ce site un bilan : combien nous avons collecté, à quoi l’argent a servi et comment nous avons utilisé le solde éventuel.',
     '**Nous n’acceptons les dons qu’en espèces, lors d’une rencontre en personne, partout en Transcarpatie.** Nous serons heureux de vous rencontrer pour vous remercier personnellement.',
   ],
   button: 'Nous contacter',
@@ -159,9 +160,10 @@ export const help = {
       },
       {
         title: 'Remettez votre don',
-        text: 'Vous remettez votre don en espèces et vous recevez des Cartes du Pèlerin.',
+        text: 'Vous remettez votre don en espèces, nous l’inscrivons sur le talon de la carte et vous recevez une Carte du Pèlerin.',
       },
     ],
+    stub: 'Sur le talon de la carte, nous notons votre nom, votre numéro de téléphone, le montant et la date. Le talon reste chez nous : c’est ainsi que nous tenons le registre des dons. Votre numéro ne sert qu’à vous inviter à la soirée de remerciement ; nous le supprimerons ensuite.',
     notice:
       'Ce site ne contient aucun numéro de carte ni de compte, et n’en contiendra jamais. Si quelqu’un vous demande de virer de l’argent en notre nom, ce n’est pas nous.',
   },
@@ -212,7 +214,7 @@ export const thanks = {
   text: 'À tous ceux qui soutiennent notre chemin par un don à partir de 200 UAH (environ 4 €), nous offrons une **Carte du Pèlerin**. Elle est le signe que vous cheminez spirituellement avec nous.',
   rule: 'Chaque don de 200 UAH donne une carte',
   evening:
-    'Dès que notre collecte sera terminée, nous inviterons les détenteurs des cartes à une **soirée de remerciement en ligne**. Nous nous retrouverons en communauté, en direct, pour faire le bilan de la collecte. Et parmi les détenteurs des cartes, nous répartirons des **cadeaux particuliers offerts par nos jeunes**, en signe de notre immense gratitude.',
+    'Dès la fin de notre collecte, nous inviterons toutes les personnes qui nous ont soutenus à une **soirée de remerciement en ligne**. Nous nous retrouverons en direct, toute la communauté réunie, pour faire le bilan de notre collecte. **Un donateur détenteur d’une Carte du Pèlerin peut recevoir un cadeau de la part des participants**. Les cadeaux ne sont pas tirés au sort et ne dépendent pas du nombre de cartes.',
   mockup: {
     thanks: 'Merci !',
     note: 'La maquette de la carte sera ici !',

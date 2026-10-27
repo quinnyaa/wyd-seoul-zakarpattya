@@ -140,6 +140,7 @@ export const help = {
   title: 'Wie Sie uns helfen können, nach Seoul zu kommen',
   text: [
     'Es gibt keine Zielsumme, und es gibt keine Spende, die „zu klein“ wäre. Jede Hrywnja ist ein Baustein unseres Weges nach Seoul.',
+    'Die Spendenaktion läuft bis zum 20. Dezember 2027. Der Spendenzeitraum kann bei Bedarf verlängert werden; die entsprechenden Informationen werden dann aktualisiert. Nach der Reise veröffentlichen wir auf dieser Website einen Bericht: wie viel wir gesammelt haben, wofür wir es ausgegeben haben und wie wir einen eventuellen Restbetrag verwendet haben.',
     '**Spenden nehmen wir ausschließlich in bar bei einem persönlichen Treffen entgegen, überall in Transkarpatien.** Wir freuen uns, Ihnen persönlich danken zu können.',
   ],
   button: 'Kontakt aufnehmen',
@@ -157,9 +158,10 @@ export const help = {
       },
       {
         title: 'Übergeben Sie Ihre Spende',
-        text: 'Sie übergeben die Spende in bar und erhalten Pilgerkarten.',
+        text: 'Sie übergeben Ihre Spende in bar, wir tragen sie auf dem Abschnitt der Karte ein, und Sie erhalten eine Pilgerkarte.',
       },
     ],
+    stub: 'Auf dem Abschnitt der Karte notieren wir Ihren Namen, Ihre Telefonnummer, den Betrag und das Datum. Der Abschnitt bleibt bei uns – so behalten wir den Überblick über die Spenden. Ihre Telefonnummer brauchen wir nur, um Sie zum Dankabend einzuladen; danach löschen wir sie.',
     notice:
       'Auf dieser Website stehen keine Karten- oder Kontonummern, und das wird auch so bleiben. Wenn jemand Sie bittet, in unserem Namen Geld zu überweisen, sind wir das nicht.',
   },
@@ -210,7 +212,7 @@ export const thanks = {
   text: 'Allen, die unseren Weg mit einer Spende ab 200 UAH (etwa 4 €) unterstützen, schenken wir eine **Pilgerkarte**. Sie ist das Zeichen dafür, dass Sie geistlich mit uns unterwegs sind.',
   rule: 'Je 200 UAH Spende eine Karte',
   evening:
-    'Sobald unsere Sammlung abgeschlossen ist, laden wir alle, die eine Karte haben, zu einem **Online-Dankabend** ein. Wir treffen uns als ganze Gemeinschaft live, um Bilanz unserer Sammlung zu ziehen. Und unter den Karteninhabern verteilen wir **besondere Geschenke unserer Jugendlichen** als Zeichen unserer großen Dankbarkeit.',
+    'Sobald wir unsere Spendenaktion abgeschlossen haben, laden wir alle, die uns unterstützt haben, zu einem **Online-Dankabend** ein. Wir treffen uns als ganze Gemeinschaft im Livestream, um Bilanz zu ziehen. **Spender, die eine Pilgerkarte besitzen, können ein Geschenk von den Teilnehmern erhalten**. Die Geschenke werden nicht verlost und hängen nicht von der Anzahl der Karten ab.',
   mockup: {
     thanks: 'Danke!',
     note: 'Hier kommt das Design der Karte hin!',

@@ -140,6 +140,7 @@ export const help = {
   title: 'How to help us get to Seoul',
   text: [
     'There is no target amount, and there is no such thing as a donation that is too small. Every hryvnia is a brick in our road to Seoul.',
+    'The fundraiser runs until December 20, 2027. The fundraising period may be extended if necessary, with the relevant information updated accordingly. After the trip, we will publish a report on this website: how much we raised, what we spent it on and how we used any remaining funds.',
     '**We accept donations only in cash, in person — anywhere in Transcarpathia.** We will be glad to meet you and thank you personally.',
   ],
   button: 'Contact us',
@@ -157,9 +158,10 @@ export const help = {
       },
       {
         title: 'Hand over your donation',
-        text: 'You give your donation in cash and receive Pilgrim Cards.',
+        text: 'You hand over your donation in cash, we record it on the stub of the card, and you receive a Pilgrim Card.',
       },
     ],
+    stub: 'On the stub of the card we record your name, phone number, the amount and the date. The stub stays with us — this is how we keep track of donations. We need your phone number only to invite you to the Thank-You Evening; we will delete it afterwards.',
     notice:
       'There are no card or account numbers on this site, and there never will be. If someone asks you to transfer money on our behalf, it is not us.',
   },
@@ -210,7 +212,7 @@ export const thanks = {
   text: 'To everyone who supports our journey with a donation of 200 UAH (about €4) or more, we give a **Pilgrim Card**. It is a sign that you are travelling with us spiritually.',
   rule: 'Every 200 UAH donated — one card',
   evening:
-    'As soon as we close our fundraiser, we will invite the cardholders to an **online Thank-You Evening**. We will gather as a whole community, live, to sum up our fundraiser. And among the cardholders we will share out **special gifts from our young people** as a sign of our boundless gratitude.',
+    'As soon as we finish our fundraiser, we will invite everyone who supported us to an **online Thank-You Evening**. We will gather as a whole community in a live stream to sum up our fundraiser. **A donor who holds a Pilgrim Card may receive a gift from the participants**. Gifts are not drawn by lot and do not depend on the number of cards.',
   mockup: {
     thanks: 'Thank you!',
     note: 'The card design will go here!',
