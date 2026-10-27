@@ -9,6 +9,8 @@ import InfoNote from '../../components/InfoNote.astro';
 import Photo from '../../components/Photo.astro';
 import PhotoGrid from '../../components/PhotoGrid.astro';
 import ThanksCard from '../../components/ThanksCard.astro';
+import VideoEmbed from '../../components/VideoEmbed.astro';
+import popeVideoPoster from '../../assets/video/pope-invitation.jpg';
 import { languages } from '../../content/languages';
 import { abroadContact, contacts, links } from '../../data/contacts';
 import Base from '../../layouts/Base.astro';
@@ -23,7 +25,7 @@ export function getStaticPaths() {
 const { t } = useI18n(Astro);
 const { about, contacts: contactTexts, help, hero, site, wyd } = t;
 
-const { organizer, gallery } = about;
+const { organizer, gallery, video } = about;
 const { why, cost } = wyd;
 const { steps, fundraising, other } = help;
 const { abroad } = contactTexts;
@@ -106,6 +108,14 @@ const nameParts = accents.length
             <p>{about.text}</p>
             <InfoNote icon="link" text={about.note} />
           </div>
+        </div>
+
+        <div class="pope-video reveal">
+          <div class="section-head">
+            <h3 class="subtitle">{video.title}</h3>
+            <p class="lead">{video.text}</p>
+          </div>
+          <VideoEmbed id="C4z6E30dEwY" title={video.title} play={video.play} poster={popeVideoPoster} />
         </div>
       </div>
     </div>
@@ -506,6 +516,11 @@ const nameParts = accents.length
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: var(--s-8);
     }
+  }
+
+  .pope-video {
+    max-width: 56rem;
+    margin: var(--s-8) auto 0;
   }
 
   .organizer {

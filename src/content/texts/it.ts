@@ -69,6 +69,12 @@ export const about = {
   text: 'Siamo i giovani delle comunità neocatecumenali di Užhorod. Abbiamo risposto all’invito di Papa Leone XIV a metterci in cammino verso Seul. Per noi questo pellegrinaggio è un momento molto serio di incontro con Dio stesso. Desideriamo ricevere luce sulla nostra vocazione e sulla nostra missione, cosa che in questo tempo di tante paure e incertezze è per noi decisiva.',
   note: 'Puoi saperne di più su questo itinerario cristiano nel [sito ufficiale del Cammino Neocatecumenale](https://neocatechumenaleiter.org/it/).',
 
+  video: {
+    title: 'L’invito di papa Leone\u00a0XIV',
+    text: 'Il videomessaggio del Santo Padre ai giovani per l’apertura delle iscrizioni alla GMG di Seul.',
+    play: 'Guarda il video',
+  },
+
   organizer: {
     eyebrow: 'Organizzatore della raccolta',
     name: 'Campomar Hernando Francisco Javier',

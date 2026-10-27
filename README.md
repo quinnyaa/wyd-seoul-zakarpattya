@@ -2,7 +2,7 @@
 
 A one-page fundraising site for the pilgrimage of young people from the Neocatechumenal communities of Uzhhorod, Ukraine, to World Youth Day in Seoul (3–8 August 2027).
 
-It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian, with translations into English, German, French, Spanish and Italian (see [Languages](#languages)). Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
+It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian, with translations into English, German, French, Spanish and Italian (see [Languages](#languages)). Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The Pope's video in the "Who we are" section shows a local cover image, and the YouTube player (from `youtube-nocookie.com`) loads only after a click. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
 
 ## License
 
@@ -167,8 +167,9 @@ src/
   data/photos.ts       photo file list
   assets/photos/       photos
   assets/card/         postcard design
+  assets/video/        cover image for the Pope's video
   styles/tokens.css    colors, fonts, spacing
-  components/          header, language picker, footer, countdown, cards, gallery
+  components/          header, language picker, footer, countdown, cards, gallery, video
   layouts/Base.astro   shared page layout
   utils/i18n.ts        page language, texts and links for it
   pages/[...lang]/index.astro  the single page with all sections, one per language

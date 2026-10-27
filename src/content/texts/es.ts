@@ -69,6 +69,12 @@ export const about = {
   text: 'Somos los jóvenes de las comunidades neocatecumenales de Úzhgorod. Hemos respondido a la invitación del Papa León XIV de ponernos en camino hacia Seúl. Para nosotros esta peregrinación es un momento muy serio de encuentro con Dios mismo. Queremos recibir luz sobre nuestra vocación y nuestra misión, algo que en este tiempo de tantos miedos e incertidumbre nos resulta decisivo.',
   note: 'Puedes conocer mejor este itinerario cristiano en la [web oficial del Camino Neocatecumenal](https://neocatechumenaleiter.org/).',
 
+  video: {
+    title: 'La invitación del papa León\u00a0XIV',
+    text: 'Videomensaje del Santo Padre a los jóvenes con motivo de la apertura de las inscripciones para la JMJ de Seúl.',
+    play: 'Ver el vídeo',
+  },
+
   organizer: {
     eyebrow: 'Organizador de la colecta',
     name: 'Campomar Hernando Francisco Javier',

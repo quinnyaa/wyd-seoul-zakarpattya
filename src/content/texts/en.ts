@@ -69,6 +69,12 @@ export const about = {
   text: 'We are the young people of the Neocatechumenal communities of Uzhhorod. We have responded to Pope Leo XIV’s invitation to set out for Seoul. For us this pilgrimage is a very serious moment of encounter with God himself. We want to receive light on our vocation and our mission, which in these times of so much fear and uncertainty is decisive for us.',
   note: 'You can find out more about this Christian itinerary on the [official website of the Neocatechumenal Way](https://neocatechumenaleiter.org/en/).',
 
+  video: {
+    title: 'Pope Leo\u00a0XIV’s invitation',
+    text: 'The Holy Father’s video message to young people on the opening of registration for World Youth Day in Seoul.',
+    play: 'Watch the video',
+  },
+
   organizer: {
     eyebrow: 'Fundraising organiser',
     name: 'Campomar Hernando Francisco Javier',

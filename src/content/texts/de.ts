@@ -69,6 +69,12 @@ export const about = {
   text: 'Wir sind die Jugendlichen der neokatechumenalen Gemeinschaften von Uschhorod. Wir haben die Einladung von Papst Leo XIV. angenommen, nach Seoul aufzubrechen. Für uns ist diese Pilgerreise ein sehr ernster Moment der Begegnung mit Gott selbst. Wir möchten Licht für unsere Berufung und unsere Sendung empfangen, was in dieser Zeit so vieler Ängste und Unsicherheiten für uns entscheidend ist.',
   note: 'Mehr über diesen Weg der christlichen Initiation erfahren Sie auf der [offiziellen Website des Neokatechumenalen Weges](https://neocatechumenaleiter.org/de/).',
 
+  video: {
+    title: 'Die Einladung von Papst Leo\u00a0XIV.',
+    text: 'Videobotschaft des Heiligen Vaters an die Jugendlichen zum Start der Anmeldung für den Weltjugendtag in Seoul.',
+    play: 'Video ansehen',
+  },
+
   organizer: {
     eyebrow: 'Organisator der Spendenaktion',
     name: 'Campomar Hernando Francisco Javier',

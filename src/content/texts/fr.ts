@@ -71,6 +71,12 @@ export const about = {
   text: 'Nous sommes les jeunes des communautés néocatéchuménales d’Oujhorod. Nous avons répondu à l’invitation du pape Léon XIV à partir pour Séoul. Pour nous, ce pèlerinage est un moment très sérieux de rencontre avec Dieu lui-même. Nous désirons recevoir une lumière sur notre vocation et notre mission, ce qui, en ce temps de tant de peurs et d’incertitudes, est décisif pour nous.',
   note: 'Pour en savoir plus sur cet itinéraire chrétien, consultez le [site officiel du Chemin Néocatéchuménal](https://neocatechumenaleiter.org/fr/).',
 
+  video: {
+    title: 'L’invitation du pape Léon\u00a0XIV',
+    text: 'Le message vidéo du Saint-Père aux jeunes à l’occasion de l’ouverture des inscriptions aux JMJ de Séoul.',
+    play: 'Regarder la vidéo',
+  },
+
   organizer: {
     eyebrow: 'Organisateur de la collecte',
     name: 'Campomar Hernando Francisco Javier',
