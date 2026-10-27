@@ -470,9 +470,22 @@ const nameParts = accents.length
       padding-top: var(--s-8);
     }
 
+    /* Кегль від ширини колонки, щоб найдовше слово (en «Carpathians») вміщалося */
+    .hero__title {
+      font-size: clamp(2.75rem, 6.2vw - 0.5rem, 4.25rem);
+    }
+
     .hero__actions {
       display: flex;
       flex-wrap: wrap;
+    }
+
+    /* У вужчій колонці кнопки компактніші, щоб довші переклади (fr) не переносилися */
+    @media (max-width: 67.49em) {
+      .hero__actions .btn {
+        padding-inline: 1.25rem;
+        font-size: 1rem;
+      }
     }
 
     .hero__media {

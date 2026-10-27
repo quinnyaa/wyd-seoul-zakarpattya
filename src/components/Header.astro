@@ -136,7 +136,7 @@ const { nav, site } = t;
   initScrollSpy();
 
   // Якщо екран розширили до десктопного, закриваємо мобільне меню
-  window.matchMedia('(min-width: 64em)').addEventListener('change', (event) => {
+  window.matchMedia('(min-width: 72em)').addEventListener('change', (event) => {
     if (event.matches) setMenu(false);
   });
 </script>
@@ -296,12 +296,19 @@ const { nav, site } = t;
   }
 
   /* ----- Десктоп -----
-     З 64em, а не з 56.25em, як решта сайту: назва, п’ять пунктів, кнопка й перемикач мов
-     у вужчу шапку не вміщаються. До 64em — меню-бургер і закріплена кнопка внизу (Base.astro) */
+     З 72em, а не з 56.25em, як решта сайту: назва, п’ять пунктів, кнопка й перемикач мов
+     у вужчу шапку не вміщаються (найдовші — fr, es, de). До 72em — меню-бургер
+     і закріплена кнопка внизу (Base.astro) */
 
-  @media (min-width: 64em) {
+  @media (min-width: 72em) {
+    /* Стискається лише назва (переноситься на другий рядок), меню й кнопки — ні */
     .header__brand {
-      font-size: 1rem;
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+
+    .menu {
+      flex: none;
     }
 
     .header__toggle {
@@ -366,6 +373,7 @@ const { nav, site } = t;
     .menu__help {
       min-height: 2.75rem;
       font-size: 1rem;
+      white-space: nowrap;
     }
 
     .menu__panel > :global(.langs) {

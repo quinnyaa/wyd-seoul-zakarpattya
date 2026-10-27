@@ -70,6 +70,18 @@ const { link } = useI18n(Astro);
     margin-top: var(--s-2);
   }
 
+  /* На вузькому телефоні менші відступи, щоб кнопка вмістилася в один рядок і стрілка не відривалася */
+  @media (max-width: 29.99em) {
+    .cta__body {
+      padding-inline: var(--s-4);
+    }
+
+    .cta__body .btn {
+      padding-inline: 1.25rem;
+      font-size: 1rem;
+    }
+  }
+
   @media (min-width: 48em) {
     .cta__body {
       padding: var(--s-7) var(--s-7) var(--s-8);

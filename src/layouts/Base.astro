@@ -294,7 +294,7 @@ const preload = cyrillic ? [manropeCyr, unboundedCyr] : [manropeLat, unboundedLa
 </html>
 
 <style>
-  /* Кнопка «Допомогти», закріплена внизу екрана, поки в шапці меню-бургер (до 64em, див. Header.astro) */
+  /* Кнопка «Допомогти», закріплена внизу екрана, поки в шапці меню-бургер (до 72em, див. Header.astro) */
   .sticky-help {
     position: fixed;
     left: var(--gutter);
@@ -316,7 +316,7 @@ const preload = cyrillic ? [manropeCyr, unboundedCyr] : [manropeLat, unboundedLa
     transition-delay: 0s, 0s, var(--t-base);
   }
 
-  @media (min-width: 64em) {
+  @media (min-width: 72em) {
     .sticky-help {
       display: none;
     }

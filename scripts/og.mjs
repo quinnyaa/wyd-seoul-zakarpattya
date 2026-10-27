@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
 
-const texts = readFileSync('src/content/texts.ts', 'utf8');
+const texts = readFileSync('src/content/texts/uk.ts', 'utf8');
 const name = texts.match(/name:\s*'([^']+)'/)?.[1] ?? '';
 const eventLine = [...(texts.match(/eventLine:\s*\[([^\]]+)\]/)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => m[1]);
 
