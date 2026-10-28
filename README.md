@@ -108,7 +108,7 @@ Until a file is added, a placeholder with a hint is shown in its place. Missing 
 
 ## Adding the postcard design
 
-The design is `src/assets/card/card.jpg` (`.png` and `.webp` also work). It is shown in the "Our thanks" section, and a click opens it full size. The frame takes its proportions from the file, so a new design can be dropped in as is. Without the file, an A6 placeholder is shown.
+The design is `src/assets/card/card.png` (`.jpg` and `.webp` also work). It is shown in the "Our thanks" section, and a click opens it full size. The frame takes its proportions from the file, so a new design can be dropped in as is. Without the file, an A6 placeholder is shown.
 
 ## Changing the style
 
@@ -194,4 +194,4 @@ scripts/               tests, screenshots, social media image
 
 **Postcard design**: [src/assets/card/](src/assets/card/):
 
-- [x] `card.jpg`
+- [x] `card.png`
