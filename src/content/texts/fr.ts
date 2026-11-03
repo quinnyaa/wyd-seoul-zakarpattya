@@ -223,6 +223,31 @@ export const thanks = {
   },
 };
 
+/* ---------- 5а. Подарунки від благодійників ---------- */
+
+export const gifts = {
+  eyebrow: 'Cadeaux',
+  title: 'Les cadeaux de nos bienfaiteurs',
+  intro: 'Grâce au soutien de nos sponsors et de nos bienfaiteurs, nous avons reçu de très beaux cadeaux :',
+  items: {
+    vacuum: 'Aspirateur robot',
+    projector: 'Vidéoprojecteur',
+    dinner: 'Bon pour un dîner à deux au restaurant Old Continent',
+    photo: 'Bon pour une séance photo professionnelle',
+    more: 'Et d’autres belles surprises',
+  },
+  itemsNote: 'Le nom du restaurant est mentionné avec l’accord de la direction.',
+  text: 'Chacun de ces cadeaux témoigne de la générosité des personnes et des entreprises qui ont cru en notre initiative et qui nous aident à nous rapprocher de notre objectif : permettre aux jeunes de partir à Séoul.',
+  deadline: {
+    label: 'Les dons seront pris en compte jusqu’au',
+    date: '20 décembre 2026',
+  },
+  evening: 'Ces cadeaux seront offerts en signe de reconnaissance à nos bienfaiteurs et à toutes les personnes qui nous soutiennent. Les résultats seront annoncés lors de notre **soirée de remerciement en ligne**.',
+  thanks: 'Nous adressons nos plus sincères remerciements à tous nos sponsors et bienfaiteurs pour leur générosité, leur confiance et leur volonté de prendre part à cette initiative, quel que soit le montant de leur don !',
+  motto: 'Ensemble, nous pouvons accomplir de grandes choses !',
+  alt: 'Une boîte cadeau dorée ouverte avec un aspirateur robot, un vidéoprojecteur, un appareil photo et un bon pour un dîner',
+};
+
 /* ---------- 6. Контакти ---------- */
 
 export const contacts = {
@@ -282,6 +307,6 @@ export const notFound = {
 
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
 
 export default texts satisfies Texts;

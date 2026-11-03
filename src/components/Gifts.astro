@@ -1,0 +1,450 @@
+---
+/* Секція «Подарунки від благодійників»: фото подарунків, їхній список, дата, до якої враховуємо пожертви, і подяка. */
+import { Image } from 'astro:assets';
+import Ornament from './Ornament.astro';
+import Rich from './Rich.astro';
+import presents from '../assets/gifts/presents.jpg';
+import { useI18n } from '../utils/i18n';
+
+const { gifts } = useI18n(Astro).t;
+
+// Іконки пунктів списку (ключі — як у gifts.items)
+const icons: Record<keyof typeof gifts.items, string> = {
+  vacuum: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="9" r="2.5"/><path d="M7.5 16h9"/>',
+  projector: '<rect x="2" y="7" width="20" height="11" rx="2.5"/><circle cx="15" cy="12.5" r="3"/><path d="M5.5 10.5h3M5.5 14h3M6 18v2M18 18v2"/>',
+  dinner: '<path d="M7 3v18M4.5 3v5a2.5 2.5 0 0 0 5 0V3M17 21V3c-2.2 1.2-3.5 4-3.5 7.5V14H17"/>',
+  photo: '<path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.6l1.6-2.5h6.6L16.9 7h2.6A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.5"/>',
+  more: '<path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>',
+};
+const items = Object.entries(gifts.items) as [keyof typeof gifts.items, string][];
+
+// Зірочки на тлі: позиція, розмір і затримка мерехтіння (лише на широкому екрані — на вузькому налазять на текст)
+const stars = [
+  { x: '3%', y: '14%', s: 1.1, d: 0 },
+  { x: '44%', y: '5%', s: 0.7, d: 1.2 },
+  { x: '97%', y: '8%', s: 1, d: 0.6 },
+  { x: '52%', y: '54%', s: 0.6, d: 2 },
+  { x: '3%', y: '72%', s: 0.8, d: 1.6 },
+  { x: '97%', y: '64%', s: 1.2, d: 0.3 },
+  { x: '78%', y: '95%', s: 0.7, d: 2.4 },
+];
+
+// Останнє слово девізу тримаємо разом із сердечком, щоб воно не переносилося саме
+const mottoSplit = gifts.motto.lastIndexOf(' ');
+const mottoStart = gifts.motto.slice(0, mottoSplit + 1);
+const mottoEnd = gifts.motto.slice(mottoSplit + 1);
+---
+
+<section class="gifts" id="gifts" tabindex="-1" aria-labelledby="gifts-title">
+  <Ornament tone="light" />
+  <div class="gifts__stars" aria-hidden="true">
+    {
+      stars.map((star) => (
+        <svg viewBox="0 0 24 24" style={`left:${star.x};top:${star.y};--s:${star.s};--d:${star.d}s`}>
+          <path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6-2.6 7.9-2.6-7.9L1.5 12l7.9-2.6z" />
+        </svg>
+      ))
+    }
+  </div>
+
+  <div class="container section gifts__grid">
+    <div class="gifts__head reveal">
+      <span class="eyebrow gifts__eyebrow">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3.5 8h17v4h-17zM5 12v9h14v-9M12 8v13M12 8C10.5 5 6.5 4 6.5 6.5S10 8 12 8Zm0 0c1.5-3 5.5-4 5.5-1.5S14 8 12 8Z" />
+        </svg>
+        {gifts.eyebrow}
+      </span>
+      <h2 id="gifts-title">{gifts.title}</h2>
+      <p class="lead">{gifts.intro}</p>
+    </div>
+
+    <div class="gifts__media reveal" style="--i:1">
+      <div class="gifts__frame">
+        <Image
+          src={presents}
+          alt={gifts.alt}
+          widths={[400, 640, 900, 1280]}
+          sizes="(min-width: 56.25em) min(48vw, 36rem), calc(100vw - 2rem)"
+          format="webp"
+          quality={80}
+        />
+      </div>
+      <span class="gifts__sticker" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor">
+          <path d="M12 20.6s-7.6-4.6-9.3-9.3C1.5 8 3.6 4.4 7.1 4.4c2 0 3.5 1.1 4.9 3 1.4-1.9 2.9-3 4.9-3 3.5 0 5.6 3.6 4.4 6.9-1.7 4.7-9.3 9.3-9.3 9.3Z" />
+        </svg>
+      </span>
+    </div>
+
+    <div class="gifts__list-wrap">
+      <ul class="gifts__list">
+        {
+          items.map(([key, label], i) => (
+            <li class:list={['gifts__item reveal', { 'gifts__item--more': key === 'more' }]} style={`--i:${i}`}>
+              <span class="gifts__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[key]} />
+              </span>
+              <span>{label}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="gifts__note reveal">{gifts.itemsNote}</p>
+    </div>
+
+    <div class="gifts__info reveal">
+      <div class="gifts__deadline">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="16" rx="2.5" />
+          <path d="M3 10h18M8 3v4M16 3v4" />
+        </svg>
+        <p>
+          <span class="gifts__deadline-label">{gifts.deadline.label}</span>
+          <strong class="gifts__deadline-date">{gifts.deadline.date}</strong>
+        </p>
+      </div>
+      <div class="gifts__text">
+        <p>{gifts.text}</p>
+        <p><Rich text={gifts.evening} /></p>
+      </div>
+    </div>
+
+    <div class="gifts__outro reveal">
+      <p>{gifts.thanks}</p>
+      <p class="gifts__motto">
+        {mottoStart}<span>{mottoEnd}<svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
+          <path d="M12 20.6s-7.6-4.6-9.3-9.3C1.5 8 3.6 4.4 7.1 4.4c2 0 3.5 1.1 4.9 3 1.4-1.9 2.9-3 4.9-3 3.5 0 5.6 3.6 4.4 6.9-1.7 4.7-9.3 9.3-9.3 9.3Z" />
+        </svg></span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gifts {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(42rem 30rem at 88% 18%, rgb(226 177 94 / 0.22), transparent 70%),
+      radial-gradient(36rem 26rem at 0% 100%, rgb(243 182 196 / 0.14), transparent 70%), var(--c-indigo-deep);
+    color: #dfe3f5;
+  }
+
+  /* ---------- Зірочки на тлі ---------- */
+
+  /* Від'ємний відступ ставить центр зірочки в точку left/top */
+  .gifts__stars svg {
+    --size: calc(1.25rem * var(--s));
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    margin: calc(var(--size) / -2);
+    fill: var(--c-gold);
+    opacity: 0.55;
+  }
+
+  @media (max-width: 56.24em) {
+    .gifts__stars {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .gifts__stars svg {
+      animation: gifts-twinkle 3.2s ease-in-out var(--d) infinite;
+    }
+  }
+
+  @keyframes gifts-twinkle {
+    50% {
+      opacity: 0.15;
+      transform: scale(0.6) rotate(20deg);
+    }
+  }
+
+  /* ---------- Розкладка ---------- */
+
+  .gifts__grid {
+    position: relative;
+    display: grid;
+    gap: var(--s-6);
+    grid-template-areas: 'head' 'media' 'list' 'info' 'outro';
+  }
+
+  .gifts__head {
+    grid-area: head;
+    display: grid;
+    justify-items: start;
+    gap: var(--s-3);
+  }
+
+  .gifts__media {
+    grid-area: media;
+  }
+
+  .gifts__list-wrap {
+    grid-area: list;
+  }
+
+  .gifts__info {
+    grid-area: info;
+  }
+
+  .gifts__outro {
+    grid-area: outro;
+  }
+
+  @media (min-width: 56.25em) {
+    .gifts__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+      grid-template-areas: 'head media' 'list media' 'info info' 'outro outro';
+      column-gap: var(--s-8);
+      row-gap: var(--s-6);
+    }
+
+    .gifts__media {
+      align-self: center;
+    }
+  }
+
+  /* ---------- Заголовок ---------- */
+
+  .gifts__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--r-pill);
+    background: rgb(226 177 94 / 0.14);
+    box-shadow: inset 0 0 0 1px rgb(226 177 94 / 0.4);
+    color: var(--c-gold-light);
+  }
+
+  .gifts h2 {
+    color: #fff;
+  }
+
+  .gifts .lead {
+    color: #dfe3f5;
+  }
+
+  /* ---------- Фото ---------- */
+
+  .gifts__media {
+    position: relative;
+    padding: 1rem 0.5rem 0;
+  }
+
+  .gifts__frame {
+    padding: 0.5rem;
+    border-radius: calc(var(--r-lg) + 0.5rem);
+    background: linear-gradient(135deg, var(--c-gold-light), var(--c-gold) 55%, #b9853a);
+    box-shadow:
+      0 30px 60px rgb(5 8 30 / 0.45),
+      0 0 80px rgb(226 177 94 / 0.18);
+    transform: rotate(-1.5deg);
+    transition: transform var(--t-base) var(--ease);
+  }
+
+  .gifts__media:hover .gifts__frame {
+    transform: rotate(-0.5deg) translateY(-4px);
+  }
+
+  .gifts__frame :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-lg);
+  }
+
+  .gifts__sticker {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background: var(--c-red);
+    color: #fff;
+    box-shadow: var(--shadow-md);
+    transform: rotate(12deg);
+  }
+
+  @media (min-width: 56.25em) {
+    .gifts__sticker {
+      top: -1rem;
+      right: -1.25rem;
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+
+    .gifts__sticker svg {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
+  /* ---------- Список подарунків ---------- */
+
+  .gifts__list {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gifts__item {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    padding: 0.75rem 1.125rem 0.75rem 0.75rem;
+    border-radius: var(--r-md);
+    background: rgb(255 255 255 / 0.06);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+    font-weight: 700;
+    line-height: 1.35;
+    color: #fff;
+  }
+
+  .gifts__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--c-gold-light), var(--c-gold));
+    color: var(--c-indigo-deep);
+  }
+
+  .gifts__item--more {
+    border: 1.5px dashed rgb(226 177 94 / 0.55);
+    background: none;
+    box-shadow: none;
+    font-style: italic;
+    color: var(--c-gold-light);
+  }
+
+  .gifts__item--more .gifts__icon {
+    background: rgb(226 177 94 / 0.16);
+    color: var(--c-gold-light);
+  }
+
+  .gifts__note {
+    margin-top: var(--s-3);
+    font-size: var(--fs-sm);
+    color: #aab3dc;
+  }
+
+  /* ---------- Дата і пояснення ---------- */
+
+  .gifts__info {
+    display: grid;
+    gap: var(--s-5);
+    padding: var(--s-5);
+    border-radius: var(--r-xl);
+    background: rgb(255 255 255 / 0.05);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+  }
+
+  .gifts__deadline {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-5);
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg, var(--c-gold-light), var(--c-gold));
+    color: var(--c-indigo-deep);
+    box-shadow: 0 16px 36px rgb(5 8 30 / 0.35);
+  }
+
+  .gifts__deadline svg {
+    flex: none;
+    align-self: flex-start;
+    margin-top: 0.125rem;
+  }
+
+  /* Іконка стоїть біля підпису, а сам текст — по центру картки */
+  .gifts__deadline p {
+    align-self: center;
+  }
+
+  .gifts__deadline p {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .gifts__deadline-label {
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .gifts__deadline-date {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 1.1rem + 1.2vw, 1.875rem);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .gifts__text {
+    display: grid;
+    align-content: center;
+    gap: var(--s-4);
+  }
+
+  .gifts__text :global(strong) {
+    font-weight: 800;
+    color: var(--c-gold-light);
+  }
+
+  @media (min-width: 48em) {
+    .gifts__info {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+      gap: var(--s-6);
+      padding: var(--s-5);
+    }
+
+    .gifts__text {
+      padding-right: var(--s-4);
+    }
+  }
+
+  /* ---------- Подяка ---------- */
+
+  .gifts__outro {
+    display: grid;
+    justify-items: center;
+    gap: var(--s-4);
+    max-width: 48rem;
+    margin-inline: auto;
+    padding-top: var(--s-4);
+    text-align: center;
+    font-size: var(--fs-lg);
+  }
+
+  .gifts__motto {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    color: #fff;
+  }
+
+  .gifts__motto span {
+    white-space: nowrap;
+  }
+
+  .gifts__motto svg {
+    display: inline-block;
+    width: 0.9em;
+    height: 0.9em;
+    margin-left: 0.3em;
+    vertical-align: -0.1em;
+    color: var(--c-red);
+    filter: drop-shadow(0 4px 12px rgb(196 37 59 / 0.5));
+  }
+</style>

@@ -32,6 +32,10 @@
   --c-pink: #f3b6c4;
   --c-pink-tint: #fce8ec;
 
+  /* Золотий: святковий акцент блоку подарунків */
+  --c-gold: #e2b15e;
+  --c-gold-light: #f7dfac;
+
   /* Шрифти */
   --font-display: 'Unbounded Variable', 'Unbounded Fallback', system-ui, sans-serif;
   --font-body: 'Manrope Variable', 'Manrope Fallback', system-ui, sans-serif;

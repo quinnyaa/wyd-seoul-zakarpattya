@@ -221,6 +221,31 @@ export const thanks = {
   },
 };
 
+/* ---------- 5а. Подарунки від благодійників ---------- */
+
+export const gifts = {
+  eyebrow: 'Gifts',
+  title: 'Gifts from our supporters and benefactors',
+  intro: 'Thanks to the generosity of our sponsors and benefactors, we have received some wonderful gifts:',
+  items: {
+    vacuum: 'Robot vacuum cleaner',
+    projector: 'Projector',
+    dinner: 'Voucher for dinner for two at Old Continent restaurant',
+    photo: 'Voucher for a professional photo shoot',
+    more: 'And many other lovely surprises',
+  },
+  itemsNote: 'The restaurant’s name is mentioned with the management’s permission.',
+  text: 'Each of these gifts represents the generosity of individuals and businesses who believe in our initiative and are helping us get closer to our goal: making the young people’s trip to Seoul possible.',
+  deadline: {
+    label: 'Donations will be counted until',
+    date: 'December 20, 2026',
+  },
+  evening: 'These gifts will be presented as a token of our gratitude to our benefactors and supporters. The results will be announced during our **online Thank-You Evening**.',
+  thanks: 'We would like to express our heartfelt thanks to all our sponsors and benefactors for their generosity, trust, and willingness to be part of this initiative, regardless of the amount donated!',
+  motto: 'Together, we can achieve so much more!',
+  alt: 'An open golden gift box with a robot vacuum, a projector, a camera and a dinner voucher',
+};
+
 /* ---------- 6. Контакти ---------- */
 
 export const contacts = {
@@ -280,6 +305,6 @@ export const notFound = {
 
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
 
 export default texts satisfies Texts;

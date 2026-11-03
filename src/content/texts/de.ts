@@ -221,6 +221,31 @@ export const thanks = {
   },
 };
 
+/* ---------- 5а. Подарунки від благодійників ---------- */
+
+export const gifts = {
+  eyebrow: 'Geschenke',
+  title: 'Geschenke von unseren Unterstützern und Wohltätern',
+  intro: 'Dank der Unterstützung unserer Sponsoren und Wohltäter haben wir ganz besondere Geschenke erhalten:',
+  items: {
+    vacuum: 'Saugroboter',
+    projector: 'Projektor',
+    dinner: 'Gutschein für ein Abendessen zu zweit im Restaurant Old Continent',
+    photo: 'Gutschein für ein professionelles Fotoshooting',
+    more: 'Und weitere schöne Überraschungen',
+  },
+  itemsNote: 'Der Name des Restaurants wird mit Zustimmung der Geschäftsleitung genannt.',
+  text: 'Jedes dieser Geschenke steht für die Großzügigkeit von Menschen und Unternehmen, die an unsere Initiative glauben und uns dabei helfen, unserem Ziel näherzukommen: die Reise der Jugendlichen nach Seoul zu ermöglichen.',
+  deadline: {
+    label: 'Spenden werden berücksichtigt bis zum',
+    date: '20. Dezember 2026',
+  },
+  evening: 'Diese Geschenke werden unseren Wohltätern und Unterstützern als Zeichen unserer Dankbarkeit überreicht. Die Ergebnisse geben wir bei unserem **Online-Dankabend** bekannt.',
+  thanks: 'Wir möchten allen unseren Sponsoren und Wohltätern von Herzen für ihre Großzügigkeit, ihr Vertrauen und ihre Bereitschaft danken, sich an dieser Initiative zu beteiligen – unabhängig von der Höhe der Spende!',
+  motto: 'Gemeinsam können wir viel mehr erreichen!',
+  alt: 'Ein offener goldener Geschenkkarton mit Saugroboter, Projektor, Kamera und Restaurantgutschein',
+};
+
 /* ---------- 6. Контакти ---------- */
 
 export const contacts = {
@@ -280,6 +305,6 @@ export const notFound = {
 
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
 
 export default texts satisfies Texts;

@@ -41,6 +41,7 @@ The site is a single page: `/` in Ukrainian and `/en/`, `/de/`… for other lang
 | 3 | What World Youth Day is, costs | `#wyd` | `wyd` |
 | 4 | How to help: steps, our events, other ways | `#help` | `help` |
 | 5 | Our thanks: the pilgrim postcard | `#thanks` | `thanks` |
+| 5a | Gifts from our benefactors, donation deadline | `#gifts` | `gifts` |
 | 6 | Contacts, "Living abroad?" | `#contacts` | `contacts` |
 | 7 | Footer | — | `footer` |
 
@@ -167,6 +168,7 @@ src/
   data/photos.ts       photo file list
   assets/photos/       photos
   assets/card/         postcard design
+  assets/gifts/        photo of the benefactors' gifts
   assets/video/        cover image for the Pope's video
   styles/tokens.css    colors, fonts, spacing
   components/          header, language picker, footer, countdown, cards, gallery, video

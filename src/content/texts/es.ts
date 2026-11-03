@@ -221,6 +221,31 @@ export const thanks = {
   },
 };
 
+/* ---------- 5а. Подарунки від благодійників ---------- */
+
+export const gifts = {
+  eyebrow: 'Regalos',
+  title: 'Regalos de nuestros colaboradores y benefactores',
+  intro: 'Gracias al apoyo de nuestros patrocinadores y benefactores, hemos recibido regalos muy especiales:',
+  items: {
+    vacuum: 'Robot aspirador',
+    projector: 'Proyector',
+    dinner: 'Vale para una cena para dos personas en el restaurante Old Continent',
+    photo: 'Vale para una sesión fotográfica profesional',
+    more: 'Y otras agradables sorpresas',
+  },
+  itemsNote: 'Mencionamos el nombre del restaurante con la autorización de la dirección.',
+  text: 'Cada uno de estos regalos representa la generosidad de personas y empresas que han confiado en nuestra iniciativa y que nos ayudan a acercarnos a nuestro objetivo: hacer posible el viaje de los jóvenes a Seúl.',
+  deadline: {
+    label: 'Las donaciones se contabilizarán hasta el',
+    date: '20 de diciembre de 2026',
+  },
+  evening: 'Estos regalos se entregarán como muestra de agradecimiento a nuestros benefactores y colaboradores. Los resultados se anunciarán durante nuestra **Velada de agradecimiento en línea**.',
+  thanks: 'Queremos expresar nuestro más sincero agradecimiento a todos nuestros patrocinadores y benefactores por su generosidad, su confianza y su deseo de formar parte de esta iniciativa, ¡independientemente de la cantidad aportada!',
+  motto: '¡Juntos podemos lograr mucho más!',
+  alt: 'Una caja de regalo dorada abierta con un robot aspirador, un proyector, una cámara y un vale para una cena',
+};
+
 /* ---------- 6. Контакти ---------- */
 
 export const contacts = {
@@ -280,6 +305,6 @@ export const notFound = {
 
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
 
 export default texts satisfies Texts;
