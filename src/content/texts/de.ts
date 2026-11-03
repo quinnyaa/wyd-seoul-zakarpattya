@@ -102,19 +102,23 @@ export const wyd = {
   ],
 
   why: {
-    title: 'Warum uns das wichtig ist',
+    title: 'Warum das für uns wichtig ist',
     items: [
       {
-        title: 'Sehen, dass wir nicht allein sind',
-        text: 'In Seoul kommen junge Menschen aus aller Welt zusammen, die so glauben wie wir. Das gibt Kraft.',
+        title: 'Licht für unser Leben empfangen',
+        text: 'Wir leben in einer Zeit des Krieges, der Ungewissheit und der Herausforderungen. Gerade in solchen Zeiten ist es besonders wichtig, die Hoffnung nicht zu verlieren.',
+      },
+      {
+        title: 'Unsere Berufung entdecken',
+        text: 'Jeder von uns sucht Antworten auf wichtige Fragen: Wer bin ich? Wofür lebe ich? Welchen Platz hat Gott in dieser Welt für mich vorbereitet?',
       },
       {
         title: 'Von der Ukraine erzählen',
-        text: 'Wir nehmen Transkarpatien und die Ukraine mit: unsere Sprache, unsere Lieder und unser Gebet um Frieden.',
+        text: 'Wir nehmen Transkarpatien und die Ukraine mit nach Seoul – und unser Gebet um Frieden. Wir möchten Zeugnis davon geben, dass Gott uns nicht verlässt und dass das Leben selbst mitten im Leid einen Sinn hat und die Hoffnung nicht stirbt.',
       },
       {
-        title: 'Verändert zurückkommen',
-        text: 'Ein solcher Weg verändert. Was wir dort empfangen, wollen wir mit nach Hause bringen: in unsere Familien, unsere Pfarreien und unsere Stadt.',
+        title: 'Zurückkehren und das Empfangene weitergeben',
+        text: 'Ein solcher Weg verändert uns. Was wir dort empfangen, möchten wir mit nach Hause nehmen und mit unseren Familien, Gemeinden und unserer Stadt teilen.',
       },
     ],
   },

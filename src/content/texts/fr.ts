@@ -104,19 +104,23 @@ export const wyd = {
   ],
 
   why: {
-    title: 'Pourquoi c’est important pour nous',
+    title: 'Pourquoi est-ce important pour nous ?',
     items: [
       {
-        title: 'Voir que nous ne sommes pas seuls',
-        text: 'À Séoul se rassembleront des jeunes du monde entier qui croient comme nous. Cela donne des forces.',
+        title: 'Recevoir une lumière pour notre vie',
+        text: 'Nous vivons une période de guerre, d’incertitude et d’épreuves. Dans ces moments-là, il est particulièrement important de ne pas perdre l’espérance.',
+      },
+      {
+        title: 'Découvrir notre vocation',
+        text: 'Chacun de nous cherche des réponses à des questions essentielles : qui suis-je ? Pourquoi est-ce que je vis ? Quelle place Dieu a-t-il préparée pour moi dans ce monde ?',
       },
       {
         title: 'Parler de l’Ukraine',
-        text: 'Nous emportons avec nous la Transcarpatie et l’Ukraine : notre langue, nos chants et notre prière pour la paix.',
+        text: 'Nous emportons avec nous la Transcarpatie et l’Ukraine, ainsi que notre prière pour la paix. Nous voulons témoigner que Dieu ne nous abandonne pas et que, même au milieu de la souffrance, la vie a un sens et l’espérance ne meurt pas.',
       },
       {
-        title: 'Revenir différents',
-        text: 'Un tel chemin transforme. Ce que nous recevrons là-bas, nous voulons le rapporter à la maison : dans nos familles, nos paroisses et notre ville.',
+        title: 'Revenir pour partager ce que nous avons reçu',
+        text: 'Un tel chemin nous transforme. Nous voulons rapporter chez nous ce que nous aurons reçu là-bas et le partager avec nos familles, nos paroisses et notre ville.',
       },
     ],
   },

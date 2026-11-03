@@ -105,16 +105,20 @@ export const wyd = {
     title: 'Por qué es importante para nosotros',
     items: [
       {
-        title: 'Ver que no estamos solos',
-        text: 'En Seúl se reunirán jóvenes de todo el mundo que creen igual que nosotros. Eso da fuerzas.',
+        title: 'Recibir luz para nuestra vida',
+        text: 'Vivimos en un tiempo de guerra, incertidumbre y pruebas. En momentos así, es especialmente importante no perder la esperanza.',
+      },
+      {
+        title: 'Descubrir nuestra vocación',
+        text: 'Cada uno de nosotros busca respuestas a preguntas importantes: ¿quién soy? ¿Para qué vivo? ¿Qué lugar ha preparado Dios para mí en este mundo?',
       },
       {
         title: 'Hablar de Ucrania',
-        text: 'Llevamos con nosotros Transcarpacia y Ucrania: nuestra lengua, nuestras canciones y nuestra oración por la paz.',
+        text: 'Llevamos con nosotros Transcarpacia y Ucrania, y nuestra oración por la paz. Queremos ser testigos de que Dios no nos abandona y de que, incluso en medio del sufrimiento, la vida tiene sentido y la esperanza no muere.',
       },
       {
-        title: 'Volver siendo otros',
-        text: 'Un camino así cambia. Lo que recibamos allí queremos traerlo a casa: a nuestras familias, a nuestras parroquias y a nuestra ciudad.',
+        title: 'Regresar para compartir lo recibido',
+        text: 'Un camino así transforma. Queremos llevar a casa lo que recibamos allí y compartirlo con nuestras familias, parroquias y nuestra ciudad.',
       },
     ],
   },

@@ -105,16 +105,20 @@ export const wyd = {
     title: 'Why this matters to us',
     items: [
       {
-        title: 'To see that we are not alone',
-        text: 'Young people from all over the world who believe as we do will gather in Seoul. That gives us strength.',
+        title: 'Finding light for our lives',
+        text: 'We are living through a time of war, uncertainty and hardship. At times like these, it is especially important not to lose hope.',
       },
       {
-        title: 'To tell people about Ukraine',
-        text: 'We are bringing Transcarpathia and Ukraine with us: our language, our songs and our prayer for peace.',
+        title: 'Discovering our vocation',
+        text: 'Each of us is searching for answers to important questions: Who am I? What am I living for? What place has God prepared for me in this world?',
       },
       {
-        title: 'To come back changed',
-        text: 'A journey like this changes you. What we receive there we want to bring home — to our families, our parishes and our city.',
+        title: 'Sharing the story of Ukraine',
+        text: 'We carry Transcarpathia and Ukraine with us, along with our prayer for peace. We want to bear witness to the fact that God does not abandon us, and that even in the midst of suffering, life has meaning and hope does not die.',
+      },
+      {
+        title: 'Returning to share what we have received',
+        text: 'A journey like this changes us. We want to bring home what we receive there and share it with our families, parishes and our city.',
       },
     ],
   },
