@@ -146,7 +146,7 @@ export const help = {
   title: 'Comment nous aider à arriver à Séoul',
   text: [
     'Il n’y a pas de somme à atteindre, et aucun don n’est « trop petit ». Chaque hryvnia est une brique de notre route vers Séoul.',
-    'La collecte se poursuit jusqu’au 20 décembre 2027. Cette période pourra être prolongée si nécessaire, avec une mise à jour des informations correspondantes. Après le voyage, nous publierons sur ce site un bilan : combien nous avons collecté, à quoi l’argent a servi et comment nous avons utilisé le solde éventuel.',
+    'La collecte se poursuit jusqu’au 20 décembre 2026. Cette période pourra être prolongée si nécessaire, avec une mise à jour des informations correspondantes. Après le voyage, nous publierons sur ce site un bilan : combien nous avons collecté, à quoi l’argent a servi et comment nous avons utilisé le solde éventuel.',
     '**Nous n’acceptons les dons qu’en espèces, lors d’une rencontre en personne, partout en Transcarpatie.** Nous serons heureux de vous rencontrer pour vous remercier personnellement.',
   ],
   button: 'Nous contacter',

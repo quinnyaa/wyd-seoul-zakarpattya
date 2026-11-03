@@ -144,7 +144,7 @@ export const help = {
   title: 'Cómo ayudarnos a llegar a Seúl',
   text: [
     'No hay una cantidad objetivo, y no existe un donativo «demasiado pequeño». Cada grivna es un ladrillo de nuestro camino a Seúl.',
-    'La colecta está abierta hasta el 20 de diciembre de 2027. El plazo podrá prorrogarse si fuera necesario, actualizando la información correspondiente. Después del viaje publicaremos en esta web un informe: cuánto hemos recaudado, en qué lo hemos gastado y cómo hemos utilizado el posible remanente.',
+    'La colecta está abierta hasta el 20 de diciembre de 2026. El plazo podrá prorrogarse si fuera necesario, actualizando la información correspondiente. Después del viaje publicaremos en esta web un informe: cuánto hemos recaudado, en qué lo hemos gastado y cómo hemos utilizado el posible remanente.',
     '**Solo aceptamos donativos en efectivo y en persona, en cualquier lugar de Transcarpacia.** Nos alegrará encontrarnos contigo para darte las gracias personalmente.',
   ],
   button: 'Contacta con nosotros',

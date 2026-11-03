@@ -144,7 +144,7 @@ export const help = {
   title: 'How to help us get to Seoul',
   text: [
     'There is no target amount, and there is no such thing as a donation that is too small. Every hryvnia is a brick in our road to Seoul.',
-    'The fundraiser runs until December 20, 2027. The fundraising period may be extended if necessary, with the relevant information updated accordingly. After the trip, we will publish a report on this website: how much we raised, what we spent it on and how we used any remaining funds.',
+    'The fundraiser runs until December 20, 2026. The fundraising period may be extended if necessary, with the relevant information updated accordingly. After the trip, we will publish a report on this website: how much we raised, what we spent it on and how we used any remaining funds.',
     '**We accept donations only in cash, in person — anywhere in Transcarpathia.** We will be glad to meet you and thank you personally.',
   ],
   button: 'Contact us',

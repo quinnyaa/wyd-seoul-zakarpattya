@@ -144,7 +144,7 @@ export const help = {
   title: 'Wie Sie uns helfen können, nach Seoul zu kommen',
   text: [
     'Es gibt keine Zielsumme, und es gibt keine Spende, die „zu klein“ wäre. Jede Hrywnja ist ein Baustein unseres Weges nach Seoul.',
-    'Die Spendenaktion läuft bis zum 20. Dezember 2027. Der Spendenzeitraum kann bei Bedarf verlängert werden; die entsprechenden Informationen werden dann aktualisiert. Nach der Reise veröffentlichen wir auf dieser Website einen Bericht: wie viel wir gesammelt haben, wofür wir es ausgegeben haben und wie wir einen eventuellen Restbetrag verwendet haben.',
+    'Die Spendenaktion läuft bis zum 20. Dezember 2026. Der Spendenzeitraum kann bei Bedarf verlängert werden; die entsprechenden Informationen werden dann aktualisiert. Nach der Reise veröffentlichen wir auf dieser Website einen Bericht: wie viel wir gesammelt haben, wofür wir es ausgegeben haben und wie wir einen eventuellen Restbetrag verwendet haben.',
     '**Spenden nehmen wir ausschließlich in bar bei einem persönlichen Treffen entgegen, überall in Transkarpatien.** Wir freuen uns, Ihnen persönlich danken zu können.',
   ],
   button: 'Kontakt aufnehmen',

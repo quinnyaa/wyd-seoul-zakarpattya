@@ -144,7 +144,7 @@ export const help = {
   title: 'Come aiutarci ad arrivare a Seul',
   text: [
     'Non c’è una cifra da raggiungere e non esiste un’offerta «troppo piccola». Ogni grivnia è un mattone della nostra strada verso Seul.',
-    'La raccolta è aperta fino al 20 dicembre 2027. Il termine potrà essere prorogato, se necessario, aggiornando di conseguenza le informazioni. Dopo il viaggio pubblicheremo su questo sito un resoconto: quanto abbiamo raccolto, come lo abbiamo speso e come abbiamo utilizzato l’eventuale avanzo.',
+    'La raccolta è aperta fino al 20 dicembre 2026. Il termine potrà essere prorogato, se necessario, aggiornando di conseguenza le informazioni. Dopo il viaggio pubblicheremo su questo sito un resoconto: quanto abbiamo raccolto, come lo abbiamo speso e come abbiamo utilizzato l’eventuale avanzo.',
     '**Accettiamo offerte solo in contanti e di persona, ovunque in Transcarpazia.** Saremo felici di incontrarti per ringraziarti di persona.',
   ],
   button: 'Contattaci',
