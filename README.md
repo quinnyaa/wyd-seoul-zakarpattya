@@ -41,7 +41,7 @@ The site is a single page: `/` in Ukrainian and `/en/`, `/de/`… for other lang
 | 3 | What World Youth Day is, costs | `#wyd` | `wyd` |
 | 4 | How to help: steps, our events, other ways | `#help` | `help` |
 | 5 | Our thanks: the pilgrim postcard | `#thanks` | `thanks` |
-| 5a | Gifts from our benefactors, donation deadline | `#gifts` | `gifts` |
+| 5a | Gifts from our benefactors, the vouchers (collapsed, open in the photo viewer), donation deadline | `#gifts` | `gifts` |
 | 6 | Contacts, "Living abroad?" | `#contacts` | `contacts` |
 | 7 | Footer | — | `footer` |
 
@@ -125,7 +125,7 @@ The site address is set by the `SITE` line in [astro.config.mjs](astro.config.mj
 
 Every click on a link or button is counted: menu, "Help" buttons, contacts, external links, gallery photos. For each click the page sends to `/api/click`, a Cloudflare Pages Function ([functions/api/click.ts](functions/api/click.ts)):
 
-- `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `whatsapp`, `abroad`, `menu`, `lang`, `lang-en`, `photo-hero`, `photo-next`…) or the link's address (`/#help`, `/en/#help`, `https://wydseoul.org/en`);
+- `link`: what was clicked, either the element's `data-link` name (`tel`, `viber`, `whatsapp`, `abroad`, `menu`, `lang`, `lang-en`, `photo-hero`, `photo-next`, `certificates`, `certificate-dinner`…) or the link's address (`/#help`, `/en/#help`, `https://wydseoul.org/en`);
 - `place`: where on the page (`header`, `footer`, `sticky`, `lightbox` or the section id: `top`, `about`, `help`…);
 - `label`: the button's text;
 - `contact`: the name on the contact card, if the click was on it (always in Ukrainian, so clicks from all languages add up);
@@ -168,7 +168,7 @@ src/
   data/photos.ts       photo file list
   assets/photos/       photos
   assets/card/         postcard design
-  assets/gifts/        photo of the benefactors' gifts
+  assets/gifts/        photo of the benefactors' gifts; certificates/ holds the vouchers (file name = key in gifts.certificates.items)
   assets/video/        cover image for the Pope's video
   styles/tokens.css    colors, fonts, spacing
   components/          header, language picker, footer, countdown, cards, gallery, video

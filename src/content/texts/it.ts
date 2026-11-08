@@ -248,6 +248,20 @@ export const gifts = {
   thanks: 'Un grazie di cuore a tutti i nostri sponsor e benefattori per la generosità, la fiducia e il desiderio di partecipare a questa iniziativa, indipendentemente dall’importo della donazione!',
   motto: 'Insieme possiamo fare molto di più!',
   alt: 'Una scatola regalo dorata aperta con un robot aspirapolvere, un proiettore, una fotocamera e un buono per una cena',
+  certificates: {
+    toggle: 'Guarda i buoni regalo',
+    note: 'Tocca un buono per vederlo ingrandito.',
+    more: 'E molto altro ancora!',
+    label: 'Buono regalo',
+    items: {
+      dinner: 'Cena per due al ristorante Old Continent',
+      photo: 'Servizio fotografico professionale',
+      english: 'Corso intensivo di inglese, 10 lezioni',
+      cake: 'Torta fino a 3 kg',
+      honey: 'Barattolo di miele biologico della Transcarpazia',
+      water: '100 litri di acqua potabile',
+    },
+  },
 };
 
 /* ---------- 6. Контакти ---------- */

@@ -248,6 +248,20 @@ export const gifts = {
   thanks: 'Wir möchten allen unseren Sponsoren und Wohltätern von Herzen für ihre Großzügigkeit, ihr Vertrauen und ihre Bereitschaft danken, sich an dieser Initiative zu beteiligen – unabhängig von der Höhe der Spende!',
   motto: 'Gemeinsam können wir viel mehr erreichen!',
   alt: 'Ein offener goldener Geschenkkarton mit Saugroboter, Projektor, Kamera und Restaurantgutschein',
+  certificates: {
+    toggle: 'Gutscheine ansehen',
+    note: 'Tippen Sie auf einen Gutschein, um ihn größer zu sehen.',
+    more: 'Und vieles mehr!',
+    label: 'Gutschein',
+    items: {
+      dinner: 'Abendessen für zwei im Restaurant Old Continent',
+      photo: 'Professionelles Fotoshooting',
+      english: 'Englisch-Intensivkurs, 10 Stunden',
+      cake: 'Torte bis 3 kg',
+      honey: 'Ein Glas transkarpatischer Bio-Honig',
+      water: '100 Liter Trinkwasser',
+    },
+  },
 };
 
 /* ---------- 6. Контакти ---------- */

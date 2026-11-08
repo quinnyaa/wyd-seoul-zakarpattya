@@ -1,6 +1,7 @@
 ---
 /* Секція «Подарунки від благодійників»: фото подарунків, їхній список, дата, до якої враховуємо пожертви, і подяка. */
 import { Image } from 'astro:assets';
+import Certificates from './Certificates.astro';
 import Ornament from './Ornament.astro';
 import Rich from './Rich.astro';
 import presents from '../assets/gifts/presents.jpg';
@@ -93,6 +94,10 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
       <p class="gifts__note reveal">{gifts.itemsNote}</p>
     </div>
 
+    <div class="gifts__certs reveal">
+      <Certificates />
+    </div>
+
     <div class="gifts__info reveal">
       <div class="gifts__deadline">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -169,7 +174,7 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
     position: relative;
     display: grid;
     gap: var(--s-6);
-    grid-template-areas: 'head' 'media' 'list' 'info' 'outro';
+    grid-template-areas: 'head' 'media' 'list' 'certs' 'info' 'outro';
   }
 
   .gifts__head {
@@ -187,6 +192,10 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
     grid-area: list;
   }
 
+  .gifts__certs {
+    grid-area: certs;
+  }
+
   .gifts__info {
     grid-area: info;
   }
@@ -198,7 +207,7 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
   @media (min-width: 56.25em) {
     .gifts__grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-      grid-template-areas: 'head media' 'list media' 'info info' 'outro outro';
+      grid-template-areas: 'head media' 'list media' 'certs certs' 'info info' 'outro outro';
       column-gap: var(--s-8);
       row-gap: var(--s-6);
     }

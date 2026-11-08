@@ -248,6 +248,20 @@ export const gifts = {
   thanks: 'Queremos expresar nuestro más sincero agradecimiento a todos nuestros patrocinadores y benefactores por su generosidad, su confianza y su deseo de formar parte de esta iniciativa, ¡independientemente de la cantidad aportada!',
   motto: '¡Juntos podemos lograr mucho más!',
   alt: 'Una caja de regalo dorada abierta con un robot aspirador, un proyector, una cámara y un vale para una cena',
+  certificates: {
+    toggle: 'Ver los vales',
+    note: 'Toca un vale para verlo en grande.',
+    more: '¡Y mucho más!',
+    label: 'Vale',
+    items: {
+      dinner: 'Cena para dos en el restaurante Old Continent',
+      photo: 'Sesión de fotos profesional',
+      english: 'Curso intensivo de inglés, 10 clases',
+      cake: 'Tarta de hasta 3 kg',
+      honey: 'Tarro de miel ecológica de Transcarpatia',
+      water: '100 litros de agua potable',
+    },
+  },
 };
 
 /* ---------- 6. Контакти ---------- */

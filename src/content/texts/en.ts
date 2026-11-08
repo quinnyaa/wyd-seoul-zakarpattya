@@ -248,6 +248,20 @@ export const gifts = {
   thanks: 'We would like to express our heartfelt thanks to all our sponsors and benefactors for their generosity, trust, and willingness to be part of this initiative, regardless of the amount donated!',
   motto: 'Together, we can achieve so much more!',
   alt: 'An open golden gift box with a robot vacuum, a projector, a camera and a dinner voucher',
+  certificates: {
+    toggle: 'View the vouchers',
+    note: 'Open any voucher to see it full size.',
+    more: 'And much more!',
+    label: 'Voucher',
+    items: {
+      dinner: 'Dinner for two at Old Continent restaurant',
+      photo: 'Professional photo shoot',
+      english: 'Intensive English course, 10 lessons',
+      cake: 'Cake up to 3 kg',
+      honey: 'Jar of Transcarpathian organic honey',
+      water: '100 liters of drinking water',
+    },
+  },
 };
 
 /* ---------- 6. Контакти ---------- */
