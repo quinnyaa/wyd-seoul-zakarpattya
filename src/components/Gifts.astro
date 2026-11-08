@@ -1,7 +1,8 @@
 ---
-/* Секція «Подарунки від благодійників»: фото подарунків, їхній список, дата, до якої враховуємо пожертви, і подяка. */
+/* Секція «Подарунки від благодійників»: фото подарунків, їхній список із кнопкою сертифікатів, дата, до якої враховуємо пожертви, і подяка. */
 import { Image } from 'astro:assets';
 import Certificates from './Certificates.astro';
+import CertificatesToggle from './CertificatesToggle.astro';
 import Ornament from './Ornament.astro';
 import Rich from './Rich.astro';
 import presents from '../assets/gifts/presents.jpg';
@@ -13,11 +14,12 @@ const { gifts } = useI18n(Astro).t;
 const icons: Record<keyof typeof gifts.items, string> = {
   vacuum: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="9" r="2.5"/><path d="M7.5 16h9"/>',
   projector: '<rect x="2" y="7" width="20" height="11" rx="2.5"/><circle cx="15" cy="12.5" r="3"/><path d="M5.5 10.5h3M5.5 14h3M6 18v2M18 18v2"/>',
-  dinner: '<path d="M7 3v18M4.5 3v5a2.5 2.5 0 0 0 5 0V3M17 21V3c-2.2 1.2-3.5 4-3.5 7.5V14H17"/>',
-  photo: '<path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.6l1.6-2.5h6.6L16.9 7h2.6A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.5"/>',
   more: '<path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>',
 };
 const items = Object.entries(gifts.items) as [keyof typeof gifts.items, string][];
+// Кнопка сертифікатів стоїть у списку перед останнім пунктом «Та інші приємні сюрпризи»
+const gifted = items.filter(([key]) => key !== 'more');
+const certCount = Object.keys(gifts.certificates.items).length;
 
 // Зірочки на тлі: позиція, розмір і затримка мерехтіння (лише на широкому екрані — на вузькому налазять на текст)
 const stars = [
@@ -81,8 +83,8 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
     <div class="gifts__list-wrap">
       <ul class="gifts__list">
         {
-          items.map(([key, label], i) => (
-            <li class:list={['gifts__item reveal', { 'gifts__item--more': key === 'more' }]} style={`--i:${i}`}>
+          gifted.map(([key, label], i) => (
+            <li class="gifts__item reveal" style={`--i:${i}`}>
               <span class="gifts__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[key]} />
               </span>
@@ -90,11 +92,19 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
             </li>
           ))
         }
+        <li class="reveal" style={`--i:${gifted.length}`}>
+          <CertificatesToggle count={certCount} />
+        </li>
+        <li class="gifts__item gifts__item--more reveal" style={`--i:${gifted.length + 1}`}>
+          <span class="gifts__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons.more} />
+          </span>
+          <span>{gifts.items.more}</span>
+        </li>
       </ul>
-      <p class="gifts__note reveal">{gifts.itemsNote}</p>
     </div>
 
-    <div class="gifts__certs reveal">
+    <div class="gifts__certs">
       <Certificates />
     </div>
 
@@ -192,8 +202,10 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
     grid-area: list;
   }
 
+  /* Згорнута панель має нульову висоту — забираємо зайвий проміжок сітки, щоб не було дірки */
   .gifts__certs {
     grid-area: certs;
+    margin-top: calc(-1 * var(--s-6));
   }
 
   .gifts__info {
@@ -341,12 +353,6 @@ const mottoEnd = gifts.motto.slice(mottoSplit + 1);
   .gifts__item--more .gifts__icon {
     background: rgb(226 177 94 / 0.16);
     color: var(--c-gold-light);
-  }
-
-  .gifts__note {
-    margin-top: var(--s-3);
-    font-size: var(--fs-sm);
-    color: #aab3dc;
   }
 
   /* ---------- Дата і пояснення ---------- */

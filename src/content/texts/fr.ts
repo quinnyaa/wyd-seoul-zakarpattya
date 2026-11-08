@@ -19,6 +19,7 @@ export const site = {
   shareTitle: 'Le pèlerinage des jeunes d’Oujhorod à la JMJ 2027',
   shareDescription: 'Séoul, 3–8 août 2027. Soutenez notre voyage.',
   helpButton: 'Aider',
+  giftsButton: 'Cadeaux',
   homeLabel: 'revenir en haut de la page',
   skipLink: 'Aller au contenu',
   newTab: '(s’ouvre dans un nouvel onglet)',
@@ -236,11 +237,8 @@ export const gifts = {
   items: {
     vacuum: 'Aspirateur robot',
     projector: 'Vidéoprojecteur',
-    dinner: 'Bon pour un dîner à deux au restaurant Old Continent',
-    photo: 'Bon pour une séance photo professionnelle',
     more: 'Et d’autres belles surprises',
   },
-  itemsNote: 'Le nom du restaurant est mentionné avec l’accord de la direction.',
   text: 'Chacun de ces cadeaux témoigne de la générosité des personnes et des entreprises qui ont cru en notre initiative et qui nous aident à nous rapprocher de notre objectif : permettre aux jeunes de partir à Séoul.',
   deadline: {
     label: 'Les dons seront pris en compte jusqu’au',
@@ -251,9 +249,9 @@ export const gifts = {
   motto: 'Ensemble, nous pouvons accomplir de grandes choses !',
   alt: 'Une boîte cadeau dorée ouverte avec un aspirateur robot, un vidéoprojecteur, un appareil photo et un bon pour un dîner',
   certificates: {
-    toggle: 'Voir les bons cadeaux',
+    toggle: 'Plein de bons cadeaux différents',
+    hint: 'Touchez pour les découvrir',
     note: 'Touchez un bon pour le voir en grand.',
-    more: 'Et bien plus encore !',
     label: 'Bon cadeau',
     items: {
       dinner: 'Dîner pour deux au restaurant Old Continent',

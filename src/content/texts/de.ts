@@ -17,6 +17,7 @@ export const site = {
   shareTitle: 'Pilgerreise der Jugend von Uschhorod zum WJT 2027',
   shareDescription: 'Seoul, 3.–8. August 2027. Unterstützen Sie unsere Reise.',
   helpButton: 'Helfen',
+  giftsButton: 'Geschenke',
   homeLabel: 'zum Seitenanfang',
   skipLink: 'Zum Inhalt springen',
   newTab: '(öffnet in einem neuen Tab)',
@@ -234,11 +235,8 @@ export const gifts = {
   items: {
     vacuum: 'Saugroboter',
     projector: 'Projektor',
-    dinner: 'Gutschein für ein Abendessen zu zweit im Restaurant Old Continent',
-    photo: 'Gutschein für ein professionelles Fotoshooting',
     more: 'Und weitere schöne Überraschungen',
   },
-  itemsNote: 'Der Name des Restaurants wird mit Zustimmung der Geschäftsleitung genannt.',
   text: 'Jedes dieser Geschenke steht für die Großzügigkeit von Menschen und Unternehmen, die an unsere Initiative glauben und uns dabei helfen, unserem Ziel näherzukommen: die Reise der Jugendlichen nach Seoul zu ermöglichen.',
   deadline: {
     label: 'Spenden werden berücksichtigt bis zum',
@@ -249,9 +247,9 @@ export const gifts = {
   motto: 'Gemeinsam können wir viel mehr erreichen!',
   alt: 'Ein offener goldener Geschenkkarton mit Saugroboter, Projektor, Kamera und Restaurantgutschein',
   certificates: {
-    toggle: 'Gutscheine ansehen',
+    toggle: 'Viele verschiedene Gutscheine',
+    hint: 'Zum Ansehen antippen',
     note: 'Tippen Sie auf einen Gutschein, um ihn größer zu sehen.',
-    more: 'Und vieles mehr!',
     label: 'Gutschein',
     items: {
       dinner: 'Abendessen für zwei im Restaurant Old Continent',

@@ -1,6 +1,7 @@
 ---
 /*
-  Сертифікати від благодійників у секції «Подарунки»: згорнуті під кнопкою, розгортаються кліком.
+  Панель сертифікатів від благодійників у секції «Подарунки»: згорнута, розгортається кнопкою
+  зі списку подарунків (CertificatesToggle.astro).
   Клік по сертифікату відкриває його збільшеним у Lightbox (він уже є на сторінці разом із галереєю).
 */
 import { getImage, Image } from 'astro:assets';
@@ -22,24 +23,8 @@ const items = await Promise.all(
 );
 ---
 
-<div class="certs" data-certs>
-  <button class="certs__toggle" type="button" aria-expanded="false" aria-controls="certs-panel" data-certs-toggle data-link="certificates">
-    <span class="certs__toggle-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h15A1.5 1.5 0 0 1 21 7.5V10a2 2 0 0 0 0 4v2.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 16.5V14a2 2 0 0 0 0-4z" />
-        <path d="M15 6v2M15 11v2M15 16v2" />
-      </svg>
-    </span>
-    <span class="certs__toggle-text">{certificates.toggle}</span>
-    <span class="certs__count" aria-hidden="true">{items.length}</span>
-    <span class="certs__chevron" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6" />
-      </svg>
-    </span>
-  </button>
-
-  <div class="certs__panel" id="certs-panel" data-certs-panel inert>
+<div class="certs" id="certs-panel" inert>
+  <div class="certs__panel">
     <div class="certs__inner">
       <p class="certs__note">{certificates.note}</p>
       <ul class="certs__grid">
@@ -79,117 +64,11 @@ const items = await Promise.all(
           ))
         }
       </ul>
-      <p class="certs__more">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" />
-        </svg>
-        {certificates.more}
-      </p>
     </div>
   </div>
 </div>
 
-<script>
-  document.querySelectorAll<HTMLElement>('[data-certs]').forEach((root) => {
-    const toggle = root.querySelector<HTMLButtonElement>('[data-certs-toggle]')!;
-    const panel = root.querySelector<HTMLElement>('[data-certs-panel]')!;
-    toggle.addEventListener('click', () => {
-      const open = toggle.getAttribute('aria-expanded') !== 'true';
-      toggle.setAttribute('aria-expanded', String(open));
-      root.classList.toggle('certs--open', open);
-      panel.inert = !open;
-    });
-  });
-</script>
-
 <style>
-  /* ---------- Кнопка ---------- */
-
-  .certs__toggle {
-    display: flex;
-    align-items: center;
-    gap: var(--s-4);
-    width: 100%;
-    padding: 0.75rem 0.875rem 0.75rem 0.75rem;
-    border: 0;
-    border-radius: var(--r-lg);
-    background: linear-gradient(135deg, rgb(226 177 94 / 0.2), rgb(226 177 94 / 0.08));
-    box-shadow: inset 0 0 0 1.5px rgb(226 177 94 / 0.55);
-    font: inherit;
-    font-weight: 800;
-    line-height: 1.3;
-    text-align: start;
-    color: #fff;
-    cursor: pointer;
-    transition:
-      transform var(--t-fast) var(--ease),
-      box-shadow var(--t-fast) var(--ease),
-      background var(--t-fast) var(--ease);
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .certs__toggle:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, rgb(226 177 94 / 0.28), rgb(226 177 94 / 0.12));
-    box-shadow:
-      inset 0 0 0 1.5px var(--c-gold),
-      0 14px 30px rgb(5 8 30 / 0.35);
-  }
-
-  .certs__toggle:active {
-    transform: translateY(0) scale(0.99);
-  }
-
-  .certs__toggle:focus-visible {
-    outline-color: var(--c-gold-light);
-  }
-
-  .certs__toggle-icon {
-    display: grid;
-    flex: none;
-    place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--c-gold-light), var(--c-gold));
-    color: var(--c-indigo-deep);
-  }
-
-  .certs__toggle-text {
-    flex: 1;
-    font-size: 1.0625rem;
-  }
-
-  .certs__count {
-    display: grid;
-    flex: none;
-    place-items: center;
-    min-width: 1.75rem;
-    height: 1.75rem;
-    padding-inline: 0.5rem;
-    border-radius: var(--r-pill);
-    background: var(--c-red);
-    font-size: var(--fs-sm);
-    font-variant-numeric: tabular-nums;
-    color: #fff;
-  }
-
-  .certs__chevron {
-    display: grid;
-    flex: none;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    background: rgb(255 255 255 / 0.1);
-    color: var(--c-gold-light);
-    transition: transform var(--t-base) var(--ease);
-  }
-
-  .certs--open .certs__chevron {
-    transform: rotate(180deg);
-  }
-
   /* ---------- Панель: висота плавно від 0 до вмісту ---------- */
 
   .certs__panel {
@@ -252,42 +131,6 @@ const items = await Promise.all(
   @media (prefers-reduced-motion: reduce) {
     .certs__panel,
     .certs__grid li {
-      transition: none;
-    }
-  }
-
-  /* Рядок «Та багато чого іншого!» під сіткою, з'являється останнім */
-  .certs__more {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.625rem;
-    margin: var(--s-4) 0 var(--s-2);
-    padding: 0.875rem var(--s-5);
-    border: 1.5px dashed rgb(226 177 94 / 0.55);
-    border-radius: var(--r-pill);
-    font-family: var(--font-display);
-    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
-    font-weight: 700;
-    font-style: italic;
-    line-height: 1.3;
-    text-align: center;
-    color: var(--c-gold-light);
-    opacity: 0;
-    transition: opacity var(--t-base) var(--ease);
-  }
-
-  .certs__more svg {
-    flex: none;
-  }
-
-  .certs--open .certs__more {
-    opacity: 1;
-    transition-delay: 520ms;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .certs__more {
       transition: none;
     }
   }

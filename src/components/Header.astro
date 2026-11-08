@@ -70,7 +70,7 @@ const { nav, site } = t;
       (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '',
     );
     root.classList.toggle('menu-open', open);
-    document.querySelectorAll('main, footer, .sticky-help').forEach((el) => {
+    document.querySelectorAll('main, footer, .sticky-help, .gifts-fab').forEach((el) => {
       el.toggleAttribute('inert', open);
     });
     if (returnFocus) toggle.focus();

@@ -17,6 +17,7 @@ export const site = {
   shareTitle: 'Il pellegrinaggio dei giovani di Užhorod alla GMG 2027',
   shareDescription: 'Seul, 3–8 agosto 2027. Sostieni il nostro viaggio.',
   helpButton: 'Aiutaci',
+  giftsButton: 'Regali',
   homeLabel: 'torna all’inizio della pagina',
   skipLink: 'Vai al contenuto',
   newTab: '(si apre in una nuova scheda)',
@@ -234,11 +235,8 @@ export const gifts = {
   items: {
     vacuum: 'Robot aspirapolvere',
     projector: 'Proiettore',
-    dinner: 'Buono per una cena per due persone al ristorante Old Continent',
-    photo: 'Buono per un servizio fotografico professionale',
     more: 'E tante altre piacevoli sorprese',
   },
-  itemsNote: 'Il nome del ristorante viene menzionato con il consenso della direzione.',
   text: 'Ognuno di questi regali è un segno concreto della generosità di persone e aziende che hanno creduto nella nostra iniziativa e che ci aiutano ad avvicinarci al nostro obiettivo: rendere possibile il viaggio dei giovani a Seoul.',
   deadline: {
     label: 'Le donazioni saranno conteggiate fino al',
@@ -249,9 +247,9 @@ export const gifts = {
   motto: 'Insieme possiamo fare molto di più!',
   alt: 'Una scatola regalo dorata aperta con un robot aspirapolvere, un proiettore, una fotocamera e un buono per una cena',
   certificates: {
-    toggle: 'Guarda i buoni regalo',
+    toggle: 'Tanti buoni regalo diversi',
+    hint: 'Tocca per vederli',
     note: 'Tocca un buono per vederlo ingrandito.',
-    more: 'E molto altro ancora!',
     label: 'Buono regalo',
     items: {
       dinner: 'Cena per due al ristorante Old Continent',

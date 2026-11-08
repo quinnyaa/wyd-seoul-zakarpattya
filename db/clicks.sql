@@ -8,12 +8,12 @@
 CREATE TABLE IF NOT EXISTS clicks (
   id INTEGER PRIMARY KEY,
   at TEXT NOT NULL DEFAULT (datetime('now')), -- час за UTC
-  link TEXT NOT NULL,  -- що натиснули: tel, viber, whatsapp, abroad, menu, photo-… або адреса посилання (#help, https://…);
+  link TEXT NOT NULL,  -- що натиснули: tel, viber, whatsapp, abroad, menu, gifts-fab, photo-… або адреса посилання (#help, https://…);
                        -- landing — прихід на сайт (один раз за візит);
                        -- time — сторінку сховали (закрили, перейшли в іншу вкладку чи застосунок), секунди в колонці seconds;
                        -- lang — відкрили вибір мови, lang-en — перемкнули на англійську (з мови в колонці lang);
                        -- lang-auto — сайт сам відкрив мову браузера замість української (functions/index.ts)
-  place TEXT,          -- де на сторінці: header, footer, sticky, lightbox або id секції (top, about, help…)
+  place TEXT,          -- де на сторінці: header, footer, sticky, float (кнопка «Подарунки» збоку), lightbox або id секції (top, about, help…)
   label TEXT,          -- підпис кнопки чи посилання
   contact TEXT,        -- ім’я на картці контакту, якщо клік на ній
   source TEXT,         -- звідки прийшли: мітка ?from=…, застосунок (telegram, facebook…) або сайт-джерело

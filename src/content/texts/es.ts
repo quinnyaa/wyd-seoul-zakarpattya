@@ -17,6 +17,7 @@ export const site = {
   shareTitle: 'Peregrinación de los jóvenes de Úzhgorod a la JMJ 2027',
   shareDescription: 'Seúl, 3–8 de agosto de 2027. Apoya nuestro viaje.',
   helpButton: 'Ayudar',
+  giftsButton: 'Regalos',
   homeLabel: 'al inicio de la página',
   skipLink: 'Ir al contenido',
   newTab: '(se abre en una pestaña nueva)',
@@ -234,11 +235,8 @@ export const gifts = {
   items: {
     vacuum: 'Robot aspirador',
     projector: 'Proyector',
-    dinner: 'Vale para una cena para dos personas en el restaurante Old Continent',
-    photo: 'Vale para una sesión fotográfica profesional',
     more: 'Y otras agradables sorpresas',
   },
-  itemsNote: 'Mencionamos el nombre del restaurante con la autorización de la dirección.',
   text: 'Cada uno de estos regalos representa la generosidad de personas y empresas que han confiado en nuestra iniciativa y que nos ayudan a acercarnos a nuestro objetivo: hacer posible el viaje de los jóvenes a Seúl.',
   deadline: {
     label: 'Las donaciones se contabilizarán hasta el',
@@ -249,9 +247,9 @@ export const gifts = {
   motto: '¡Juntos podemos lograr mucho más!',
   alt: 'Una caja de regalo dorada abierta con un robot aspirador, un proyector, una cámara y un vale para una cena',
   certificates: {
-    toggle: 'Ver los vales',
+    toggle: 'Muchos vales distintos',
+    hint: 'Toca para verlos',
     note: 'Toca un vale para verlo en grande.',
-    more: '¡Y mucho más!',
     label: 'Vale',
     items: {
       dinner: 'Cena para dos en el restaurante Old Continent',

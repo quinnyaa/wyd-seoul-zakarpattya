@@ -17,6 +17,7 @@ export const site = {
   shareTitle: 'The Uzhhorod youth pilgrimage to WYD 2027',
   shareDescription: 'Seoul, 3–8 August 2027. Support our journey.',
   helpButton: 'Help us',
+  giftsButton: 'Gifts',
   homeLabel: 'back to top of page',
   skipLink: 'Skip to content',
   newTab: '(opens in a new tab)',
@@ -234,11 +235,8 @@ export const gifts = {
   items: {
     vacuum: 'Robot vacuum cleaner',
     projector: 'Projector',
-    dinner: 'Voucher for dinner for two at Old Continent restaurant',
-    photo: 'Voucher for a professional photo shoot',
     more: 'And many other lovely surprises',
   },
-  itemsNote: 'The restaurant’s name is mentioned with the management’s permission.',
   text: 'Each of these gifts represents the generosity of individuals and businesses who believe in our initiative and are helping us get closer to our goal: making the young people’s trip to Seoul possible.',
   deadline: {
     label: 'Donations will be counted until',
@@ -249,9 +247,9 @@ export const gifts = {
   motto: 'Together, we can achieve so much more!',
   alt: 'An open golden gift box with a robot vacuum, a projector, a camera and a dinner voucher',
   certificates: {
-    toggle: 'View the vouchers',
+    toggle: 'Lots of different vouchers',
+    hint: 'Tap to have a look',
     note: 'Open any voucher to see it full size.',
-    more: 'And much more!',
     label: 'Voucher',
     items: {
       dinner: 'Dinner for two at Old Continent restaurant',
