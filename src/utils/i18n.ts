@@ -19,6 +19,11 @@ const texts = Object.fromEntries(
   }),
 ) as Record<Lang, Texts>;
 
+/** Тексти будь-якої мови сайту, не лише поточної сторінки. */
+export function textsOf(lang: Lang): Texts {
+  return texts[lang];
+}
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 /** Мова сторінки з її адреси: '/en/…' → 'en', усе інше — основна мова. */

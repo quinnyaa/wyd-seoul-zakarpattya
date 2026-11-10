@@ -9,6 +9,7 @@ import unboundedLatExt from '@fontsource-variable/unbounded/files/unbounded-lati
 import Arrow from '../components/Arrow.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import StructuredData from '../components/StructuredData.astro';
 import { alternates, defaultLang, useI18n } from '../utils/i18n';
 import { url } from '../utils/url';
 import '../styles/global.css';
@@ -90,7 +91,7 @@ const preload = cyrillic ? [manropeCyr, unboundedCyr] : [manropeLat, unboundedLa
         <link rel="alternate" hreflang="x-default" href={new URL(languages[0]!.href, Astro.site)} />,
       ]
     }
-    {noindex && <meta name="robots" content="noindex" />}
+    {noindex ? <meta name="robots" content="noindex" /> : <StructuredData />}
     <meta name="theme-color" content="#fbf5ec" />
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />

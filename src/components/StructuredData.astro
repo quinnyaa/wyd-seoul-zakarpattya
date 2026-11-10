@@ -1,0 +1,45 @@
+---
+// Структуровані дані для пошуковиків (JSON-LD): що це за сайт і хто його веде.
+// Назву сайту Google бере з головної сторінки домену, тож назви однакові на всіх мовах:
+// основною мовою, а переклади — як alternateName. Мовою сторінки лише опис організації.
+import { languages } from '../content/languages';
+import { defaultLang, textsOf, useI18n } from '../utils/i18n';
+import { url } from '../utils/url';
+
+const { t } = useI18n(Astro);
+const home = new URL(url('/'), Astro.site).href;
+const main = textsOf(defaultLang);
+const others = languages.filter(({ code }) => code !== defaultLang).map(({ code }) => textsOf(code));
+// «Молодь … Ужгорода.» → назва організації без крапки
+const orgName = (texts: typeof main) => texts.footer.about.replace(/\.$/, '');
+
+const data = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${home}#website`,
+      url: home,
+      name: main.site.name,
+      alternateName: others.map((texts) => texts.site.name),
+      inLanguage: languages.map(({ code }) => code),
+      publisher: { '@id': `${home}#organization` },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${home}#organization`,
+      url: home,
+      name: orgName(main),
+      alternateName: others.map(orgName),
+      description: t.site.description,
+      logo: new URL(url('/apple-touch-icon.png'), Astro.site).href,
+      image: new URL(url('/og.jpg'), Astro.site).href,
+    },
+  ],
+};
+
+// < екрануємо, щоб текст не міг закрити тег <script>
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<script is:inline type="application/ld+json" set:html={json} />
