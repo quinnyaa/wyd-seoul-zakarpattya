@@ -2,7 +2,7 @@
 
 A one-page fundraising site for the pilgrimage of young people from the Neocatechumenal communities of Uzhhorod, Ukraine, to World Youth Day in Seoul (3–8 August 2027).
 
-It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian, with translations into English, German, French, Spanish and Italian (see [Languages](#languages)). Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The Pope's video in the "Who we are" section shows a local cover image, and the YouTube player (from `youtube-nocookie.com`) loads only after a click. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
+It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian, with translations into English, German, French, Spanish, Italian and Polish (see [Languages](#languages)). Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The Pope's video in the "Who we are" section shows a local cover image, and the YouTube player (from `youtube-nocookie.com`) loads only after a click. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
 
 ## License
 
@@ -59,7 +59,7 @@ All Ukrainian texts live in one file, [src/content/texts/uk.ts](src/content/text
 
 ## Languages
 
-The site is in six languages: Ukrainian, English, German, French, Spanish and Italian. Ukrainian is the main language and lives at `/`. Every other language gets its own copy of the page under its code: `/en/`, `/de/`, `/fr/`, `/es/`, `/it/`. The list of languages is [src/content/languages.ts](src/content/languages.ts).
+The site is in seven languages: Ukrainian, English, German, French, Spanish, Italian and Polish. Ukrainian is the main language and lives at `/`. Every other language gets its own copy of the page under its code: `/en/`, `/de/`, `/fr/`, `/es/`, `/it/`, `/pl/`. The list of languages is [src/content/languages.ts](src/content/languages.ts).
 
 Visitors who open `/` are sent to their browser's language if the site has it: an Italian browser goes to `/it/`, an English one to `/en/`. Any other browser language stays on Ukrainian. This is a Cloudflare Pages Function, [functions/index.ts](functions/index.ts), so it only works on Cloudflare, not in `npm run dev`. A language picked in the language picker is remembered in a `lang` cookie and wins over the browser language. Links from other pages of the site, search engines and messenger link previews are never redirected, so previews stay in Ukrainian.
 

@@ -23,4 +23,5 @@ export const languages = [
   { code: 'fr', name: 'Français', short: 'FR', flag: 'fr', locale: 'fr_FR' },
   { code: 'es', name: 'Español', short: 'ES', flag: 'es', locale: 'es_ES' },
   { code: 'it', name: 'Italiano', short: 'IT', flag: 'it', locale: 'it_IT' },
+  { code: 'pl', name: 'Polski', short: 'PL', flag: 'pl', locale: 'pl_PL' },
 ] as const;

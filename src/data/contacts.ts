@@ -31,6 +31,7 @@ export const contacts: Contact[] = [
       fr: 'Campomar Hernando Francisco Javier',
       es: 'Campomar Hernando Francisco Javier',
       it: 'Campomar Hernando Francisco Javier',
+      pl: 'Campomar Hernando Francisco Javier',
     },
     role: {
       uk: 'організатор благодійної збірки',
@@ -39,6 +40,7 @@ export const contacts: Contact[] = [
       fr: 'organisateur de la collecte de dons',
       es: 'organizador de la colecta benéfica',
       it: 'organizzatore della raccolta fondi',
+      pl: 'organizator zbiórki charytatywnej',
     },
     phone: '+380634181041',
     viber: true,
