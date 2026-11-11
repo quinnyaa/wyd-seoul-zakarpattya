@@ -168,7 +168,7 @@ export const help = {
     ],
     stub: 'On the stub of the card we record your name, phone number, the amount and the date. The stub stays with us — this is how we keep track of donations. We need your phone number only to invite you to the Thank-You Evening; we will delete it afterwards.',
     notice:
-      'There are no card or account numbers on this site, and there never will be. If someone asks you to transfer money on our behalf, it is not us.',
+      'There are no card or account numbers on this site, and there never will be. With supporters abroad we make arrangements personally. If you are not sure a message really comes from us, check with us using the contacts below.',
   },
 
   fundraising: {
@@ -284,7 +284,7 @@ export const footer = {
   about: 'The young people of the Neocatechumenal communities of Uzhhorod.',
   disclaimer: 'This is the website of our youth group, not an official resource of World Youth Day.',
   navTitle: 'Page sections',
-  privacy: 'No cookies and no personal data: we only count clicks, anonymously.',
+  privacy: 'No cookies or trackers: we only count clicks, anonymously.',
   sourceLabel: 'Open source on GitHub',
   rights: '© 2026 · Code released under the MIT License.',
   sourceHref: 'https://github.com/quinnyaa/wyd-seoul-zakarpattya',
@@ -319,8 +319,46 @@ export const notFound = {
   button: 'Back to home page',
 };
 
+/* ---------- Сторінка інтенцій (/intention/) ---------- */
+
+export const intention = {
+  title: 'Your intention',
+  eyebrow: 'Intention',
+  heading: 'Leave us your intention',
+  lead: 'Tell us who or what to pray for: we will carry your intention with us to Seoul.',
+  back: 'Back',
+  invite: {
+    title: 'Already helped us?',
+    text: 'We would like to pray for you. Leave us your intention, and we will carry it with us to Seoul.',
+    button: 'Leave an intention',
+  },
+  fields: {
+    firstName: 'First name',
+    lastName: 'Last name',
+    phone: 'Phone',
+    phoneHint: 'With the country code, e.g. +39…',
+    intention: 'Intention',
+    intentionHint: 'Who or what you would like us to pray for.',
+  },
+  consent: 'I agree to the processing of my data.',
+  privacyToggle: 'Which data, and why?',
+  privacy:
+    'We keep only what you write here: your first name, last name, phone number and intention. We need your name and intention to know who and what to pray for, and your phone number to invite you to the online Thank-You Evening. Only the organisers of the collection see this data; we do not pass it on to anyone else. After the pilgrimage all the data will be deleted; if you want it removed sooner, write to us using the [contacts](/#contacts).',
+  submit: 'Send',
+  sending: 'Sending…',
+  success: {
+    title: 'Thank you!',
+    text: 'We have received your intention and will carry it to Seoul.',
+    button: 'Back to home page',
+  },
+  errors: {
+    consent: 'Please tick the consent box: we cannot accept the form without it.',
+    failed: 'Could not send. Please try again a little later, or write to us.',
+  },
+};
+
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound, intention };
 
 export default texts satisfies Texts;

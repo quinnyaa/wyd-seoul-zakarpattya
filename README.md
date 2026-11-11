@@ -2,7 +2,7 @@
 
 A one-page fundraising site for the pilgrimage of young people from the Neocatechumenal communities of Uzhhorod, Ukraine, to World Youth Day in Seoul (3–8 August 2027).
 
-It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian, with translations into English, German, French, Spanish, Italian and Polish (see [Languages](#languages)). Donations are accepted only in cash, in person, so the site has no forms, payment details or trackers. The Pope's video in the "Who we are" section shows a local cover image, and the YouTube player (from `youtube-nocookie.com`) loads only after a click. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
+It's a static [Astro](https://astro.build) site hosted on Cloudflare Pages at https://wyd-seoul-uzhhorod.org. The site's content is in Ukrainian, with translations into English, German, French, Spanish, Italian and Polish (see [Languages](#languages)). Donations are accepted only in cash, in person, so the site has no payment details or trackers. The only form is the intention form on a separate page (see [Intention form](#intention-form)). The Pope's video in the "Who we are" section shows a local cover image, and the YouTube player (from `youtube-nocookie.com`) loads only after a click. The only statistics are Cloudflare's own visit counts and a counter of clicks on links and buttons (see [Click counter](#click-counter)).
 
 ## License
 
@@ -157,6 +157,27 @@ If the table was created before the `lang`, `visit` or `seconds` columns existed
 
 To see the numbers, open the database → **Console** and run one of the queries from [db/queries.sql](db/queries.sql). Until the binding is set up, the site works as usual and clicks are simply not saved.
 
+## Intention form
+
+`/intention/` (and `/en/intention/`, `/it/intention/`…) is a page with one form: first name, last name, phone and a prayer intention. The button at the end of the main page (section `#intentions`) leads to it, in the visitor's language; the page has a back link and stays out of the sitemap and search engines (`noindex`). A direct link such as `/it/intention/` opens in the visitor's own language if the site has it (language picker cookie first, then browser language): [functions/intention/index.ts](functions/intention/index.ts) and [functions/[lang]/intention/index.ts](functions/[lang]/intention/index.ts), with the shared logic in [src/utils/visitor-lang.ts](src/utils/visitor-lang.ts). The form is not sent without the consent box ticked. The page is [src/pages/[...lang]/intention.astro](src/pages/[...lang]/intention.astro), its texts are in the `intention` block of each language file.
+
+The form posts to `/api/intention`, a Cloudflare Pages Function ([functions/api/intention.ts](functions/api/intention.ts)), which:
+
+- saves the entry to the `intentions` table in the same D1 database as the clicks ([db/intentions.sql](db/intentions.sql));
+- sends it as a Telegram message, if `TG_TOKEN` and `TG_CHAT` are set;
+- silently drops bots that fill the hidden `website` field.
+
+The visitor sees an error only if the entry reached neither the database nor Telegram. No IP addresses or cookies are stored. Like the other functions, it doesn't work in `npm run dev`; to try it locally: `npm run build && npx wrangler pages dev dist --d1 DB=test`.
+
+One-time setup in the Cloudflare dashboard:
+
+1. **D1 → `wyd-clicks` → Console**: paste the contents of [db/intentions.sql](db/intentions.sql) and run it.
+2. Telegram (optional): create a bot with [@BotFather](https://t.me/BotFather) and copy its token. Add the bot to the organisers' group (or just press Start in a private chat with it), write any message there, then open `https://api.telegram.org/bot<token>/getUpdates` and copy `chat.id`.
+3. **Workers & Pages → the site's project → Settings → Variables and Secrets**, add as secrets: `TG_TOKEN` and `TG_CHAT`.
+4. Redeploy the site.
+
+To read the entries, run the last queries from [db/queries.sql](db/queries.sql). This table holds personal data: delete an entry when its author asks (`DELETE FROM intentions WHERE id = …;`) and clear the table after the pilgrimage (`DELETE FROM intentions;`), as the form's privacy note promises.
+
 ## Project structure
 
 ```
@@ -176,10 +197,12 @@ src/
   utils/i18n.ts        page language, texts and links for it
   pages/[...lang]/index.astro  the single page with all sections, one per language
   pages/[...lang]/404.astro    "not found" page, one per language
+  pages/[...lang]/intention.astro  page with the intention form, one per language
 public/                favicon, social media image, Cloudflare _headers and _redirects
 functions/index.ts     redirect from / to the browser's language (Cloudflare Pages Function)
 functions/api/click.ts click counter (Cloudflare Pages Function)
-db/                    click table and ready-made queries
+functions/api/intention.ts  receives the intention form: D1 + Telegram (Cloudflare Pages Function)
+db/                    click and intention tables, ready-made queries
 scripts/               tests, screenshots, social media image
 ```
 

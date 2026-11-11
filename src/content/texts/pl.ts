@@ -168,7 +168,7 @@ export const help = {
     ],
     stub: 'Na odcinku kontrolnym pocztówki zapisujemy imię darczyńcy, numer telefonu, kwotę i datę. Odcinek zostaje u nas — tak prowadzimy rejestr wpłat. Numer telefonu jest nam potrzebny tylko po to, by zaprosić was na Wieczór Wdzięczności; potem go usuniemy.',
     notice:
-      'Na tej stronie nie ma i nie będzie numerów kart ani kont bankowych. Jeśli ktoś prosi o przelew w naszym imieniu — to nie my.',
+      'Na tej stronie nie ma i nie będzie numerów kart ani kont bankowych. Z osobami za granicą wszystko ustalamy osobiście. Jeśli nie macie pewności, czy wiadomość naprawdę pochodzi od nas — zapytajcie, korzystając z kontaktów poniżej.',
   },
 
   fundraising: {
@@ -285,7 +285,7 @@ export const footer = {
   about: 'Młodzież ze wspólnot neokatechumenalnych w Użhorodzie.',
   disclaimer: 'To strona naszej grupy młodzieżowej, a nie oficjalny serwis Światowych Dni Młodzieży.',
   navTitle: 'Sekcje strony',
-  privacy: 'Bez plików cookie i bez danych osobowych: liczymy tylko kliknięcia, anonimowo.',
+  privacy: 'Bez plików cookie i bez trackerów: liczymy tylko kliknięcia, anonimowo.',
   sourceLabel: 'Otwarty kod na GitHubie',
   rights: '© 2026 · Kod udostępniony na licencji MIT.',
   sourceHref: 'https://github.com/quinnyaa/wyd-seoul-zakarpattya',
@@ -320,8 +320,46 @@ export const notFound = {
   button: 'Na stronę główną',
 };
 
+/* ---------- Сторінка інтенцій (/intention/) ---------- */
+
+export const intention = {
+  title: 'Wasza intencja',
+  eyebrow: 'Intencja',
+  heading: 'Powierzcie nam swoją intencję',
+  lead: 'Napiszcie, za kogo lub w jakiej sprawie mamy się modlić: zabierzemy waszą intencję ze sobą do Seulu.',
+  back: 'Wróć',
+  invite: {
+    title: 'Już nam pomogliście?',
+    text: 'Chcemy się za was modlić. Powierzcie nam swoją intencję — zabierzemy ją ze sobą do Seulu.',
+    button: 'Zostaw intencję',
+  },
+  fields: {
+    firstName: 'Imię',
+    lastName: 'Nazwisko',
+    phone: 'Telefon',
+    phoneHint: 'Z numerem kierunkowym kraju, np. +48…',
+    intention: 'Intencja',
+    intentionHint: 'Za kogo lub w jakiej sprawie mamy się modlić.',
+  },
+  consent: 'Wyrażam zgodę na przetwarzanie moich danych.',
+  privacyToggle: 'Jakie dane i po co?',
+  privacy:
+    'Przechowujemy tylko to, co tu wpiszecie: imię, nazwisko, telefon i intencję. Imię i intencja są potrzebne, żebyśmy wiedzieli, za kogo i w jakiej sprawie się modlić, a telefon — żeby zaprosić was na Wieczór Wdzięczności online. Te dane widzą tylko organizatorzy zbiórki i nikomu innemu ich nie przekazujemy. Po pielgrzymce wszystkie dane zostaną usunięte; jeśli chcecie wcześniej — napiszcie do nas, korzystając z [kontaktów](/#contacts).',
+  submit: 'Wyślij',
+  sending: 'Wysyłanie…',
+  success: {
+    title: 'Dziękujemy!',
+    text: 'Otrzymaliśmy waszą intencję i zabierzemy ją do Seulu.',
+    button: 'Na stronę główną',
+  },
+  errors: {
+    consent: 'Zaznaczcie zgodę na przetwarzanie danych — bez niej nie możemy przyjąć formularza.',
+    failed: 'Nie udało się wysłać. Spróbujcie ponownie za chwilę albo napiszcie do nas.',
+  },
+};
+
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound, intention };
 
 export default texts satisfies Texts;

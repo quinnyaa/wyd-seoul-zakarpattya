@@ -38,7 +38,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/404\/?$/.test(page),
+      // Службові сторінки (404 і форма інтенцій, посилання на яку надсилаємо особисто) в карту сайту не йдуть
+      filter: (page) => !/\/(404|intention)\/?$/.test(page),
       // Сторінки різними мовами позначаються в карті сайту як переклади одна одної
       i18n: {
         defaultLocale: languages[0].code,

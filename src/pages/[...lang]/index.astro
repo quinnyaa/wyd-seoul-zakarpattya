@@ -23,8 +23,8 @@ export function getStaticPaths() {
   return languages.map(({ code }) => ({ params: { lang: code === defaultLang ? undefined : code } }));
 }
 
-const { t } = useI18n(Astro);
-const { about, contacts: contactTexts, help, hero, site, wyd } = t;
+const { t, link } = useI18n(Astro);
+const { about, contacts: contactTexts, help, hero, intention, site, wyd } = t;
 
 const { organizer, gallery, video } = about;
 const { why, cost } = wyd;
@@ -319,6 +319,22 @@ const nameParts = accents.length
             </a>
           )
         }
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Запрошення залишити інтенцію: кнопка веде на окрему сторінку з формою -->
+  <section class="section" id="intentions" tabindex="-1" aria-labelledby="intentions-title" data-sticky-hide>
+    <div class="container">
+      <div class="invite reveal">
+        <div>
+          <h2 id="intentions-title">{intention.invite.title}</h2>
+          <p class="lead">{intention.invite.text}</p>
+        </div>
+        <a class="btn btn--primary btn--lg" href={link('/intention/')}>
+          {intention.invite.button}
+          <Arrow />
+        </a>
       </div>
     </div>
   </section>
@@ -783,6 +799,35 @@ const nameParts = accents.length
 
   .abroad p {
     margin-top: var(--s-2);
+  }
+
+  /* ---------- Запрошення залишити інтенцію ---------- */
+
+  .invite {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-5);
+    padding: var(--s-6) var(--s-5);
+    border-radius: var(--r-xl);
+    background: var(--c-indigo-tint);
+  }
+
+  .invite h2 {
+    color: var(--c-indigo-deep);
+  }
+
+  .invite .lead {
+    max-width: 38rem;
+    margin-top: var(--s-3);
+  }
+
+  @media (min-width: 56.25em) {
+    .invite {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: var(--s-6);
+      padding: var(--s-7);
+    }
   }
 
   @media (min-width: 48em) {

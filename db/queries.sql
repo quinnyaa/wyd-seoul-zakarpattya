@@ -76,3 +76,9 @@ SELECT source, count(*) AS visits, round(avg(total)) AS avg_seconds, max(total) 
 FROM (SELECT visit, max(source) AS source, sum(seconds) AS total FROM clicks
       WHERE visit IS NOT NULL GROUP BY visit HAVING total IS NOT NULL)
 GROUP BY source ORDER BY visits DESC;
+
+-- Інтенції з форми /intention/ (таблиця db/intentions.sql): усі, найновіші зверху
+SELECT id, at, first_name, last_name, phone, lang, intention FROM intentions ORDER BY id DESC;
+
+-- Скільки інтенцій надійшло за мовами
+SELECT lang, count(*) AS intentions FROM intentions GROUP BY lang ORDER BY intentions DESC;

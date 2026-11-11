@@ -170,7 +170,7 @@ export const help = {
     ],
     stub: 'Sur le talon de la carte, nous notons votre nom, votre numéro de téléphone, le montant et la date. Le talon reste chez nous : c’est ainsi que nous tenons le registre des dons. Votre numéro ne sert qu’à vous inviter à la soirée de remerciement ; nous le supprimerons ensuite.',
     notice:
-      'Ce site ne contient aucun numéro de carte ni de compte, et n’en contiendra jamais. Si quelqu’un vous demande de virer de l’argent en notre nom, ce n’est pas nous.',
+      'Ce site ne contient aucun numéro de carte ni de compte, et n’en contiendra jamais. Avec les personnes à l’étranger, nous convenons de tout personnellement. Si vous doutez qu’un message vienne vraiment de nous, vérifiez auprès de nous grâce aux contacts ci-dessous.',
   },
 
   fundraising: {
@@ -286,7 +286,7 @@ export const footer = {
   about: 'Les jeunes des communautés néocatéchuménales d’Oujhorod.',
   disclaimer: 'Ceci est le site de notre groupe de jeunes, et non une ressource officielle de la Journée Mondiale de la Jeunesse.',
   navTitle: 'Sections de la page',
-  privacy: 'Aucun cookie ni donnée personnelle : nous comptons seulement les clics, de façon anonyme.',
+  privacy: 'Aucun cookie ni traceur : nous comptons seulement les clics, de façon anonyme.',
   sourceLabel: 'Code open source sur GitHub',
   rights: '© 2026 · Code publié sous licence MIT.',
   sourceHref: 'https://github.com/quinnyaa/wyd-seoul-zakarpattya',
@@ -321,8 +321,46 @@ export const notFound = {
   button: 'Retour à l’accueil',
 };
 
+/* ---------- Сторінка інтенцій (/intention/) ---------- */
+
+export const intention = {
+  title: 'Votre intention',
+  eyebrow: 'Intention',
+  heading: 'Confiez-nous votre intention',
+  lead: 'Écrivez-nous pour qui ou pour quoi prier\u00a0: nous porterons votre intention avec nous jusqu’à Séoul.',
+  back: 'Retour',
+  invite: {
+    title: 'Vous nous avez déjà aidés\u00a0?',
+    text: 'Nous voulons prier pour vous. Confiez-nous votre intention\u00a0: nous la porterons avec nous jusqu’à Séoul.',
+    button: 'Confier une intention',
+  },
+  fields: {
+    firstName: 'Prénom',
+    lastName: 'Nom',
+    phone: 'Téléphone',
+    phoneHint: 'Avec l’indicatif du pays, par exemple +33…',
+    intention: 'Intention',
+    intentionHint: 'Pour qui ou pour quoi vous souhaitez que nous priions.',
+  },
+  consent: 'J’accepte le traitement de mes données.',
+  privacyToggle: 'Quelles données, et pourquoi\u00a0?',
+  privacy:
+    'Nous ne conservons que ce que vous écrivez ici\u00a0: prénom, nom, téléphone et intention. Le nom et l’intention nous servent à savoir pour qui et pour quoi prier, et le téléphone à vous inviter à la soirée de remerciement en ligne. Seuls les organisateurs de la collecte voient ces données, nous ne les transmettons à personne d’autre. Après le pèlerinage, toutes les données seront supprimées\u00a0; si vous le souhaitez plus tôt, écrivez-nous via les [contacts](/#contacts).',
+  submit: 'Envoyer',
+  sending: 'Envoi en cours…',
+  success: {
+    title: 'Merci\u00a0!',
+    text: 'Nous avons bien reçu votre intention et nous la porterons à Séoul.',
+    button: 'Retour à l’accueil',
+  },
+  errors: {
+    consent: 'Cochez la case de consentement\u00a0: sans elle, nous ne pouvons pas accepter le formulaire.',
+    failed: 'L’envoi n’a pas abouti. Réessayez un peu plus tard ou écrivez-nous.',
+  },
+};
+
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound, intention };
 
 export default texts satisfies Texts;

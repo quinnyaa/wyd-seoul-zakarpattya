@@ -21,6 +21,8 @@ interface Props {
   stickyStartsHidden?: boolean;
   /** true для службових сторінок (404), яким не місце в пошуку. */
   noindex?: boolean;
+  /** true, якщо службова сторінка має переклади за тією ж адресою (/intention/): перемикач мов лишає на ній. */
+  ownLanguages?: boolean;
   /** true, щоб показати плаваючу кнопку «Подарунки» (на сторінці має бути секція #gifts). */
   giftsButton?: boolean;
 }
@@ -33,6 +35,7 @@ const {
   description = site.description,
   stickyStartsHidden = false,
   noindex = false,
+  ownLanguages = false,
   giftsButton = false,
 } = Astro.props;
 
@@ -47,7 +50,7 @@ const ogImage = new URL(url(ogFile), Astro.site);
 
 // Ця сторінка іншими мовами: для перемикача в шапці й підказки пошуковикам (hreflang).
 // У 404 перекладів за тією ж адресою немає, тож перемикач веде на головні
-const languages = alternates(Astro.url, noindex);
+const languages = alternates(Astro.url, noindex && !ownLanguages);
 const language = languages.find((item) => item.code === lang)!;
 const translated = languages.length > 1 && !noindex;
 

@@ -168,7 +168,7 @@ export const help = {
     ],
     stub: 'Auf dem Abschnitt der Karte notieren wir Ihren Namen, Ihre Telefonnummer, den Betrag und das Datum. Der Abschnitt bleibt bei uns – so behalten wir den Überblick über die Spenden. Ihre Telefonnummer brauchen wir nur, um Sie zum Dankabend einzuladen; danach löschen wir sie.',
     notice:
-      'Auf dieser Website stehen keine Karten- oder Kontonummern, und das wird auch so bleiben. Wenn jemand Sie bittet, in unserem Namen Geld zu überweisen, sind wir das nicht.',
+      'Auf dieser Website stehen keine Karten- oder Kontonummern, und das wird auch so bleiben. Mit Unterstützern im Ausland sprechen wir alles persönlich ab. Wenn Sie unsicher sind, ob eine Nachricht wirklich von uns stammt, fragen Sie über die Kontakte unten nach.',
   },
 
   fundraising: {
@@ -284,7 +284,7 @@ export const footer = {
   about: 'Jugendliche der neokatechumenalen Gemeinschaften von Uschhorod.',
   disclaimer: 'Dies ist die Website unserer Jugendgruppe und keine offizielle Seite des Weltjugendtags.',
   navTitle: 'Abschnitte der Seite',
-  privacy: 'Keine Cookies und keine personenbezogenen Daten: Wir zählen nur Klicks, anonym.',
+  privacy: 'Keine Cookies und keine Tracker: Wir zählen nur Klicks, anonym.',
   sourceLabel: 'Open Source auf GitHub',
   rights: '© 2026 · Code veröffentlicht unter der MIT-Lizenz.',
   sourceHref: 'https://github.com/quinnyaa/wyd-seoul-zakarpattya',
@@ -319,8 +319,46 @@ export const notFound = {
   button: 'Zur Startseite',
 };
 
+/* ---------- Сторінка інтенцій (/intention/) ---------- */
+
+export const intention = {
+  title: 'Ihr Gebetsanliegen',
+  eyebrow: 'Gebetsanliegen',
+  heading: 'Vertrauen Sie uns Ihr Gebetsanliegen an',
+  lead: 'Schreiben Sie uns, für wen oder wofür wir beten sollen: Wir nehmen Ihr Anliegen mit nach Seoul.',
+  back: 'Zurück',
+  invite: {
+    title: 'Sie haben uns schon geholfen?',
+    text: 'Wir möchten für Sie beten. Vertrauen Sie uns Ihr Gebetsanliegen an – wir nehmen es mit nach Seoul.',
+    button: 'Gebetsanliegen schreiben',
+  },
+  fields: {
+    firstName: 'Vorname',
+    lastName: 'Nachname',
+    phone: 'Telefon',
+    phoneHint: 'Mit Ländervorwahl, z.\u00a0B. +49…',
+    intention: 'Gebetsanliegen',
+    intentionHint: 'Für wen oder wofür wir beten sollen.',
+  },
+  consent: 'Ich bin mit der Verarbeitung meiner Daten einverstanden.',
+  privacyToggle: 'Welche Daten und wozu?',
+  privacy:
+    'Wir speichern nur, was Sie hier eintragen: Vorname, Nachname, Telefonnummer und Gebetsanliegen. Name und Anliegen brauchen wir, um zu wissen, für wen und wofür wir beten; die Telefonnummer, um Sie zum Online-Dankabend einzuladen. Diese Daten sehen nur die Organisatoren der Sammlung, an niemanden sonst geben wir sie weiter. Nach der Pilgerfahrt werden alle Daten gelöscht; wenn Sie es früher wünschen, schreiben Sie uns über die [Kontakte](/#contacts).',
+  submit: 'Absenden',
+  sending: 'Wird gesendet…',
+  success: {
+    title: 'Danke!',
+    text: 'Wir haben Ihr Gebetsanliegen erhalten und nehmen es mit nach Seoul.',
+    button: 'Zur Startseite',
+  },
+  errors: {
+    consent: 'Bitte setzen Sie das Häkchen bei der Einwilligung – ohne sie können wir das Formular nicht annehmen.',
+    failed: 'Das Senden hat nicht geklappt. Versuchen Sie es bitte etwas später noch einmal oder schreiben Sie uns.',
+  },
+};
+
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound, intention };
 
 export default texts satisfies Texts;

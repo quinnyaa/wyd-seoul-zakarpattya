@@ -1,0 +1,332 @@
+---
+import Arrow from '../../components/Arrow.astro';
+import Rich from '../../components/Rich.astro';
+import { languages } from '../../content/languages';
+import Base from '../../layouts/Base.astro';
+import { defaultLang, useI18n } from '../../utils/i18n';
+
+// Форма інтенцій кожною мовою: /intention/, /en/intention/… На неї веде кнопка в кінці головної (#intentions).
+// Дані приймає functions/api/intention.ts (працює лише на Cloudflare, не в npm run dev)
+export function getStaticPaths() {
+  return languages.map(({ code }) => ({ params: { lang: code === defaultLang ? undefined : code } }));
+}
+
+const { t, link } = useI18n(Astro);
+const { intention } = t;
+const { fields, success, errors } = intention;
+---
+
+<Base title={intention.title} description={intention.lead} noindex ownLanguages stickyStartsHidden>
+  <section class="section intent" id="intention" data-sticky-hide>
+    <div class="container intent__body">
+      <a class="link-arrow intent__back" href={link('/#intentions')}>
+        <Arrow />
+        {intention.back}
+      </a>
+      <div class="section-head">
+        <p class="eyebrow">{intention.eyebrow}</p>
+        <h1>{intention.heading}</h1>
+        <p class="lead">{intention.lead}</p>
+      </div>
+
+      <form class="intent__form" data-sending={intention.sending} data-error-consent={errors.consent} data-error-failed={errors.failed}>
+        <div class="intent__row">
+          <div class="field">
+            <label for="intent-first">{fields.firstName}</label>
+            <input id="intent-first" name="firstName" type="text" autocomplete="given-name" maxlength="80" required />
+          </div>
+          <div class="field">
+            <label for="intent-last">{fields.lastName}</label>
+            <input id="intent-last" name="lastName" type="text" autocomplete="family-name" maxlength="80" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="intent-phone">{fields.phone}</label>
+          <input id="intent-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" aria-describedby="intent-phone-hint" required />
+          <p class="field__hint" id="intent-phone-hint">{fields.phoneHint}</p>
+        </div>
+
+        <div class="field">
+          <label for="intent-text">{fields.intention}</label>
+          <textarea id="intent-text" name="intention" rows="5" maxlength="2000" aria-describedby="intent-text-hint" required></textarea>
+          <p class="field__hint" id="intent-text-hint">{fields.intentionHint}</p>
+        </div>
+
+        <!-- Поле-пастка для ботів: людям його не видно -->
+        <div class="intent__trap" aria-hidden="true">
+          <label>Website <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        <div class="consent">
+          <label class="consent__label">
+            <input name="consent" type="checkbox" aria-required="true" />
+            <span>{intention.consent}</span>
+          </label>
+          <details class="consent__details">
+            <summary>{intention.privacyToggle}</summary>
+            <p><Rich text={intention.privacy} /></p>
+          </details>
+        </div>
+
+        <p class="intent__error" role="alert" hidden></p>
+
+        <button class="btn btn--primary btn--lg" type="submit" data-link="intention-send">
+          <span>{intention.submit}</span>
+          <Arrow />
+        </button>
+      </form>
+
+      <div class="intent__done" tabindex="-1" hidden>
+        <h2>{success.title}</h2>
+        <p class="lead">{success.text}</p>
+        <a class="btn btn--primary btn--lg" href={link('/')}>
+          {success.button}
+          <Arrow />
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.intent__form');
+  const done = document.querySelector<HTMLElement>('.intent__done');
+  const error = form?.querySelector<HTMLElement>('.intent__error');
+  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const label = button?.querySelector('span');
+
+  const consent = form?.querySelector<HTMLInputElement>('input[name="consent"]');
+
+  if (form && done && error && button && label && consent) {
+    const fail = (message?: string) => {
+      error.textContent = message ?? '';
+      error.hidden = false;
+    };
+    consent.addEventListener('change', () => {
+      consent.removeAttribute('aria-invalid');
+      error.hidden = true;
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (button.disabled) return;
+      // Без галочки згоди форму не надсилаємо. Перевіряємо самі, а не через required: підказка буде мовою сторінки
+      if (!consent.checked) {
+        consent.setAttribute('aria-invalid', 'true');
+        fail(form.dataset.errorConsent);
+        consent.focus();
+        return;
+      }
+      const data = new FormData(form);
+      const value = (name: string) => String(data.get(name) ?? '');
+
+      const idle = label.textContent;
+      button.disabled = true;
+      label.textContent = form.dataset.sending ?? idle;
+      error.hidden = true;
+
+      let status = 0;
+      try {
+        const response = await fetch('/api/intention', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: value('firstName'),
+            lastName: value('lastName'),
+            phone: value('phone'),
+            intention: value('intention'),
+            website: value('website'),
+            consent: consent.checked,
+            lang: document.documentElement.lang,
+          }),
+        });
+        status = response.status;
+      } catch {}
+
+      if (status === 204) {
+        form.hidden = true;
+        done.hidden = false;
+        // Форма була довга: повертаємо подяку на екран
+        done.focus({ preventScroll: true });
+        document.getElementById('intention')?.scrollIntoView();
+        return;
+      }
+      fail(form.dataset.errorFailed);
+      button.disabled = false;
+      label.textContent = idle;
+    });
+  }
+</script>
+
+<style>
+  .intent {
+    background: var(--c-bg);
+  }
+
+  .intent__body {
+    max-width: 44rem;
+  }
+
+  .intent__back {
+    margin-bottom: var(--s-5);
+  }
+
+  /* Стрілка та сама, що на кнопках, але дивиться назад */
+  .intent__back :global(svg) {
+    order: -1;
+    rotate: 180deg;
+  }
+
+  .intent h1,
+  .intent h2 {
+    font-size: var(--fs-h2);
+    color: var(--c-indigo-deep);
+  }
+
+  .intent__form,
+  .intent__done {
+    display: grid;
+    gap: var(--s-5);
+    padding: clamp(var(--s-4), 4vw, var(--s-6));
+    border-radius: var(--r-lg);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .intent__done {
+    justify-items: start;
+    gap: var(--s-4);
+  }
+
+  .intent__done:focus {
+    outline: none;
+  }
+
+  .intent__form[hidden],
+  .intent__done[hidden] {
+    display: none;
+  }
+
+  .intent__row {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  @media (min-width: 36em) {
+    .intent__row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  .field label {
+    font-weight: 700;
+    color: var(--c-indigo-deep);
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--c-line);
+    border-radius: var(--r-sm);
+    background: var(--c-bg);
+    color: var(--c-ink);
+    font: inherit;
+    transition: border-color var(--t-fast) var(--ease);
+  }
+
+  .field textarea {
+    resize: vertical;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--c-indigo);
+    outline-offset: 0;
+  }
+
+  .field__hint {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  /* Поле-пастка стоїть за межами екрана: display: none боти вміють обходити */
+  .intent__trap {
+    position: absolute;
+    left: -100vw;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .consent {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  .consent__label {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    cursor: pointer;
+  }
+
+  .consent__label input {
+    flex: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    margin-top: 0.1875rem;
+    accent-color: var(--c-red);
+    cursor: pointer;
+  }
+
+  .consent__label input[aria-invalid='true'] {
+    outline: 2px solid var(--c-red);
+    outline-offset: 2px;
+  }
+
+  /* Примітка про дані розгортається кліком на слова під галочкою */
+  .consent__details {
+    padding-left: calc(1.375rem + var(--s-3));
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .consent__details summary {
+    width: fit-content;
+    color: var(--c-indigo);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  .consent__details p {
+    margin-top: var(--s-2);
+    line-height: 1.55;
+  }
+
+  .intent__error {
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--r-sm);
+    background: var(--c-red-tint);
+    color: var(--c-red-dark);
+    font-weight: 700;
+  }
+
+  .intent__form .btn {
+    justify-self: start;
+  }
+
+  .intent__form .btn:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+</style>

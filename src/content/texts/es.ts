@@ -168,7 +168,7 @@ export const help = {
     ],
     stub: 'En la matriz de la postal anotamos tu nombre, tu teléfono, el importe y la fecha. La matriz se queda con nosotros: así llevamos el registro de los donativos. Tu teléfono solo lo necesitamos para invitarte a la Velada de agradecimiento; después lo borraremos.',
     notice:
-      'En esta web no hay ni habrá números de tarjeta ni de cuenta. Si alguien pide que se transfiera dinero en nuestro nombre, no somos nosotros.',
+      'En esta web no hay ni habrá números de tarjeta ni de cuenta. Con quienes están en el extranjero lo acordamos todo personalmente. Si dudas de que un mensaje sea realmente nuestro, pregúntanos a través de los contactos de abajo.',
   },
 
   fundraising: {
@@ -284,7 +284,7 @@ export const footer = {
   about: 'Jóvenes de las comunidades neocatecumenales de Úzhgorod.',
   disclaimer: 'Esta es la web de nuestro grupo de jóvenes, no un recurso oficial de la Jornada Mundial de la Juventud.',
   navTitle: 'Secciones de la página',
-  privacy: 'Sin cookies ni datos personales: solo contamos clics, de forma anónima.',
+  privacy: 'Sin cookies ni rastreadores: solo contamos clics, de forma anónima.',
   sourceLabel: 'Código abierto en GitHub',
   rights: '© 2026 · Código publicado bajo licencia MIT.',
   sourceHref: 'https://github.com/quinnyaa/wyd-seoul-zakarpattya',
@@ -319,8 +319,46 @@ export const notFound = {
   button: 'Ir al inicio',
 };
 
+/* ---------- Сторінка інтенцій (/intention/) ---------- */
+
+export const intention = {
+  title: 'Tu intención',
+  eyebrow: 'Intención',
+  heading: 'Déjanos tu intención',
+  lead: 'Escríbenos por quién o por qué quieres que recemos: llevaremos tu intención con nosotros a Seúl.',
+  back: 'Volver',
+  invite: {
+    title: '¿Ya nos has ayudado?',
+    text: 'Queremos rezar por ti. Déjanos tu intención y la llevaremos con nosotros a Seúl.',
+    button: 'Dejar una intención',
+  },
+  fields: {
+    firstName: 'Nombre',
+    lastName: 'Apellidos',
+    phone: 'Teléfono',
+    phoneHint: 'Con el prefijo del país, por ejemplo +34…',
+    intention: 'Intención',
+    intentionHint: 'Por quién o por qué quieres que recemos.',
+  },
+  consent: 'Acepto el tratamiento de mis datos.',
+  privacyToggle: '¿Qué datos y para qué?',
+  privacy:
+    'Guardamos solo lo que escribes aquí: nombre, apellidos, teléfono e intención. El nombre y la intención los necesitamos para saber por quién y por qué rezar, y el teléfono para invitarte a la Velada de agradecimiento en línea. Estos datos solo los ven los organizadores de la colecta y no se los pasamos a nadie más. Después de la peregrinación se borrarán todos los datos; si quieres que sea antes, escríbenos a través de los [contactos](/#contacts).',
+  submit: 'Enviar',
+  sending: 'Enviando…',
+  success: {
+    title: '¡Gracias!',
+    text: 'Hemos recibido tu intención y la llevaremos a Seúl.',
+    button: 'Ir al inicio',
+  },
+  errors: {
+    consent: 'Marca la casilla de consentimiento: sin ella no podemos aceptar el formulario.',
+    failed: 'No se ha podido enviar. Inténtalo de nuevo un poco más tarde o escríbenos.',
+  },
+};
+
 /* ---------- Правити не потрібно ---------- */
 
-export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound };
+export const texts = { site, nav, hero, about, wyd, help, thanks, gifts, contacts, footer, photos, notFound, intention };
 
 export default texts satisfies Texts;
