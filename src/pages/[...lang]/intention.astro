@@ -5,7 +5,7 @@ import { languages } from '../../content/languages';
 import Base from '../../layouts/Base.astro';
 import { defaultLang, useI18n } from '../../utils/i18n';
 
-// Форма інтенцій кожною мовою: /intention/, /en/intention/… На неї веде кнопка в кінці головної (#intentions).
+// Форма інтенцій кожною мовою: /intention/, /en/intention/… На неї веде кнопка в секції контактів на головній (#intentions).
 // Дані приймає functions/api/intention.ts (працює лише на Cloudflare, не в npm run dev)
 export function getStaticPaths() {
   return languages.map(({ code }) => ({ params: { lang: code === defaultLang ? undefined : code } }));
@@ -52,7 +52,7 @@ const { fields, success, errors } = intention;
 
         <div class="field">
           <label for="intent-text">{fields.intention}</label>
-          <textarea id="intent-text" name="intention" rows="5" maxlength="2000" aria-describedby="intent-text-error intent-text-hint" required></textarea>
+          <textarea id="intent-text" name="intention" rows="4" maxlength="2000" aria-describedby="intent-text-error intent-text-hint" required></textarea>
           <p class="field__error" id="intent-text-error" hidden></p>
           <p class="field__hint" id="intent-text-hint">{fields.intentionHint}</p>
         </div>
@@ -75,7 +75,7 @@ const { fields, success, errors } = intention;
 
         <p class="intent__error" role="alert" hidden></p>
 
-        <button class="btn btn--primary btn--lg" type="submit" data-link="intention-send">
+        <button class="btn btn--primary" type="submit" data-link="intention-send">
           <span>{intention.submit}</span>
           <Arrow />
         </button>
@@ -84,7 +84,7 @@ const { fields, success, errors } = intention;
       <div class="intent__done" tabindex="-1" hidden>
         <h2>{success.title}</h2>
         <p class="lead">{success.text}</p>
-        <a class="btn btn--primary btn--lg" href={link('/')}>
+        <a class="btn btn--primary" href={link('/')}>
           {success.button}
           <Arrow />
         </a>
@@ -186,16 +186,27 @@ const { fields, success, errors } = intention;
 </script>
 
 <style>
+  /* Форма компактна: менші відступи й шрифти, ніж у секціях головної */
   .intent {
+    padding-block: clamp(var(--s-5), 4vw, var(--s-7));
     background: var(--c-bg);
   }
 
   .intent__body {
-    max-width: 44rem;
+    max-width: 40rem;
   }
 
   .intent__back {
+    margin-bottom: var(--s-4);
+  }
+
+  .intent .section-head {
+    gap: var(--s-2);
     margin-bottom: var(--s-5);
+  }
+
+  .intent .lead {
+    font-size: var(--fs-base);
   }
 
   /* Стрілка та сама, що на кнопках, але дивиться назад */
@@ -206,15 +217,15 @@ const { fields, success, errors } = intention;
 
   .intent h1,
   .intent h2 {
-    font-size: var(--fs-h2);
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
     color: var(--c-indigo-deep);
   }
 
   .intent__form,
   .intent__done {
     display: grid;
-    gap: var(--s-5);
-    padding: clamp(var(--s-4), 4vw, var(--s-6));
+    gap: var(--s-4);
+    padding: clamp(var(--s-4), 3vw, var(--s-5));
     border-radius: var(--r-lg);
     background: var(--c-surface);
     box-shadow: var(--shadow-sm);
@@ -222,7 +233,7 @@ const { fields, success, errors } = intention;
 
   .intent__done {
     justify-items: start;
-    gap: var(--s-4);
+    gap: var(--s-3);
   }
 
   .intent__done:focus {
@@ -234,23 +245,26 @@ const { fields, success, errors } = intention;
     display: none;
   }
 
+  /* Ім’я й прізвище поруч навіть на телефоні: поля короткі */
   .intent__row {
     display: grid;
-    gap: var(--s-5);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-3);
   }
 
   @media (min-width: 36em) {
     .intent__row {
-      grid-template-columns: 1fr 1fr;
+      gap: var(--s-4);
     }
   }
 
   .field {
     display: grid;
-    gap: var(--s-2);
+    gap: 0.375rem;
   }
 
   .field label {
+    font-size: var(--fs-sm);
     font-weight: 700;
     color: var(--c-indigo-deep);
   }
@@ -258,8 +272,8 @@ const { fields, success, errors } = intention;
   .field input,
   .field textarea {
     width: 100%;
-    min-height: 3rem;
-    padding: 0.75rem 1rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
     border: 2px solid var(--c-line);
     border-radius: var(--r-sm);
     background: var(--c-bg);
@@ -284,13 +298,13 @@ const { fields, success, errors } = intention;
   }
 
   .field__error {
-    font-size: var(--fs-sm);
+    font-size: 0.875rem;
     font-weight: 700;
     color: var(--c-red-dark);
   }
 
   .field__hint {
-    font-size: var(--fs-sm);
+    font-size: 0.875rem;
     color: var(--c-ink-soft);
   }
 
@@ -305,21 +319,23 @@ const { fields, success, errors } = intention;
 
   .consent {
     display: grid;
-    gap: var(--s-2);
+    gap: var(--s-1);
   }
 
   .consent__label {
     display: flex;
-    gap: var(--s-3);
+    gap: var(--s-2);
+    font-size: 0.9375rem;
+    line-height: 1.45;
     align-items: flex-start;
     cursor: pointer;
   }
 
   .consent__label input {
     flex: none;
-    width: 1.375rem;
-    height: 1.375rem;
-    margin-top: 0.1875rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-top: 0.125rem;
     accent-color: var(--c-red);
     cursor: pointer;
   }
@@ -331,8 +347,8 @@ const { fields, success, errors } = intention;
 
   /* Примітка про дані розгортається кліком на слова під галочкою */
   .consent__details {
-    padding-left: calc(1.375rem + var(--s-3));
-    font-size: var(--fs-sm);
+    padding-left: calc(1.125rem + var(--s-2));
+    font-size: 0.875rem;
     color: var(--c-ink-soft);
   }
 
@@ -346,12 +362,13 @@ const { fields, success, errors } = intention;
   }
 
   .consent__details p {
-    margin-top: var(--s-2);
-    line-height: 1.55;
+    margin-top: var(--s-1);
+    line-height: 1.5;
   }
 
   .intent__error {
-    padding: var(--s-3) var(--s-4);
+    padding: var(--s-2) var(--s-3);
+    font-size: 0.9375rem;
     border-radius: var(--r-sm);
     background: var(--c-red-tint);
     color: var(--c-red-dark);
