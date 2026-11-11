@@ -159,12 +159,12 @@ To see the numbers, open the database → **Console** and run one of the queries
 
 ## Intention form
 
-`/intention/` (and `/en/intention/`, `/it/intention/`…) is a page with one form: first name, last name, phone and a prayer intention. The button at the end of the main page (section `#intentions`) leads to it, in the visitor's language; the page has a back link and stays out of the sitemap and search engines (`noindex`). A direct link such as `/it/intention/` opens in the visitor's own language if the site has it (language picker cookie first, then browser language): [functions/intention/index.ts](functions/intention/index.ts) and [functions/[lang]/intention/index.ts](functions/[lang]/intention/index.ts), with the shared logic in [src/utils/visitor-lang.ts](src/utils/visitor-lang.ts). The form is not sent without the consent box ticked. The page is [src/pages/[...lang]/intention.astro](src/pages/[...lang]/intention.astro), its texts are in the `intention` block of each language file.
+`/intention/` (and `/en/intention/`, `/it/intention/`…) is a page with one form: first name, last name, phone and a prayer intention. The button at the end of the main page (section `#intentions`) leads to it, in the visitor's language; the page has a back link and stays out of the sitemap and search engines (`noindex`). A direct link such as `/it/intention/` opens in the visitor's own language if the site has it (language picker cookie first, then browser language): [functions/intention/index.ts](functions/intention/index.ts) and [functions/[lang]/intention/index.ts](functions/[lang]/intention/index.ts), with the shared logic in [src/utils/visitor-lang.ts](src/utils/visitor-lang.ts). An empty field gets a red note under it (“Fill in … to send”), and the form is not sent without the consent box ticked. The page is [src/pages/[...lang]/intention.astro](src/pages/[...lang]/intention.astro), its texts are in the `intention` block of each language file.
 
 The form posts to `/api/intention`, a Cloudflare Pages Function ([functions/api/intention.ts](functions/api/intention.ts)), which:
 
-- saves the entry to the `intentions` table in the same D1 database as the clicks ([db/intentions.sql](db/intentions.sql));
-- sends it as a Telegram message, if `TG_TOKEN` and `TG_CHAT` are set;
+- saves the entry to the `intentions` table in the same D1 database as the clicks ([db/intentions.sql](db/intentions.sql)); the row's `id` is the intention's number;
+- sends it as a Telegram message headed with that number (“Інтенція № 12”), if `TG_TOKEN` and `TG_CHAT` are set;
 - silently drops bots that fill the hidden `website` field.
 
 The visitor sees an error only if the entry reached neither the database nor Telegram. No IP addresses or cookies are stored. Like the other functions, it doesn't work in `npm run dev`; to try it locally: `npm run build && npx wrangler pages dev dist --d1 DB=test`.

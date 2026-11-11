@@ -29,27 +29,31 @@ const { fields, success, errors } = intention;
         <p class="lead">{intention.lead}</p>
       </div>
 
-      <form class="intent__form" data-sending={intention.sending} data-error-consent={errors.consent} data-error-failed={errors.failed}>
+      <form class="intent__form" novalidate data-sending={intention.sending} data-error-required={errors.required} data-error-consent={errors.consent} data-error-failed={errors.failed}>
         <div class="intent__row">
           <div class="field">
             <label for="intent-first">{fields.firstName}</label>
-            <input id="intent-first" name="firstName" type="text" autocomplete="given-name" maxlength="80" required />
+            <input id="intent-first" name="firstName" type="text" autocomplete="given-name" maxlength="80" aria-describedby="intent-first-error" required />
+            <p class="field__error" id="intent-first-error" hidden></p>
           </div>
           <div class="field">
             <label for="intent-last">{fields.lastName}</label>
-            <input id="intent-last" name="lastName" type="text" autocomplete="family-name" maxlength="80" required />
+            <input id="intent-last" name="lastName" type="text" autocomplete="family-name" maxlength="80" aria-describedby="intent-last-error" required />
+            <p class="field__error" id="intent-last-error" hidden></p>
           </div>
         </div>
 
         <div class="field">
           <label for="intent-phone">{fields.phone}</label>
-          <input id="intent-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" aria-describedby="intent-phone-hint" required />
+          <input id="intent-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" aria-describedby="intent-phone-error intent-phone-hint" required />
+          <p class="field__error" id="intent-phone-error" hidden></p>
           <p class="field__hint" id="intent-phone-hint">{fields.phoneHint}</p>
         </div>
 
         <div class="field">
           <label for="intent-text">{fields.intention}</label>
-          <textarea id="intent-text" name="intention" rows="5" maxlength="2000" aria-describedby="intent-text-hint" required></textarea>
+          <textarea id="intent-text" name="intention" rows="5" maxlength="2000" aria-describedby="intent-text-error intent-text-hint" required></textarea>
+          <p class="field__error" id="intent-text-error" hidden></p>
           <p class="field__hint" id="intent-text-hint">{fields.intentionHint}</p>
         </div>
 
@@ -108,9 +112,31 @@ const { fields, success, errors } = intention;
       error.hidden = true;
     });
 
+    // Обов’язкові поля перевіряємо самі (форма з novalidate): підказка під полем буде мовою сторінки
+    const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.field [required]')];
+    const mark = (field: HTMLInputElement | HTMLTextAreaElement, message = '') => {
+      const note = field.parentElement?.querySelector<HTMLElement>('.field__error');
+      if (!note) return;
+      note.textContent = message;
+      note.hidden = !message;
+      if (message) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
+    };
+    fields.forEach((field) => field.addEventListener('input', () => mark(field)));
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (button.disabled) return;
+      const empty = fields.filter((field) => !field.value.trim());
+      fields.forEach((field) => {
+        const name = field.labels?.[0]?.textContent?.trim() ?? '';
+        mark(field, empty.includes(field) ? (form.dataset.errorRequired ?? '').replace('{field}', name) : '');
+      });
+      if (empty.length) {
+        error.hidden = true;
+        empty[0].focus();
+        return;
+      }
       // Без галочки згоди форму не надсилаємо. Перевіряємо самі, а не через required: підказка буде мовою сторінки
       if (!consent.checked) {
         consent.setAttribute('aria-invalid', 'true');
@@ -250,6 +276,17 @@ const { fields, success, errors } = intention;
   .field textarea:focus {
     border-color: var(--c-indigo);
     outline-offset: 0;
+  }
+
+  .field input[aria-invalid='true'],
+  .field textarea[aria-invalid='true'] {
+    border-color: var(--c-red);
+  }
+
+  .field__error {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    color: var(--c-red-dark);
   }
 
   .field__hint {

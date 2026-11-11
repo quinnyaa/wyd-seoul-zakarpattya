@@ -324,36 +324,37 @@ export const notFound = {
 /* ---------- Сторінка інтенцій (/intention/) ---------- */
 
 export const intention = {
-  title: 'Votre intention',
-  eyebrow: 'Intention',
-  heading: 'Confiez-nous votre intention',
-  lead: 'Écrivez-nous pour qui ou pour quoi prier\u00a0: nous porterons votre intention avec nous jusqu’à Séoul.',
+  title: 'Vos intentions',
+  eyebrow: 'Intentions',
+  heading: 'Confiez-nous vos intentions',
+  lead: 'Écrivez-nous pour qui ou pour quoi prier\u00a0: nous porterons vos intentions avec nous jusqu’à Séoul.',
   back: 'Retour',
   invite: {
     title: 'Vous nous avez déjà aidés\u00a0?',
-    text: 'Nous voulons prier pour vous. Confiez-nous votre intention\u00a0: nous la porterons avec nous jusqu’à Séoul.',
-    button: 'Confier une intention',
+    text: 'Nous voulons prier pour vous. Confiez-nous vos intentions\u00a0: nous les porterons avec nous jusqu’à Séoul.',
+    button: 'Confier vos intentions',
   },
   fields: {
     firstName: 'Prénom',
     lastName: 'Nom',
     phone: 'Téléphone',
     phoneHint: 'Avec l’indicatif du pays, par exemple +33…',
-    intention: 'Intention',
+    intention: 'Intentions',
     intentionHint: 'Pour qui ou pour quoi vous souhaitez que nous priions.',
   },
   consent: 'J’accepte le traitement de mes données.',
   privacyToggle: 'Quelles données, et pourquoi\u00a0?',
   privacy:
-    'Nous ne conservons que ce que vous écrivez ici\u00a0: prénom, nom, téléphone et intention. Le nom et l’intention nous servent à savoir pour qui et pour quoi prier, et le téléphone à vous inviter à la soirée de remerciement en ligne. Seuls les organisateurs de la collecte voient ces données, nous ne les transmettons à personne d’autre. Après le pèlerinage, toutes les données seront supprimées\u00a0; si vous le souhaitez plus tôt, écrivez-nous via les [contacts](/#contacts).',
+    'Nous ne conservons que ce que vous écrivez ici\u00a0: prénom, nom, téléphone et intentions. Le nom et les intentions nous servent à savoir pour qui et pour quoi prier, et le téléphone à vous inviter à la soirée de remerciement en ligne. Seuls les organisateurs de la collecte voient ces données, nous ne les transmettons à personne d’autre. Après le pèlerinage, toutes les données seront supprimées\u00a0; si vous le souhaitez plus tôt, écrivez-nous via les [contacts](/#contacts).',
   submit: 'Envoyer',
   sending: 'Envoi en cours…',
   success: {
     title: 'Merci\u00a0!',
-    text: 'Nous avons bien reçu votre intention et nous la porterons à Séoul.',
+    text: 'Nous avons bien reçu vos intentions et nous les porterons à Séoul.',
     button: 'Retour à l’accueil',
   },
   errors: {
+    required: 'Remplissez le champ «\u00a0{field}\u00a0» pour envoyer le formulaire.',
     consent: 'Cochez la case de consentement\u00a0: sans elle, nous ne pouvons pas accepter le formulaire.',
     failed: 'L’envoi n’a pas abouti. Réessayez un peu plus tard ou écrivez-nous.',
   },

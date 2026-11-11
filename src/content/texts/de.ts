@@ -322,14 +322,14 @@ export const notFound = {
 /* ---------- Сторінка інтенцій (/intention/) ---------- */
 
 export const intention = {
-  title: 'Ihr Gebetsanliegen',
+  title: 'Ihre Gebetsanliegen',
   eyebrow: 'Gebetsanliegen',
-  heading: 'Vertrauen Sie uns Ihr Gebetsanliegen an',
-  lead: 'Schreiben Sie uns, für wen oder wofür wir beten sollen: Wir nehmen Ihr Anliegen mit nach Seoul.',
+  heading: 'Vertrauen Sie uns Ihre Gebetsanliegen an',
+  lead: 'Schreiben Sie uns, für wen oder wofür wir beten sollen: Wir nehmen Ihre Anliegen mit nach Seoul.',
   back: 'Zurück',
   invite: {
     title: 'Sie haben uns schon geholfen?',
-    text: 'Wir möchten für Sie beten. Vertrauen Sie uns Ihr Gebetsanliegen an – wir nehmen es mit nach Seoul.',
+    text: 'Wir möchten für Sie beten. Vertrauen Sie uns Ihre Gebetsanliegen an – wir nehmen sie mit nach Seoul.',
     button: 'Gebetsanliegen schreiben',
   },
   fields: {
@@ -348,10 +348,11 @@ export const intention = {
   sending: 'Wird gesendet…',
   success: {
     title: 'Danke!',
-    text: 'Wir haben Ihr Gebetsanliegen erhalten und nehmen es mit nach Seoul.',
+    text: 'Wir haben Ihre Gebetsanliegen erhalten und nehmen sie mit nach Seoul.',
     button: 'Zur Startseite',
   },
   errors: {
+    required: 'Bitte füllen Sie das Feld „{field}“ aus, um das Formular abzusenden.',
     consent: 'Bitte setzen Sie das Häkchen bei der Einwilligung – ohne sie können wir das Formular nicht annehmen.',
     failed: 'Das Senden hat nicht geklappt. Versuchen Sie es bitte etwas später noch einmal oder schreiben Sie uns.',
   },

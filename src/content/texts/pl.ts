@@ -323,36 +323,37 @@ export const notFound = {
 /* ---------- Сторінка інтенцій (/intention/) ---------- */
 
 export const intention = {
-  title: 'Wasza intencja',
-  eyebrow: 'Intencja',
-  heading: 'Powierzcie nam swoją intencję',
-  lead: 'Napiszcie, za kogo lub w jakiej sprawie mamy się modlić: zabierzemy waszą intencję ze sobą do Seulu.',
+  title: 'Wasze intencje',
+  eyebrow: 'Intencje',
+  heading: 'Powierzcie nam swoje intencje',
+  lead: 'Napiszcie, za kogo lub w jakiej sprawie mamy się modlić: zabierzemy wasze intencje ze sobą do Seulu.',
   back: 'Wróć',
   invite: {
     title: 'Już nam pomogliście?',
-    text: 'Chcemy się za was modlić. Powierzcie nam swoją intencję — zabierzemy ją ze sobą do Seulu.',
-    button: 'Zostaw intencję',
+    text: 'Chcemy się za was modlić. Powierzcie nam swoje intencje — zabierzemy je ze sobą do Seulu.',
+    button: 'Zostaw intencje',
   },
   fields: {
     firstName: 'Imię',
     lastName: 'Nazwisko',
     phone: 'Telefon',
     phoneHint: 'Z numerem kierunkowym kraju, np. +48…',
-    intention: 'Intencja',
+    intention: 'Intencje',
     intentionHint: 'Za kogo lub w jakiej sprawie mamy się modlić.',
   },
   consent: 'Wyrażam zgodę na przetwarzanie moich danych.',
   privacyToggle: 'Jakie dane i po co?',
   privacy:
-    'Przechowujemy tylko to, co tu wpiszecie: imię, nazwisko, telefon i intencję. Imię i intencja są potrzebne, żebyśmy wiedzieli, za kogo i w jakiej sprawie się modlić, a telefon — żeby zaprosić was na Wieczór Wdzięczności online. Te dane widzą tylko organizatorzy zbiórki i nikomu innemu ich nie przekazujemy. Po pielgrzymce wszystkie dane zostaną usunięte; jeśli chcecie wcześniej — napiszcie do nas, korzystając z [kontaktów](/#contacts).',
+    'Przechowujemy tylko to, co tu wpiszecie: imię, nazwisko, telefon i intencje. Imię i intencje są potrzebne, żebyśmy wiedzieli, za kogo i w jakiej sprawie się modlić, a telefon — żeby zaprosić was na Wieczór Wdzięczności online. Te dane widzą tylko organizatorzy zbiórki i nikomu innemu ich nie przekazujemy. Po pielgrzymce wszystkie dane zostaną usunięte; jeśli chcecie wcześniej — napiszcie do nas, korzystając z [kontaktów](/#contacts).',
   submit: 'Wyślij',
   sending: 'Wysyłanie…',
   success: {
     title: 'Dziękujemy!',
-    text: 'Otrzymaliśmy waszą intencję i zabierzemy ją do Seulu.',
+    text: 'Otrzymaliśmy wasze intencje i zabierzemy je do Seulu.',
     button: 'Na stronę główną',
   },
   errors: {
+    required: 'Wypełnijcie pole „{field}”, aby wysłać formularz.',
     consent: 'Zaznaczcie zgodę na przetwarzanie danych — bez niej nie możemy przyjąć formularza.',
     failed: 'Nie udało się wysłać. Spróbujcie ponownie za chwilę albo napiszcie do nas.',
   },

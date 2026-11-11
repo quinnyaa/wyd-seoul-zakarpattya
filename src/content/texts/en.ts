@@ -322,36 +322,37 @@ export const notFound = {
 /* ---------- Сторінка інтенцій (/intention/) ---------- */
 
 export const intention = {
-  title: 'Your intention',
-  eyebrow: 'Intention',
-  heading: 'Leave us your intention',
-  lead: 'Tell us who or what to pray for: we will carry your intention with us to Seoul.',
+  title: 'Your intentions',
+  eyebrow: 'Intentions',
+  heading: 'Leave us your intentions',
+  lead: 'Tell us who or what to pray for: we will carry your intentions with us to Seoul.',
   back: 'Back',
   invite: {
     title: 'Already helped us?',
-    text: 'We would like to pray for you. Leave us your intention, and we will carry it with us to Seoul.',
-    button: 'Leave an intention',
+    text: 'We would like to pray for you. Leave us your intentions, and we will carry them with us to Seoul.',
+    button: 'Leave your intentions',
   },
   fields: {
     firstName: 'First name',
     lastName: 'Last name',
     phone: 'Phone',
     phoneHint: 'With the country code, e.g. +39…',
-    intention: 'Intention',
+    intention: 'Intentions',
     intentionHint: 'Who or what you would like us to pray for.',
   },
   consent: 'I agree to the processing of my data.',
   privacyToggle: 'Which data, and why?',
   privacy:
-    'We keep only what you write here: your first name, last name, phone number and intention. We need your name and intention to know who and what to pray for, and your phone number to invite you to the online Thank-You Evening. Only the organisers of the collection see this data; we do not pass it on to anyone else. After the pilgrimage all the data will be deleted; if you want it removed sooner, write to us using the [contacts](/#contacts).',
+    'We keep only what you write here: your first name, last name, phone number and intentions. We need your name and intentions to know who and what to pray for, and your phone number to invite you to the online Thank-You Evening. Only the organisers of the collection see this data; we do not pass it on to anyone else. After the pilgrimage all the data will be deleted; if you want it removed sooner, write to us using the [contacts](/#contacts).',
   submit: 'Send',
   sending: 'Sending…',
   success: {
     title: 'Thank you!',
-    text: 'We have received your intention and will carry it to Seoul.',
+    text: 'We have received your intentions and will carry them to Seoul.',
     button: 'Back to home page',
   },
   errors: {
+    required: 'Please fill in “{field}” to send the form.',
     consent: 'Please tick the consent box: we cannot accept the form without it.',
     failed: 'Could not send. Please try again a little later, or write to us.',
   },

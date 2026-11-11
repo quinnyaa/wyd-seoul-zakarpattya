@@ -3,5 +3,5 @@
 -- Тут персональні дані: після паломництва таблицю очистити (DELETE FROM intentions;),
 -- а один запис на прохання людини — DELETE FROM intentions WHERE id = …;
 -- Консоль D1 склеює вставлений текст в один рядок, тому коментарів усередині запиту немає.
--- Поля: at — час за UTC; lang — мова сторінки, з якої надіслали форму (uk, en…).
+-- Поля: id — номер інтенції, той самий, що в повідомленні Telegram («Інтенція № 12»); at — час за UTC; lang — мова сторінки, з якої надіслали форму (uk, en…).
 CREATE TABLE IF NOT EXISTS intentions (id INTEGER PRIMARY KEY, at TEXT NOT NULL DEFAULT (datetime('now')), first_name TEXT NOT NULL, last_name TEXT NOT NULL, phone TEXT NOT NULL, intention TEXT NOT NULL, lang TEXT);

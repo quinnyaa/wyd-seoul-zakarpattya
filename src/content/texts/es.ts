@@ -322,36 +322,37 @@ export const notFound = {
 /* ---------- Сторінка інтенцій (/intention/) ---------- */
 
 export const intention = {
-  title: 'Tu intención',
-  eyebrow: 'Intención',
-  heading: 'Déjanos tu intención',
-  lead: 'Escríbenos por quién o por qué quieres que recemos: llevaremos tu intención con nosotros a Seúl.',
+  title: 'Tus intenciones',
+  eyebrow: 'Intenciones',
+  heading: 'Déjanos tus intenciones',
+  lead: 'Escríbenos por quién o por qué quieres que recemos: llevaremos tus intenciones con nosotros a Seúl.',
   back: 'Volver',
   invite: {
     title: '¿Ya nos has ayudado?',
-    text: 'Queremos rezar por ti. Déjanos tu intención y la llevaremos con nosotros a Seúl.',
-    button: 'Dejar una intención',
+    text: 'Queremos rezar por ti. Déjanos tus intenciones y las llevaremos con nosotros a Seúl.',
+    button: 'Dejar intenciones',
   },
   fields: {
     firstName: 'Nombre',
     lastName: 'Apellidos',
     phone: 'Teléfono',
     phoneHint: 'Con el prefijo del país, por ejemplo +34…',
-    intention: 'Intención',
+    intention: 'Intenciones',
     intentionHint: 'Por quién o por qué quieres que recemos.',
   },
   consent: 'Acepto el tratamiento de mis datos.',
   privacyToggle: '¿Qué datos y para qué?',
   privacy:
-    'Guardamos solo lo que escribes aquí: nombre, apellidos, teléfono e intención. El nombre y la intención los necesitamos para saber por quién y por qué rezar, y el teléfono para invitarte a la Velada de agradecimiento en línea. Estos datos solo los ven los organizadores de la colecta y no se los pasamos a nadie más. Después de la peregrinación se borrarán todos los datos; si quieres que sea antes, escríbenos a través de los [contactos](/#contacts).',
+    'Guardamos solo lo que escribes aquí: nombre, apellidos, teléfono e intenciones. El nombre y las intenciones los necesitamos para saber por quién y por qué rezar, y el teléfono para invitarte a la Velada de agradecimiento en línea. Estos datos solo los ven los organizadores de la colecta y no se los pasamos a nadie más. Después de la peregrinación se borrarán todos los datos; si quieres que sea antes, escríbenos a través de los [contactos](/#contacts).',
   submit: 'Enviar',
   sending: 'Enviando…',
   success: {
     title: '¡Gracias!',
-    text: 'Hemos recibido tu intención y la llevaremos a Seúl.',
+    text: 'Hemos recibido tus intenciones y las llevaremos a Seúl.',
     button: 'Ir al inicio',
   },
   errors: {
+    required: 'Rellena el campo «{field}» para enviar el formulario.',
     consent: 'Marca la casilla de consentimiento: sin ella no podemos aceptar el formulario.',
     failed: 'No se ha podido enviar. Inténtalo de nuevo un poco más tarde o escríbenos.',
   },

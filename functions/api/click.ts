@@ -8,7 +8,7 @@ import { languages } from '../../src/content/languages';
 
 export interface Env {
   DB?: {
-    prepare(sql: string): { bind(...values: unknown[]): { run(): Promise<unknown> } };
+    prepare(sql: string): { bind(...values: unknown[]): { run(): Promise<unknown>; first<T>(column: string): Promise<T | null> } };
   };
 }
 

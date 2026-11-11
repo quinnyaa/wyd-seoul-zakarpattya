@@ -322,36 +322,37 @@ export const notFound = {
 /* ---------- Сторінка інтенцій (/intention/) ---------- */
 
 export const intention = {
-  title: 'La tua intenzione',
-  eyebrow: 'Intenzione',
-  heading: 'Affidaci la tua intenzione',
-  lead: 'Scrivici per chi o per che cosa pregare: porteremo la tua intenzione con noi a Seul.',
+  title: 'Le tue intenzioni',
+  eyebrow: 'Intenzioni',
+  heading: 'Affidaci le tue intenzioni',
+  lead: 'Scrivici per chi o per che cosa pregare: porteremo le tue intenzioni con noi a Seul.',
   back: 'Indietro',
   invite: {
     title: 'Ci hai già aiutato?',
-    text: 'Vogliamo pregare per te. Affidaci la tua intenzione: la porteremo con noi a Seul.',
-    button: 'Lascia un’intenzione',
+    text: 'Vogliamo pregare per te. Affidaci le tue intenzioni: le porteremo con noi a Seul.',
+    button: 'Lascia le tue intenzioni',
   },
   fields: {
     firstName: 'Nome',
     lastName: 'Cognome',
     phone: 'Telefono',
     phoneHint: 'Con il prefisso del paese, per esempio +39…',
-    intention: 'Intenzione',
+    intention: 'Intenzioni',
     intentionHint: 'Per chi o per che cosa vuoi che preghiamo.',
   },
   consent: 'Acconsento al trattamento dei miei dati.',
   privacyToggle: 'Quali dati e perché?',
   privacy:
-    'Conserviamo solo ciò che scrivi qui: nome, cognome, telefono e intenzione. Il nome e l’intenzione ci servono per sapere per chi e per che cosa pregare, il telefono per invitarti alla Serata di ringraziamento online. Questi dati li vedono solo gli organizzatori della raccolta e non li comunichiamo a nessun altro. Dopo il pellegrinaggio tutti i dati saranno cancellati; se vuoi che lo facciamo prima, scrivici tramite i [contatti](/#contacts).',
+    'Conserviamo solo ciò che scrivi qui: nome, cognome, telefono e intenzioni. Il nome e le intenzioni ci servono per sapere per chi e per che cosa pregare, il telefono per invitarti alla Serata di ringraziamento online. Questi dati li vedono solo gli organizzatori della raccolta e non li comunichiamo a nessun altro. Dopo il pellegrinaggio tutti i dati saranno cancellati; se vuoi che lo facciamo prima, scrivici tramite i [contatti](/#contacts).',
   submit: 'Invia',
   sending: 'Invio in corso…',
   success: {
     title: 'Grazie!',
-    text: 'Abbiamo ricevuto la tua intenzione e la porteremo a Seul.',
+    text: 'Abbiamo ricevuto le tue intenzioni e le porteremo a Seul.',
     button: 'Torna alla home',
   },
   errors: {
+    required: 'Compila il campo «{field}» per inviare il modulo.',
     consent: 'Spunta la casella del consenso: senza non possiamo accettare il modulo.',
     failed: 'Invio non riuscito. Riprova tra poco oppure scrivici.',
   },
