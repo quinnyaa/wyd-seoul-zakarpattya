@@ -29,12 +29,17 @@ const TG_MAX = 4000;
 const escapeHtml = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 async function toTelegram(env: Env, message: string, html = false) {
-  if (!env.TG_TOKEN || !env.TG_CHAT) return false;
+  if (!env.TG_TOKEN || !env.TG_CHAT) {
+    console.error('Telegram: не задано TG_TOKEN або TG_CHAT');
+    return false;
+  }
   const response = await fetch(`https://api.telegram.org/bot${env.TG_TOKEN}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chat_id: env.TG_CHAT, text: message.slice(0, TG_MAX), ...(html && { parse_mode: 'HTML' }) }),
   });
+  // Причину відмови пишемо в лог Cloudflare (wrangler pages deployment tail); тексту інтенції там немає
+  if (!response.ok) console.error(`Telegram ${response.status}${html ? ' (HTML)' : ''}: ${await response.text().catch(() => '')}`);
   return response.ok;
 }
 
@@ -49,7 +54,7 @@ interface Entry {
 }
 
 // Повідомлення в Telegram: підписи жирним, далі текст інтенцій
-function toTelegramEntry(env: Env, entry: Entry) {
+async function toTelegramEntry(env: Env, entry: Entry) {
   const card = (bold: (label: string) => string, value: (text: string) => string) =>
     [
       bold(entry.number ? `Інтенція № ${entry.number}` : 'Інтенція без номера'),
@@ -62,8 +67,10 @@ function toTelegramEntry(env: Env, entry: Entry) {
       value(entry.intention),
     ].join('\n');
   const html = card((label) => `<b>${label}</b>`, escapeHtml);
-  // Задовге повідомлення шлемо без розмітки: обрізаний тег Telegram не прийме
-  return html.length <= TG_MAX ? toTelegram(env, html, true) : toTelegram(env, card(String, String));
+  const plain = () => toTelegram(env, card(String, String));
+  // Задовге повідомлення шлемо без розмітки: обрізаний тег Telegram не прийме.
+  // Якщо Telegram не прийняв розмітку, пробуємо ще раз простим текстом
+  return html.length <= TG_MAX ? (await toTelegram(env, html, true)) || plain() : plain();
 }
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
@@ -94,10 +101,16 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     ? await env.DB.prepare('INSERT INTO intentions (first_name, last_name, phone, intention, lang) VALUES (?, ?, ?, ?, ?) RETURNING id')
         .bind(firstName, lastName, phone, intention, lang)
         .first<number>('id')
-        .catch(() => null)
+        .catch((error) => {
+          console.error('D1:', error);
+          return null;
+        })
     : null;
   // База й Telegram незалежні: досить, щоб інтенції дійшли хоча б в одне місце
-  const sent = await toTelegramEntry(env, { number, firstName, lastName, phone, intention, lang }).catch(() => false);
+  const sent = await toTelegramEntry(env, { number, firstName, lastName, phone, intention, lang }).catch((error) => {
+    console.error('Telegram:', error);
+    return false;
+  });
   // Якщо база не записала, а Telegram працює, — попереджаємо там же
   if (!number && sent) await toTelegram(env, 'Увага: ці інтенції не вдалося записати в базу, вони є лише тут.').catch(() => false);
 

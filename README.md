@@ -167,7 +167,7 @@ The form posts to `/api/intention`, a Cloudflare Pages Function ([functions/api/
 - sends it as a Telegram message headed with that number (“Інтенція № 12”), if `TG_TOKEN` and `TG_CHAT` are set;
 - silently drops bots that fill the hidden `website` field.
 
-The visitor sees an error only if the entry reached neither the database nor Telegram. No IP addresses or cookies are stored. Like the other functions, it doesn't work in `npm run dev`; to try it locally: `npm run build && npx wrangler pages dev dist --d1 DB=test`.
+The visitor sees an error only if the entry reached neither the database nor Telegram. If Telegram rejects the formatted (HTML) message, it is resent as plain text. Database and Telegram errors (without the entry's text) go to the function log: `npx wrangler pages deployment tail --project-name wyd-seoul-zakarpattya`. No IP addresses or cookies are stored. Like the other functions, it doesn't work in `npm run dev`; to try it locally: `npm run build && npx wrangler pages dev dist --d1 DB=test`.
 
 One-time setup in the Cloudflare dashboard:
 
